@@ -1,7 +1,12 @@
-package model;
+package model.Animals;
 
+import model.Activities.Activity;
+import model.Activities.ActivityType;
 import model.Activities.PlayActivity;
 import model.Activities.SleepActivity;
+import model.Food;
+import model.FoodAmount;
+import model.Activities.Schedule;
 
 import java.util.Random;
 
@@ -37,6 +42,9 @@ public abstract class Animal {
     public int getWater() {
         return water;
     }
+    public int getMaxWater() {
+        return maxWater;
+    }
     protected void setWater(int water) {
         int min = Math.min(water, maxWater);
         if(min > 0) {
@@ -47,6 +55,9 @@ public abstract class Animal {
     }
     public int getCalo() {
         return calo;
+    }
+    public int getMaxCalo() {
+        return maxCalo;
     }
     protected void setCalo(int calo) {
         int min = Math.min(calo, maxCalo);
@@ -65,6 +76,9 @@ public abstract class Animal {
     }
     protected void setAge(int age) {
         this.age = age;
+    }
+    public int getMaxSleep() {
+        return maxSleep;
     }
     public int getSleep() {
         return sleep;
@@ -96,13 +110,13 @@ public abstract class Animal {
 
     // method to check animal status
     public boolean isThirsty () {
-        return water < 40;
+        return water < 0.1*maxWater;
     }
     public boolean isHungry () {
-        return calo < 40;
+        return calo < 0.1*maxCalo;
     }
     public boolean isSick () {
-        return HP < 30;
+        return HP < 0.2*maxHP;
     }
 
     // handle specific activity

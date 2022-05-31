@@ -1,8 +1,5 @@
 package model.Activities;
 
-import model.Activity;
-import model.ActivityType;
-
 public class SleepActivity extends Activity {
     @Override
     public ActivityType getActivityType() {

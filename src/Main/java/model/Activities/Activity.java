@@ -1,28 +1,22 @@
 package model.Activities;
 
-public class PlayActivity extends Activity {
-    @Override
-    public ActivityType getActivityType() {
-        return ActivityType.play;
-    }
-
-    @Override
+public abstract class Activity {
+    public abstract ActivityType getActivityType();
     public int getDeltaHP() {
         return 0;
     }
-
-    @Override
     public int getDeltaWater() {
         return 0;
     }
-
-    @Override
     public int getDeltaCalo() {
+        return 0;
+    }
+    public int getDeltaSleep() {
         return 0;
     }
 
     @Override
-    public int getDeltaSleep() {
-        return 0;
+    public String toString() {
+        return "Activity{ type=" + getActivityType() + " }";
     }
 }
