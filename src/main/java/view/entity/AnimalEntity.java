@@ -1,16 +1,12 @@
 package view.entity;
 
-import model.Animal;
+import model.Animals.Animal;
 import states.PlayState;
 import view.effect.FocusableHandler;
 import view.effect.IFocusable;
 import view.main.GamePanel;
-import view.utils.ConcatenatedImage;
-import view.utils.Direction;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 enum Posture {
     STAND, SIT, EAT, LEAP

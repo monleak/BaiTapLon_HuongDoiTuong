@@ -1,6 +1,7 @@
 package model.Animals;
 
 import model.*;
+import model.Activities.Schedule;
 
 public class Cat extends Animal {
 

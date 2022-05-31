@@ -1,4 +1,4 @@
-package model;
+package model.Activities;
 
 public enum ActivityType {
     sleep,
