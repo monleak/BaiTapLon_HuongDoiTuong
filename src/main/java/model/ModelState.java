@@ -15,6 +15,7 @@ public class ModelState {
     private List<Schedule> defaultScheduleList;
     private Player player;
     private final List<Food> foodList;
+    protected FoodManager foodManager;
 
 //    , List<Schedule> defaultSchedule, List<Food> foodList
     public ModelState(int simulationSpeed) {
@@ -62,6 +63,8 @@ public class ModelState {
         defaultScheduleList.add(catSchedule);
 
         this.animalList.add(new Cat(catSchedule, foodList.get(0), 10));
+        this.foodManager = new FoodManager();
+
     }
 
     public int getSimulationSpeed() {
@@ -84,17 +87,22 @@ public class ModelState {
 
 class ModelStateMain {
     public static void main (String[] args) {
+        // test foodManager
         ModelState gameState = new ModelState(10);
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 15; j++ ) {
-                for (int k = 0; k < 24; k++) {
-                    for (int l = 0; l < 60; l++) {
-                        gameState.getAnimalList().get(0).life(j, k, l);
-//                        System.out.println("j: " + j + ", k: " + k + ", l: " + l);
-                    }
-                }
-            }
-        }
+
+        System.out.println(gameState.foodManager.calcFoodDay(gameState.getAnimalList()));
+
+
+//        for (int i = 0; i < 2; i++) {
+//            for (int j = 0; j < 15; j++ ) {
+//                for (int k = 0; k < 24; k++) {
+//                    for (int l = 0; l < 60; l++) {
+//                        gameState.getAnimalList().get(0).life(j, k, l);
+////                        System.out.println("j: " + j + ", k: " + k + ", l: " + l);
+//                    }
+//                }
+//            }
+//        }
 //        gameState.getAnimalList().get(0).life(0, 0, 0);
         System.out.println(gameState.getAnimalList().get(0));
 
