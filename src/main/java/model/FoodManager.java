@@ -9,16 +9,15 @@ import java.util.Map;
 //FoodManager:
 //        constructor: public FoodManager( Animal[] animalList );
 //        Các method calc... trả về danh sách lượng đồ ăn cần thiết trong ngày, tuần, tháng.
-//        ( có thể dùng kiểu dữ liệu: FoodAmount[], Map<Food, Integer>, List<FoodAmount> )
+//        ( có thể trả về dữ liệu: FoodAmount[], Map<Food, Integer>, List<FoodAmount> )
 
 public class FoodManager {
 
     public Map<Food, Integer> calcFoodDay(List<Animal> animalList) {
-        Map<Food, Integer> foodA = new HashMap<>();
+        Map<Food, Integer> foodIntegerMap = new HashMap<>();
         for (Animal a : animalList) {
-            foodA.put(a.getNeededFood().getFood(), a.schedule.getFoodConsumeInOneDay(a).getAmount());
+            foodIntegerMap.put(a.getNeededFood().getFood(), a.schedule.getFoodConsumeInOneDay(a).getAmount());
         }
-        return foodA;
+        return foodIntegerMap;
     }
-
 }
