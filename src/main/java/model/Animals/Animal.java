@@ -182,10 +182,10 @@ public abstract class Animal {
         // next activity
         try {
             Random r = new Random(100);
-//            System.out.println(this.schedule.activityList[hours]);
-            this.activity = this.schedule.activityList[hours];
+            // FIXME: SET ACTIVITY
+//            this.activity = this.schedule.activityList[hours];
             System.out.println(hours);
-            System.out.println(" Set activity: " + this.schedule.activityList[hours]);
+//            System.out.println(" Set activity: " + this.schedule.activityList[hours]);
             if (isHungry() && r.nextInt() < 2) {
                 this.activity = new SleepActivity();
             }

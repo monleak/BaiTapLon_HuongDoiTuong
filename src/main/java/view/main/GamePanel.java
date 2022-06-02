@@ -1,6 +1,5 @@
 package view.main;
 
-import model_old.action.Test2;
 import states.GameStateManager;
 
 import javax.swing.*;
@@ -127,8 +126,8 @@ public class GamePanel extends JPanel implements Runnable {
         g2.drawString(passed/1000000f + "ms", this.screenWidth - 100, 28);
         g2.drawString("Draw time: ", this.screenWidth - 200, 28);
 
-        Test2.commonNumber++;
-        g.drawString("" + Test2.commonNumber,this.screenWidth - 100, 14);
+//        Test2.commonNumber++;
+//        g.drawString("" + Test2.commonNumber,this.screenWidth - 100, 14);
         g.drawString("Value: ",this.screenWidth - 200, 14);
 
         counter++;
