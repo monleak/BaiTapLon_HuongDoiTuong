@@ -26,7 +26,6 @@ public class PlayState extends GameState {
 
     public Player player;
     private int timeCount;
-//    private LocalDate now;
 
     public PlayState (GameStateManager gsm) {
         // init
