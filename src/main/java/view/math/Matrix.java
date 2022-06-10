@@ -1,5 +1,6 @@
 package view.math;
 
+
 public class Matrix {
 
     public static float[][] multiply(float[][] aMatrix, float[][] bMatrix) {
@@ -10,18 +11,18 @@ public class Matrix {
 
         float[][] outMatrix = new float[aMatrix.length][bMatrix[0].length];
 
-		float temp;
-		for(int i = 0; i < aMatrix.length; i++) {
-			for(int j = 0; j < bMatrix[0].length; j++) {
-				temp = 0;
-				for(int k = 0; k < aMatrix[0].length; k++) {
-					temp += aMatrix[i][k] * bMatrix[k][j]; 
-				}
-				outMatrix[i][j] = temp;
-			}
-		}
+        float temp;
+        for(int i = 0; i < aMatrix.length; i++) {
+            for(int j = 0; j < bMatrix[0].length; j++) {
+                temp = 0;
+                for(int k = 0; k < aMatrix[0].length; k++) {
+                    temp += aMatrix[i][k] * bMatrix[k][j];
+                }
+                outMatrix[i][j] = temp;
+            }
+        }
 
-		return outMatrix;
+        return outMatrix;
     }
 
     public static float[][] multiply(float[][] matrix, float value) {
@@ -42,15 +43,15 @@ public class Matrix {
             return identity(aMatrix);
         }
 
-		float[][] outMatrix = new float[aMatrix.length][bMatrix[0].length];
-        
-		for(int i = 0; i < aMatrix.length; i++) {
-			for(int j = 0; j < bMatrix[0].length; j++) {
-				outMatrix[i][j] = aMatrix[i][j] + bMatrix[i][j];
-			}
-		}
+        float[][] outMatrix = new float[aMatrix.length][bMatrix[0].length];
 
-		return outMatrix;
+        for(int i = 0; i < aMatrix.length; i++) {
+            for(int j = 0; j < bMatrix[0].length; j++) {
+                outMatrix[i][j] = aMatrix[i][j] + bMatrix[i][j];
+            }
+        }
+
+        return outMatrix;
     }
 
     public static float[][] add(float[][] matrix, float value) {
@@ -75,24 +76,24 @@ public class Matrix {
         }
 
         float det = 1.0f / determinant(matrix);
-		for (int i = 0; i < inverse.length; i++) {
-			for (int j = 0; j <= i; j++) {
-				float temp = inverse[i][j];
-				inverse[i][j] = inverse[j][i] * det;
-				inverse[j][i] = temp * det;
-			}
-		}
+        for (int i = 0; i < inverse.length; i++) {
+            for (int j = 0; j <= i; j++) {
+                float temp = inverse[i][j];
+                inverse[i][j] = inverse[j][i] * det;
+                inverse[j][i] = temp * det;
+            }
+        }
 
         return inverse;
     }
 
     public static float[][] transpose(float[][] matrix) {
-		float[][] transpose = new float[matrix[0].length][matrix.length];
+        float[][] transpose = new float[matrix[0].length][matrix.length];
 
-		for (int i = 0; i < matrix.length; i++)
-			for (int j = 0; j < matrix[i].length; j++)
-				transpose[j][i] = matrix[i][j];
-		return transpose;
+        for (int i = 0; i < matrix.length; i++)
+            for (int j = 0; j < matrix[i].length; j++)
+                transpose[j][i] = matrix[i][j];
+        return transpose;
     }
 
     private static float determinant(float[][] matrix) {
@@ -108,7 +109,7 @@ public class Matrix {
 
         return det;
     }
-    
+
     private static float[][] minor(float[][] matrix, int row, int col) {
         float[][] outMatrix = new float[matrix.length - 1][matrix[0].length - 1];
 

@@ -2,7 +2,7 @@ import view.main.GamePanel;
 
 import javax.swing.*;
 
-public class Main {
+public class GameLauncher {
     public static void main (String[] args) {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

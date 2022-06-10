@@ -10,7 +10,7 @@ import java.awt.*;
 public class GameStateManager {
     private GameState states[];
 
-    public static final int MENU = 0;
+    public static final int MENU = 5;
     public static final int PLAY = 1;
     public static final int PAUSE = 2;
     public static final int GAME_OVER = 3;
@@ -30,7 +30,7 @@ public class GameStateManager {
         fontf.loadFont("font/Stackedpixel.ttf", "MeatMadness");
         fontf.loadFont("font/GravityBold8.ttf", "GravityBold8");
 
-        states = new GameState[5];
+        states = new GameState[6];
 //        states[PLAY] = new PlayState(this);
         states[MENU] = new MenuState(this);
     }
@@ -105,7 +105,7 @@ public class GameStateManager {
 
         for (int i = 0; i < states.length; i++) {
             if (states[i] != null) {
-                System.out.println(states[i]);
+//                System.out.println(states[i]);
                 states[i].input(mouse, key);
             }
         }

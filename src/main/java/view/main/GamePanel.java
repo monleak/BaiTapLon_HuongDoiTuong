@@ -68,8 +68,6 @@ public class GamePanel extends JPanel implements Runnable {
             lastTime = currentTime;
 
             if(delta > 1) {
-                System.out.println("X: " + mouseH.getX() + ", Y: " + mouseH.getY() + " -> " + mouseH.getButton());
-
                 input(mouseH, keyH);
                 update(currentTime);
                 repaint();

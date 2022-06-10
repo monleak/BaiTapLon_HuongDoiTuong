@@ -109,6 +109,4 @@ public class PlayState extends GameState {
         se.setFile(i);
         se.play();
     }
-
-
 }

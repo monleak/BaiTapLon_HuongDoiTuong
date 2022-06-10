@@ -118,7 +118,9 @@ public class TileManager {
             tiles[index].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + imagePath + ".png")));
             tiles[index].image = tool.scaleImage(tiles[index].image, gp.titleSize, gp.titleSize);
             tiles[index].collision = collision;
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
+            System.err.println("[ERR] Cannot load image: " + "/tiles/" + imagePath + ".png");
+            System.err.println("At: " + getClass().getName() + "->setup: index=" + index + ".");
             e.printStackTrace();
         }
     }

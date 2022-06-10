@@ -20,8 +20,9 @@ public class ConcatenatedImage {
         try {
             this.gp = gp;
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (NullPointerException | IOException e) {
+            System.err.println("[ERR] Cannot load image: " + (path));
+//            e.printStackTrace();
         }
 
         rows = image.getHeight() / subImageHeight;

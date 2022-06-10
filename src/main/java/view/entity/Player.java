@@ -72,8 +72,9 @@ public class Player extends Entity {
         try {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/walking/" + imageName +  ".png")));
             image = tool.scaleImage(image, gp.titleSize, gp.titleSize);
-        } catch(IOException e) {
-            e.printStackTrace();
+        } catch(NullPointerException | IOException e) {
+            System.err.println("[ERR] cannot load: " + "/player/walking/" + imageName +  ".png");
+//            e.printStackTrace();
         }
         return image;
     }
