@@ -16,7 +16,6 @@ import java.awt.*;
 public abstract class Entity extends GameObject implements IMoveable {
     // locatable
     // runnable
-    protected final Vector2f pos;
     private int speed;
     public Direction direction;
     // run effect
@@ -31,7 +30,6 @@ public abstract class Entity extends GameObject implements IMoveable {
         super(gp, ps);
         ani = new SpriteAnimation();
 //        setImage();
-        this.pos = new Vector2f();
     }
 
     @Override

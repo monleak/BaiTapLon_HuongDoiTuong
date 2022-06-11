@@ -31,12 +31,15 @@ public class GameStateManager {
         GameStateManager.gp = gp;
         GameStateManager.map = new Vector2f(100, 0);
         Vector2f.setWorldVar(100, 100);
+        AABB gameAABB = new AABB(
+                new Vector2f(-gp.titleSize, -gp.titleSize),
+                gp.screenWidth + gp.titleSize * 2,
+                gp.screenHeight + gp.titleSize * 2
+        );
+//        gameAABB.setXOffset(-gp.titleSize * 10);
+//        gameAABB.setYOffset(gp.titleSize * 100);
         GameStateManager.camera = new Camera(
-                new AABB(
-                        new Vector2f(-gp.titleSize, -gp.titleSize),
-                        gp.screenWidth + gp.titleSize * 2,
-                        gp.screenHeight + gp.titleSize * 2
-                ),
+                gameAABB,
                 gp.titleSize
         );
 

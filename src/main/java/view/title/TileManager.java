@@ -8,15 +8,12 @@ import states.GameStateManager;
 import states.PlayState;
 import view.main.Camera;
 import view.main.GamePanel;
-import view.math.AABB;
-import view.math.Vector2f;
 import view.utils.ConcatenatedImage;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -58,7 +55,7 @@ public class TileManager {
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
-            Document doc = builder.parse(new File(Objects.requireNonNull(getClass().getResource(xmlPath)).toURI()));
+            Document doc = builder.parse((Objects.requireNonNull(getClass().getResourceAsStream(xmlPath))));
             doc.getDocumentElement().normalize();
 
             NodeList list = doc.getElementsByTagName("tileset");

@@ -38,7 +38,7 @@ public class MenuState extends GameState{
         this.downMark = false;
 
         this.fadeAnim = new Animation()
-                .setNumFrames(60)
+                .setNumFrames(72)
                 .setForm(255)
                 .setTo(0)
                 .setDelay(12)

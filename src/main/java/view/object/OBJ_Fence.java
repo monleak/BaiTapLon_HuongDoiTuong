@@ -58,23 +58,23 @@ public class OBJ_Fence extends SuperObject{
 
     @Override
     public void draw(Graphics2D g2) {
-        Rectangle rect = (Rectangle) this.solidArea.clone();
-        if (direction == Direction.UP) {
-            rect.setLocation(20 + getScreenX(), getScreenY());
-        } else {
-            rect.setLocation(getScreenX(), getScreenY());
-        }
-        g2.draw(rect);
-
-        for(int i = 0; i < num; i++) {
-            if(direction == Direction.UP) {
-                g2.drawImage(image,  20 +getScreenX() + i * gp.titleSize, getScreenY(), null);
-            } else if (direction == Direction.DOWN) {
-                g2.drawImage(image,  getScreenX() + i * gp.titleSize, getScreenY(), null);
-            }
-            else {
-                g2.drawImage(image, getScreenX(), getScreenY() + i * gp.titleSize, null);
-            }
-        }
+//        Rectangle rect = (Rectangle) this.solidArea.clone();
+//        if (direction == Direction.UP) {
+//            rect.setLocation(20 + getScreenX(), getScreenY());
+//        } else {
+//            rect.setLocation(getScreenX(), getScreenY());
+//        }
+//        g2.draw(rect);
+//
+//        for(int i = 0; i < num; i++) {
+//            if(direction == Direction.UP) {
+//                g2.drawImage(image,  20 +getScreenX() + i * gp.titleSize, getScreenY(), null);
+//            } else if (direction == Direction.DOWN) {
+//                g2.drawImage(image,  getScreenX() + i * gp.titleSize, getScreenY(), null);
+//            }
+//            else {
+//                g2.drawImage(image, getScreenX(), getScreenY() + i * gp.titleSize, null);
+//            }
+//        }
     }
 }

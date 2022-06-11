@@ -54,7 +54,7 @@ public class Fox extends AnimalEntity {
             }
             i++;
         }
-        setAnimation(4, sprite.getSpriteArray(4), 10);
+        setAnimation(3, sprite.getSpriteArray(3), 10);
     }
 
     @Override
@@ -70,6 +70,7 @@ public class Fox extends AnimalEntity {
 
     @Override
     public void draw(Graphics2D g2) {
+        super.draw(g2);
 //        int r = 1;
 //        int C_MAX = 13;
 //
@@ -80,7 +81,7 @@ public class Fox extends AnimalEntity {
 //        int c = counter / 10;
 //        image = ci.getSubImage(r, c);
 //        System.out.println(ani.getFrame());
-        g2.drawImage(ani.getImage().image, getScreenX(), getScreenY(), gp.titleSize, gp.titleSize, null);
+        g2.drawImage(ani.getImage().image, (int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, gp.titleSize, gp.titleSize, null);
 //        System.out.println(ani.getImage());
     }
 }

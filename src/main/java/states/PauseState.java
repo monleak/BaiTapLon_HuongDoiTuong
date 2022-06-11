@@ -32,7 +32,7 @@ public class PauseState extends GameState{
                 .setForm(0)
                 .setTo(100)
                 .setNumFrames(30);
-        fadeAnim.loopReverse();
+        fadeAnim.start();
     }
 
     @Override

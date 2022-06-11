@@ -1,16 +1,19 @@
 package view.entity;
 
+import model.Animals.Animal;
 import states.PlayState;
 import view.Graphics.SpriteAnimation;
 import view.Graphics.SpriteSheet;
 import view.effect.FocusManager;
 import view.main.*;
 import view.math.Vector2f;
+import view.object.SuperObject;
 import view.title.TileCollision;
 import view.utils.ConcatenatedImage;
 import view.utils.Direction;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Player extends Entity {
 
@@ -32,17 +35,17 @@ public class Player extends Entity {
     public int RUN_RIGHT = 4;
     private Camera camera;
 
-    private boolean xCollision;
-    private boolean yCollision;
+//    private boolean xCollision;
+//    private boolean yCollision;
     private TileCollision tc;
+
+    private AnimalEntity animalEntity;
+    private ArrayList<SuperObject> superObjects;
 
     public Player(GamePanel gp, PlayState ps, Camera camera) {
         super(gp, ps);
         this.camera = camera;
         this.focusManager   = new FocusManager(gp, ps);
-
-        pos.setX ((gp.worldWidth - gp.titleSize) / 2.0f) ;
-        pos.setY ((gp.worldHeight - gp.titleSize) / 2.0f + 100);
 
         // collision
 //        solidArea   = new Rectangle();
@@ -58,13 +61,17 @@ public class Player extends Entity {
 
         tc = new TileCollision(this);
 
+        superObjects = new ArrayList<>();
+
         setDefaultValue();
         setImage();
     }
 
     public void setDefaultValue () {
-        setWorldX(gp.worldWidth / 2 - 2 * gp.titleSize);
-        setWorldY(gp.worldHeight / 2 - 4 * gp.titleSize);
+//        setWorldX(gp.worldWidth / 2 - 2 * gp.titleSize);
+//        setWorldY(gp.worldHeight / 2 - 4 * gp.titleSize);
+        pos.setX ((gp.worldWidth - gp.titleSize) / 2.0f) ;
+        pos.setY ((gp.worldHeight - gp.titleSize) / 2.0f + 100);
         setSpeed(4);
         direction = Direction.DOWN;
     }
@@ -130,6 +137,21 @@ public class Player extends Entity {
 
     }
 
+    public void targetAnimal (AnimalEntity animal) {
+//        if (!animalEntities.contains(animal))
+//            animalEntities.add(animal);
+        if (this.animalEntity != null)
+            this.animalEntity.setFocused(false);
+
+        animal.setFocused(true);
+        this.animalEntity = animal;
+    }
+
+    public void targetSuperObject (SuperObject superObject) {
+        if (superObjects.contains(superObject))
+            superObjects.add(superObject);
+    }
+
     public void input(MouseHandler mouseH, KeyHandler keyH) {
         animate((keyH.rightPressed || keyH.upPressed || keyH.downPressed || keyH.leftPressed));
 
@@ -152,9 +174,10 @@ public class Player extends Entity {
         // Check object collision
         int objIndex = ps.cChecker.checkObject(this, true);
         targetNewObject(objIndex);
+//        targetAnimal();
         this.focusManager.checkAndHoverObject(objIndex);
 
-        System.out.println(tc.collisionTile(getSpeed(), 0));
+//        System.out.println(tc.collisionTile(getSpeed(), 0));
 
         // if collision is false can move
 //        if (!collisionOn) {
@@ -229,11 +252,12 @@ public class Player extends Entity {
     public void targetNewObject(int index) {
         if( index != 999) {
             String objName = ps.obj[index].name;
+//            System.out.println(objName);
             // remove item
             // gp.obj[index] = null;
             if(this.focusManager.getHoveredObjId() == index && this.focusManager.isNewHovered()) {
-                ps.playSE(2);
-                ps.ui.showMessage("Hover: " + this.focusManager.getHoveredObjId());
+//                ps.playSE(2);
+//                ps.ui.showMessage("Hover: " + this.focusManager.getHoveredObjId());
                 this.focusManager.setNewHovered(false);
             }
         }
@@ -260,7 +284,7 @@ public class Player extends Entity {
 
 //        g2.drawImage(image, x, y, gp.titleSize, gp.titleSize, null);
         g2.drawImage(ani.getImage().image, (int) pos.getWorldVar().x, (int) pos.getWorldVar().y, gp.titleSize, gp.titleSize, null);
-
+//        System.out.println(this.focusManager.getFocusedObjId());
         if (this.focusManager.getFocusedObjId() != 999) {
             GameObject selectedAnimal = ps.obj[this.focusManager.getFocusedObjId()];
             if ( selectedAnimal instanceof  AnimalEntity) {

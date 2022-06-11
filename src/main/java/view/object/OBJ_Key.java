@@ -71,21 +71,21 @@ public class OBJ_Key extends  SuperObject implements IFocusable {
     public void draw(Graphics2D g2, boolean isFloatingEnabled) {
 //        System.out.println("Key hovered: " + getIsHovered() + " ,focus: " + getIsFocused());
         // handle hover or focus
-        int screenX = getScreenX();
-        int screenY = getScreenY();
-        if (checkInMap()) {
-            if(this.fch.getIsFocused() || this.fch.getIsHovered()) {
-                g2.setColor(Color.WHITE);
-                drawCenteredString(g2, screenX , screenY - 24,name, new Rectangle(gp.titleSize, 14), new Font("Monaco", Font.PLAIN, 12));
-            }
-            if(this.fch.getIsFocused()) {
-                g2.setColor(Color.BLACK);
-                g2.fillPolygon(new int[] {screenX + 14, screenX+ gp.titleSize/2, screenX + gp.titleSize - 14}, new int[] {screenY - 30, screenY - 22, screenY - 30}, 3);
-                g2.setColor(Color.RED);
-                g2.fillPolygon(new int[] {screenX + 16, screenX+ gp.titleSize/2, screenX + gp.titleSize - 16}, new int[] {screenY - 28, screenY - 24, screenY - 28}, 3);
-                ps.ui.showMessage("Focus: " + this);
-            }
-        }
+        int screenX = (int) this.pos.getWorldVar().x;
+        int screenY = (int) this.pos.getWorldVar().y;
+//        if (checkInMap()) {
+//            if(this.fch.getIsFocused() || this.fch.getIsHovered()) {
+//                g2.setColor(Color.WHITE);
+//                drawCenteredString(g2, screenX , screenY - 24,name, new Rectangle(gp.titleSize, 14), new Font("Monaco", Font.PLAIN, 12));
+//            }
+//            if(this.fch.getIsFocused()) {
+//                g2.setColor(Color.BLACK);
+//                g2.fillPolygon(new int[] {screenX + 14, screenX+ gp.titleSize/2, screenX + gp.titleSize - 14}, new int[] {screenY - 30, screenY - 22, screenY - 30}, 3);
+//                g2.setColor(Color.RED);
+//                g2.fillPolygon(new int[] {screenX + 16, screenX+ gp.titleSize/2, screenX + gp.titleSize - 16}, new int[] {screenY - 28, screenY - 24, screenY - 28}, 3);
+//                ps.ui.showMessage("Focus: " + this);
+//            }
+//        }
 
         super.draw(g2, isFloatingEnabled);
     }

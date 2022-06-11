@@ -30,7 +30,6 @@ public class ChickenEntity extends AnimalEntity{
 
         this.setSpeed(1);
         this.direction = Direction.DOWN;
-        fch = new FocusableHandler();
         posture = Posture.STAND;
 
         setImage();
@@ -161,23 +160,59 @@ public class ChickenEntity extends AnimalEntity{
             }
             switch (direction) {
                 case UP:
+//                    image = sprite.getSprite(UP, i).image;
+//                    this.pos.y -= this.getSpeed();
+//                    break;
                 case LEFT:
                     image = sprite.getSprite(UP, i).image;
+//                    this.pos.x -= this.getSpeed();
                     break;
                 case DOWN:
+//                    image = sprite.getSprite(DOWN, i).image;
+//                    this.pos.y += this.getSpeed();
+//                    break;
                 case RIGHT:
                     image = sprite.getSprite(DOWN, i).image;
+//                    this.pos.x += this.getSpeed();
                     break;
             }
+
+            if (direction == Direction.UP) {
+                if (!tc.collisionTile(0, - getSpeed())) {
+                    pos.addY(-getSpeed());
+                    collisionOn = false;
+                }
+                else collisionOn = true;
+            }
+            else if (direction == Direction.DOWN) {
+                if (!tc.collisionTile(0, getSpeed())) {
+                    pos.addY(getSpeed());
+                    collisionOn = false;
+                }
+                else collisionOn = true;
+            }
+            else if (direction == Direction.RIGHT) {
+                if (!tc.collisionTile(getSpeed(), 0)) {
+                    pos.addX(getSpeed());
+                    collisionOn = false;
+                }
+                else collisionOn = true;
+            }
+            else if (direction == Direction.LEFT) {
+                if (!tc.collisionTile(-getSpeed(), 0)) {
+                    pos.addX(-getSpeed());
+                    collisionOn = false;
+                }
+                else collisionOn = true;
+            }
+
         }
     }
 
     public void draw (Graphics2D g2) {
         // todo
         update (0);
-
-        g2.drawImage(image, getScreenX(), getScreenY(), null );
-        if(getIsFocused())
-            g2.drawRect(getScreenX(), getScreenY(), gp.titleSize, gp.titleSize);
+        super.draw(g2);
+        g2.drawImage(image, (int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, null );
     }
 }
