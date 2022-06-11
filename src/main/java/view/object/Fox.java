@@ -10,11 +10,9 @@ import view.utils.Direction;
 import java.awt.*;
 
 public class Fox extends AnimalEntity {
-    private int counter;
 
     public Fox (GamePanel gp, PlayState ps) {
         super(gp, ps);
-//        this.gp = gp;
         this.name = "Fox";
 
         this.collision = false;

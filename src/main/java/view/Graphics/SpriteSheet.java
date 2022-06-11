@@ -1,6 +1,8 @@
 package view.Graphics;
 
+import states.GameStateManager;
 import view.math.Vector2f;
+import view.utils.ConcatenatedImage;
 import view.utils.Tool;
 
 import java.awt.*;
@@ -193,12 +195,41 @@ public class SpriteSheet {
     private Sprite spritesArray[][];
     private int spritesIndexCounter[];
     private int arrLen;
+//    private int w;
+//    private int h;
+    private String file;
 
     public SpriteSheet (int sttNum, int len) {
         spritesArray = new Sprite[sttNum][len];
         spritesIndexCounter = new int[sttNum];
         arrLen = len;
     }
+
+    public SpriteSheet (String fileName, int w, int h) {
+        ConcatenatedImage ci = new ConcatenatedImage(GameStateManager.gp, fileName, w, h, 0);
+
+        spritesArray = new Sprite[ci.getRows()][ci.getColumns()];
+
+        for (int i = 0; i < ci.getRows(); i++) {
+            for (int j = 0; j < ci.getColumns(); j++) {
+                spritesArray[i][j] = new Sprite(ci.getSubImage(i, j));
+            }
+        }
+    }
+
+//    public BufferedImage loadSprite (String file) {
+//        BufferedImage sprite = null;
+//        try {
+//            sprite = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(file)));
+//        } catch (Exception e) {
+//            System.out.println("ERROR: could not load file: " + file);
+//        }
+//        return sprite;
+//    }
+//
+//    private void loadSpriteArray () {
+//
+//    }
 
     public SpriteSheet addSprite(int sttNum, BufferedImage image) {
         try {

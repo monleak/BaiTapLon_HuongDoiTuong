@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ConcatenatedImage {
@@ -90,6 +91,36 @@ public class ConcatenatedImage {
     public BufferedImage getSubImage (int row, int column) {
         return subImageList[row][column];
     }
+    public BufferedImage getSubImageByIndex (int idx) {
+        try {
+            int r = idx / columns;
+            int c = idx % columns;
+
+            if (r >= rows)
+                throw new Error("r < rows :: " + r + " < " + rows +
+                                "\n" + "idx=" + idx +
+                                "\ncolumns=" + columns
+                );
+            if (c >= columns)
+                throw new Error("r < rows" + r + " < " + rows);
+
+            return subImageList[r][c];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<BufferedImage> getArrayList () {
+        ArrayList<BufferedImage> imgs = new ArrayList<>();
+        for (BufferedImage[] arr: subImageList) {
+            for (BufferedImage img: arr) {
+                imgs.add(img);
+            }
+        }
+        return imgs;
+    }
+
     public BufferedImage getSubImage (int row, int column, int width, int height) {
         BufferedImage image = subImageList[row][column];
 //        gp.setOpaque(true);

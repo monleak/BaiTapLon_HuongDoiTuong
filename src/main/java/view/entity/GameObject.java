@@ -3,6 +3,8 @@ package view.entity;
 import states.PlayState;
 import view.effect.ILocatable;
 import view.main.GamePanel;
+import view.math.AABB;
+import view.math.Vector2f;
 
 import java.awt.*;
 
@@ -16,10 +18,21 @@ public class GameObject implements ILocatable {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collision = false;
 
+    // aabb
+    protected AABB bounds;
+    protected Vector2f pos;
+
     public GameObject(GamePanel gp, PlayState ps) {
         this.gp = gp;
         this.ps = ps;
         this.solidArea = new Rectangle(0, 0, 48, 48);
+
+        this.pos = new Vector2f(0, 0);
+        this.bounds = new AABB(this.pos, 48, 48);
+    }
+
+    public AABB getBounds() {
+        return bounds;
     }
 
     @Override
@@ -46,11 +59,11 @@ public class GameObject implements ILocatable {
         /**
          * NOTE: Stop moving camera at the edge
          */
-        int screenX = getWorldX() - ps.player.getWorldX() + ps.player.screenX + this.solidAreaDefaultX;
-        if (ps.player.screenX > ps.player.getWorldX()) {
+        int screenX = getWorldX() - ps.player.getWorldX() + (int) Vector2f.getWorldVarX(0) + this.solidAreaDefaultX;
+        if (Vector2f.getWorldVarX(0) > ps.player.getWorldX()) {
             screenX = worldX;
         }
-        int rightOffset = gp.screenWidth - ps.player.screenX;
+        int rightOffset = gp.screenWidth - (int) Vector2f.getWorldVarX(0);
         if (rightOffset > gp.worldWidth - ps.player.getWorldX()) {
             screenX = gp.screenWidth - (gp.worldWidth - worldX);
         }
@@ -62,11 +75,11 @@ public class GameObject implements ILocatable {
         /**
          * NOTE: Stop moving camera at the edge
          */
-        int screenY = getWorldY() - ps.player.getWorldY() + ps.player.screenY + this.solidAreaDefaultY;
-        if (ps.player.screenY > ps.player.getWorldY()) {
+        int screenY = getWorldY() - ps.player.getWorldY() + (int) Vector2f.getWorldVarY(0) + this.solidAreaDefaultY;
+        if ((int) Vector2f.getWorldVarY(0) > ps.player.getWorldY()) {
             screenY = worldY;
         }
-        int bottomOffset = gp.screenHeight - ps.player.screenY;
+        int bottomOffset = gp.screenHeight - (int) Vector2f.getWorldVarY(0);
         if (bottomOffset > gp.worldHeight - ps.player.getWorldY()) {
             screenY = gp.screenHeight - (gp.worldHeight - worldY);
         }
@@ -76,10 +89,10 @@ public class GameObject implements ILocatable {
 
     @Override
     public boolean checkInMap () {
-        int mapLeftEdge = ps.player.getWorldX() - ps.player.screenX - gp.titleSize;
-        int mapRightEdge = ps.player.getWorldX() + ps.player.screenX + gp.titleSize;
-        int mapTopEdge = ps.player.getWorldY() - ps.player.screenY - gp.titleSize;
-        int mapBottomEdge = ps.player.getWorldY() + ps.player.screenY + gp.titleSize;
+        int mapLeftEdge = ps.player.getWorldX() - (int) Vector2f.getWorldVarX(0) - gp.titleSize;
+        int mapRightEdge = ps.player.getWorldX() + (int) Vector2f.getWorldVarX(0) + gp.titleSize;
+        int mapTopEdge = ps.player.getWorldY() - (int) Vector2f.getWorldVarY(0) - gp.titleSize;
+        int mapBottomEdge = ps.player.getWorldY() + (int) Vector2f.getWorldVarY(0) + gp.titleSize;
         return  ( worldX > mapLeftEdge &&
                 worldX < mapRightEdge &&
                 worldY > mapTopEdge &&

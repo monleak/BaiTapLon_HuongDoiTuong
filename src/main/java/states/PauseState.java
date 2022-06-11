@@ -1,5 +1,6 @@
 package states;
 
+import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
 import view.main.MouseHandler;
@@ -17,8 +18,8 @@ public class PauseState extends GameState{
 
     private final Animation fadeAnim;
 
-    public PauseState (GameStateManager gsm) {
-        super(gsm);
+    public PauseState (GameStateManager gsm, Camera camera) {
+        super(gsm, camera);
 
         font            = new Font("MeatMadness", Font.PLAIN, 48);
         options         = new String[2];

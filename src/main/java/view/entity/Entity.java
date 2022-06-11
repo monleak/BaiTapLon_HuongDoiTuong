@@ -8,6 +8,7 @@ import view.effect.IMoveable;
 import view.main.GamePanel;
 import view.main.KeyHandler;
 import view.main.MouseHandler;
+import view.math.Vector2f;
 import view.utils.Direction;
 
 import java.awt.*;
@@ -15,6 +16,7 @@ import java.awt.*;
 public abstract class Entity extends GameObject implements IMoveable {
     // locatable
     // runnable
+    protected final Vector2f pos;
     private int speed;
     public Direction direction;
     // run effect
@@ -29,6 +31,7 @@ public abstract class Entity extends GameObject implements IMoveable {
         super(gp, ps);
         ani = new SpriteAnimation();
 //        setImage();
+        this.pos = new Vector2f();
     }
 
     @Override
@@ -53,6 +56,10 @@ public abstract class Entity extends GameObject implements IMoveable {
 
     public abstract void setImage();
     public void setAction() {}
+
+    public Vector2f getPos() {
+        return pos;
+    }
 
     // entity
     public void setAnimation(int i, Sprite[] frames, int delay) {

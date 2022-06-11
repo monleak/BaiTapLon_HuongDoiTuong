@@ -1,14 +1,17 @@
 package states;
 
+import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
 import view.main.MouseHandler;
+import view.math.AABB;
+import view.math.Vector2f;
 import view.utils.Fontf;
 
 import java.awt.*;
 
 public class GameStateManager {
-    private GameState states[];
+    private final GameState[] states;
 
     public static final int MENU = 5;
     public static final int PLAY = 1;
@@ -20,10 +23,24 @@ public class GameStateManager {
 
     public static Graphics2D g2;
     public static GamePanel gp;
+    public static Camera camera;
+    public static Vector2f map;
 
     public GameStateManager (Graphics2D g2,GamePanel gp) {
         GameStateManager.g2 = g2;
         GameStateManager.gp = gp;
+        GameStateManager.map = new Vector2f(100, 0);
+        Vector2f.setWorldVar(100, 100);
+        GameStateManager.camera = new Camera(
+                new AABB(
+                        new Vector2f(-gp.titleSize, -gp.titleSize),
+                        gp.screenWidth + gp.titleSize * 2,
+                        gp.screenHeight + gp.titleSize * 2
+                ),
+                gp.titleSize
+        );
+
+//        System.out.println(map.getWorldVar());
 
         font = new Font("font/font.png", 10, 10);
         fontf = new Fontf();
@@ -31,8 +48,8 @@ public class GameStateManager {
         fontf.loadFont("font/GravityBold8.ttf", "GravityBold8");
 
         states = new GameState[6];
-//        states[PLAY] = new PlayState(this);
-        states[MENU] = new MenuState(this);
+        // states[PLAY] = new PlayState(this);
+        states[MENU] = new MenuState(this, camera);
     }
 
     /**
@@ -65,14 +82,14 @@ public class GameStateManager {
 
         if (state == PLAY) {
 //            cam = new Camera(new AABB(new Vector2f(0, 0), GamePanel.width + 64, GamePanel.height + 64));
-            states[PLAY] = new PlayState(this);
+            states[PLAY] = new PlayState(this, camera);
             this.setup();
         }
         else if (state == MENU) {
-            states[MENU] = new MenuState(this);
+            states[MENU] = new MenuState(this, camera);
         }
         else if (state == PAUSE) {
-            states[PAUSE] = new PauseState(this);
+            states[PAUSE] = new PauseState(this, camera);
         }
         else if (state == GAME_OVER) {
 //            states[GAMEOVER] = new GameOverState(this);
@@ -94,6 +111,7 @@ public class GameStateManager {
     }
 
     public void update(double time) {
+        camera.update();
         for (int i = 0; i < states.length; i++) {
             if (states[i] != null) {
                 states[i].update(time);
@@ -102,7 +120,7 @@ public class GameStateManager {
     }
 
     public void input(MouseHandler mouse, KeyHandler key) {
-
+        camera.input(mouse, key);
         for (int i = 0; i < states.length; i++) {
             if (states[i] != null) {
 //                System.out.println(states[i]);

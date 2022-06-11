@@ -25,20 +25,19 @@ public class PlayState extends GameState {
     public GameObject[] obj = new GameObject[100];    // Danh sach
 
     public Player player;
-    private int timeCount;
 
-    public PlayState (GameStateManager gsm) {
+    public PlayState (GameStateManager gsm, Camera camera) {
         // init
-        super(gsm);
+        super(gsm, camera);
 
-        tileM       = new TileManager(GameStateManager.gp, this);
+        tileM       = new TileManager(GameStateManager.gp, this, camera);
         ui          = new UI(GameStateManager.gp);
         cChecker    = new CollisionChecker(GameStateManager.gp, this);
         assetSetter = new AssetSetter(GameStateManager.gp, this);
 
-        player      = new Player(GameStateManager.gp, this);
-        this.timeCount = 0;
-//        now = LocalDate.now();
+        player      = new Player(GameStateManager.gp, this, camera);
+
+        camera.target(player);
     }
 
     @Override
@@ -59,7 +58,6 @@ public class PlayState extends GameState {
                 }
             }
         }
-
     }
 
     @Override
@@ -88,9 +86,6 @@ public class PlayState extends GameState {
 
         player.draw(g2);
         ui.draw(g2);
-//        g2.setColor(new Color (163, 67, 67));
-//        g2.drawRect(10, 20, 30, 400);
-
     }
 
     /**

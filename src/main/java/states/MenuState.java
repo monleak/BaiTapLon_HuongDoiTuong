@@ -1,5 +1,6 @@
 package states;
 
+import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
 import view.main.MouseHandler;
@@ -22,8 +23,8 @@ public class MenuState extends GameState{
     private Animation fadeAnim;
     private boolean switching;
 
-    public MenuState (GameStateManager gsm) {
-        super(gsm);
+    public MenuState (GameStateManager gsm, Camera camera) {
+        super(gsm, camera);
 
         font            = new Font("MeatMadness", Font.PLAIN, 48);
         option          = 0;

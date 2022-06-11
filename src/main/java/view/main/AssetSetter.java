@@ -44,7 +44,7 @@ public class AssetSetter {
         ps.obj[5].setWorldX((int)(37.4f * gp.titleSize));
         ps.obj[5].setWorldY((int)(10.4f * gp.titleSize));
         ps.obj[5].collision = false;
-
+//
         ps.obj[6] = new Fox(gp, ps);
         ps.obj[6].setWorldX((int)(37.2f * gp.titleSize));
         ps.obj[6].setWorldY((int)(14f * gp.titleSize));
@@ -58,18 +58,18 @@ public class AssetSetter {
         ps.obj[8] = new ChickenEntity(gp, ps);
         ps.obj[8].setWorldX(30* gp.titleSize);
         ps.obj[8].setWorldY(11* gp.titleSize);
-
-        ps.obj[9] = new ChickenEntity(gp, ps);
-        ps.obj[9].setWorldX(30* gp.titleSize);
-        ps.obj[9].setWorldY(10* gp.titleSize);
-
-        ps.obj[10] = new ChickenEntity(gp, ps);
-        ps.obj[10].setWorldX(31* gp.titleSize);
-        ps.obj[10].setWorldY(12* gp.titleSize);
-
-        ps.obj[11] = new ChickenEntity(gp, ps);
-        ps.obj[11].setWorldX(31* gp.titleSize);
-        ps.obj[11].setWorldY(13* gp.titleSize);
+//
+//        ps.obj[9] = new ChickenEntity(gp, ps);
+//        ps.obj[9].setWorldX(30* gp.titleSize);
+//        ps.obj[9].setWorldY(10* gp.titleSize);
+//
+//        ps.obj[10] = new ChickenEntity(gp, ps);
+//        ps.obj[10].setWorldX(31* gp.titleSize);
+//        ps.obj[10].setWorldY(12* gp.titleSize);
+//
+//        ps.obj[11] = new ChickenEntity(gp, ps);
+//        ps.obj[11].setWorldX(31* gp.titleSize);
+//        ps.obj[11].setWorldY(13* gp.titleSize);
 
 //        gp.obj[12] = new OBJ_Fence(gp, Direction.UP, 8);
 //        gp.obj[12].setWorldX(21* gp.titleSize);

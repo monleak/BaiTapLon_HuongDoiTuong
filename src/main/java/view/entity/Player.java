@@ -5,6 +5,8 @@ import view.Graphics.SpriteAnimation;
 import view.Graphics.SpriteSheet;
 import view.effect.FocusManager;
 import view.main.*;
+import view.math.Vector2f;
+import view.title.TileCollision;
 import view.utils.ConcatenatedImage;
 import view.utils.Direction;
 
@@ -12,12 +14,10 @@ import java.awt.*;
 
 public class Player extends Entity {
 
-    public final int screenX, screenY;
+//    public final int screenX, screenY;
     private final FocusManager focusManager;
-//    private BufferedImage image = null;
 
     // instead of BufferedImage
-
     private Direction prevDirection;
     private boolean isRunning;
 
@@ -30,26 +30,33 @@ public class Player extends Entity {
     public int RUN_DOWN = 6;
     public int RUN_LEFT = 5;
     public int RUN_RIGHT = 4;
+    private Camera camera;
 
-    public Player(GamePanel gp, PlayState ps) {
+    private boolean xCollision;
+    private boolean yCollision;
+    private TileCollision tc;
+
+    public Player(GamePanel gp, PlayState ps, Camera camera) {
         super(gp, ps);
-
+        this.camera = camera;
         this.focusManager   = new FocusManager(gp, ps);
 
-        screenX = (gp.screenWidth - gp.titleSize)/2 ;
-        screenY = (gp.screenHeight - gp.titleSize)/2;
+        pos.setX ((gp.worldWidth - gp.titleSize) / 2.0f) ;
+        pos.setY ((gp.worldHeight - gp.titleSize) / 2.0f + 100);
 
         // collision
-        solidArea   = new Rectangle();
-        solidArea.x = 10;
-        solidArea.y = 24;
-        solidArea.height    = 24;
-        solidArea.width     = 28;
+//        solidArea   = new Rectangle();
+//        solidArea.x = 10;
+//        solidArea.y = 24;
+//        solidArea.height    = 24;
+//        solidArea.width     = 28;
 
         this.ps = ps;
         // object collision
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+
+        tc = new TileCollision(this);
 
         setDefaultValue();
         setImage();
@@ -147,16 +154,42 @@ public class Player extends Entity {
         targetNewObject(objIndex);
         this.focusManager.checkAndHoverObject(objIndex);
 
+        System.out.println(tc.collisionTile(getSpeed(), 0));
+
         // if collision is false can move
-        if (!collisionOn) {
+//        if (!collisionOn) {
             /**
              * TODO: handle multi direction ( press multi key )
              */
-            if (keyH.upPressed)          setWorldY(getWorldY() - getSpeed());
-            else if (keyH.downPressed)   setWorldY(getWorldY() + getSpeed());
-            else if (keyH.rightPressed)  setWorldX(getWorldX() + getSpeed());
-            else if (keyH.leftPressed)   setWorldX(getWorldX() - getSpeed());
-        }
+            if (keyH.upPressed) {
+                if (!tc.collisionTile(0, - getSpeed())) {
+                    pos.addY(-getSpeed());
+                    collisionOn = false;
+                }
+                else collisionOn = true;
+            }
+            else if (keyH.downPressed) {
+                if (!tc.collisionTile(0, getSpeed())) {
+                    pos.addY(getSpeed());
+                    collisionOn = false;
+                }
+                else collisionOn = true;
+            }
+            else if (keyH.rightPressed) {
+                if (!tc.collisionTile(getSpeed(), 0)) {
+                    pos.addX(getSpeed());
+                    collisionOn = false;
+                }
+                else collisionOn = true;
+            }
+            else if (keyH.leftPressed) {
+                if (!tc.collisionTile(-getSpeed(), 0)) {
+                    pos.addX(-getSpeed());
+                    collisionOn = false;
+                }
+                else collisionOn = true;
+            }
+//        }
 
         // Handle focus
         if (keyH.enterPressed) {
@@ -207,30 +240,26 @@ public class Player extends Entity {
     }
 
     public void draw (Graphics2D g2) {
-
-        int x = screenX;
-        int y = screenY;
-
         /**
          * NOTE: Stop moving camera at the edge
          */
-        if (screenX > getWorldX()) {
-            x = getWorldX();
-        }
-        if (screenY > getWorldY() ) {
-            y = getWorldY();
-        }
-        int rightOffset = gp.screenWidth - ps.player.screenX;
-        if (rightOffset > gp.worldWidth - ps.player.getWorldX()) {
-            x = gp.screenWidth - (gp.worldWidth - getWorldX());
-        }
-        int bottomOffset = gp.screenHeight - ps.player.screenY;
-        if (bottomOffset > gp.worldHeight - ps.player.getWorldY()) {
-            y = gp.screenHeight - (gp.worldHeight - getWorldY());
-        }
+//        if (screenX > getWorldX()) {
+//            x = getWorldX();
+//        }
+//        if (screenY > getWorldY() ) {
+//            y = getWorldY();
+////        }
+//        int rightOffset = gp.screenWidth - (int) Vector2f.getWorldVarX(pos.x);
+//        if (rightOffset > gp.worldWidth - ps.player.getWorldX()) {
+//            x = gp.screenWidth - (gp.worldWidth - getWorldX());
+//        }
+//        int bottomOffset = gp.screenHeight - (int) Vector2f.getWorldVarY(pos.x);
+//        if (bottomOffset > gp.worldHeight - ps.player.getWorldY()) {
+//            y = gp.screenHeight - (gp.worldHeight - getWorldY());
+//        }
 
 //        g2.drawImage(image, x, y, gp.titleSize, gp.titleSize, null);
-        g2.drawImage(ani.getImage().image, x, y, gp.titleSize, gp.titleSize, null);
+        g2.drawImage(ani.getImage().image, (int) pos.getWorldVar().x, (int) pos.getWorldVar().y, gp.titleSize, gp.titleSize, null);
 
         if (this.focusManager.getFocusedObjId() != 999) {
             GameObject selectedAnimal = ps.obj[this.focusManager.getFocusedObjId()];
