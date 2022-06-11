@@ -51,7 +51,7 @@ public class PlayState extends GameState {
     public void update(double time) {
 
         if(!gsm.isStateActive(GameStateManager.PAUSE)) {
-            player.update(time);
+            player.update();
 
             for (int i = 0; i < obj.length; i++) {
                 if(obj[i] instanceof Entity ) {

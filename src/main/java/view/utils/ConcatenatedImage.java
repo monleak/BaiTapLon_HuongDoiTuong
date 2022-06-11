@@ -22,7 +22,7 @@ public class ConcatenatedImage {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
         } catch (NullPointerException | IOException e) {
             System.err.println("[ERR] Cannot load image: " + (path));
-//            e.printStackTrace();
+            e.printStackTrace();
         }
 
         rows = image.getHeight() / subImageHeight;
@@ -41,8 +41,6 @@ public class ConcatenatedImage {
                 subImageList[i][j] = tool.scaleImage(
                         subImage
                         ,gp.titleSize , gp.titleSize
-//                        ,Color.BLACK
-//                        new Color(0, 0, 0, 1)
                 );
             }
         }

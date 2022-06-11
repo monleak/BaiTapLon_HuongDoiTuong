@@ -5,6 +5,7 @@ import states.PlayState;
 import view.effect.FocusableHandler;
 import view.effect.IFocusable;
 import view.main.GamePanel;
+import view.utils.Direction;
 
 import java.awt.image.BufferedImage;
 
@@ -45,4 +46,34 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     }
 
     public abstract String[] getAnimalStatus ();
+
+    @Override
+    public void update() {
+        {
+            super.update();
+            setAction();
+
+            collisionOn = false;
+            ps.cChecker.checkTile(this);
+
+            // if collision is false can move
+            if (!collisionOn) {
+                if (direction == Direction.UP)          setWorldY(getWorldY() - getSpeed());
+                else if (direction == Direction.DOWN)   setWorldY(getWorldY() + getSpeed());
+                else if (direction == Direction.RIGHT)  setWorldX(getWorldX() + getSpeed());
+                else if (direction == Direction.LEFT)   setWorldX(getWorldX() - getSpeed());
+            }
+
+            // action
+            spriteCounter++;
+            if(spriteCounter > 12) {
+                if(spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
+            }
+        }
+    }
 }

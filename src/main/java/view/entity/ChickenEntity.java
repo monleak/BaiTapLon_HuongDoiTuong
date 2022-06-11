@@ -3,19 +3,23 @@ package view.entity;
 import model.Food;
 import model.ModelState;
 import states.PlayState;
+import view.Graphics.SpriteSheet;
 import view.effect.FocusableHandler;
 import view.main.GamePanel;
 import view.utils.ConcatenatedImage;
 import view.utils.Direction;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class ChickenEntity extends AnimalEntity{
     private int counter;
     private int lifeCounter;
     private int actionLockCounter;
+    public int UP = 3;
+    public int DOWN = 2;
+    public int LEFT = 1;
+    public int RIGHT = 0;
 
     public ChickenEntity (GamePanel gp, PlayState ps) {
         super(gp, ps);
@@ -29,23 +33,20 @@ public class ChickenEntity extends AnimalEntity{
         fch = new FocusableHandler();
         posture = Posture.STAND;
 
-        up = new BufferedImage[16];
-        down = new BufferedImage[16];
-        right = new BufferedImage[16];
-        left = new BufferedImage[16];
-
-        getImage();
+        setImage();
 //        this.collision = true;
     }
 
-    public void getImage() {
+    public void setImage() {
         ConcatenatedImage ci = new ConcatenatedImage(gp, "/chicken/chicken-sprite-sheet.png", 32, 32, 0);
+
+        sprite = new SpriteSheet(4, 16);
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
-                up   [i*4+j] = ci.getSubImage(i, j);
-                left [i*4+j] = ci.getSubImage(i, j);
-                down [i*4+j] = ci.getFlipSubImage(i, j);
-                right[i*4+j] = ci.getFlipSubImage(i, j);
+                sprite.addSprite(UP, ci.getSubImage(i, j)) ;
+                sprite.addSprite(LEFT, ci.getSubImage(i, j)) ;
+                sprite.addSprite(DOWN, ci.getFlipSubImage(i, j)) ;
+                sprite.addSprite(RIGHT, ci.getFlipSubImage(i, j)) ;
             }
         }
     }
@@ -110,6 +111,11 @@ public class ChickenEntity extends AnimalEntity{
 //        System.out.println(direction);
     }
 
+    @Override
+    public void animate(boolean isRunning) {
+        // todo: move animate logic here
+    }
+
     public void update (double time) {
         counter++;
         int circle = 10;
@@ -156,11 +162,11 @@ public class ChickenEntity extends AnimalEntity{
             switch (direction) {
                 case UP:
                 case LEFT:
-                    image = up[i];
+                    image = sprite.getSprite(UP, i).image;
                     break;
                 case DOWN:
                 case RIGHT:
-                    image = down[i];
+                    image = sprite.getSprite(DOWN, i).image;
                     break;
             }
         }
