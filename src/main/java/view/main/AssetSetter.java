@@ -27,26 +27,29 @@ public class AssetSetter {
         ps.obj[1].getBounds().getPos().x = ((int)(38f * gp.titleSize));
         ps.obj[1].getBounds().getPos().y = ((int)(14f * gp.titleSize));
         ps.obj[1].collision = false;
+        Fox f = (Fox) ps.obj[1];
+//        f.follow(ps.player);
 
-        ps.obj[2] = new ChickenEntity(gp, ps);
-        ps.obj[2].getBounds().getPos().x = ((int)(38f * gp.titleSize));
-        ps.obj[2].getBounds().getPos().y = ((int)(10f * gp.titleSize));
-        ps.obj[2].collision = false;
-
-        ps.obj[3] = new ChickenEntity(gp, ps);
-        ps.obj[3].getBounds().getPos().x = ((int)(39f * gp.titleSize));
-        ps.obj[3].getBounds().getPos().y = ((int)(10f * gp.titleSize));
-        ps.obj[3].collision = false;
-
-        ps.obj[4] = new ChickenEntity(gp, ps);
-        ps.obj[4].getBounds().getPos().x = ((int)(38f * gp.titleSize));
-        ps.obj[4].getBounds().getPos().y = ((int)(9f * gp.titleSize));
-        ps.obj[4].collision = false;
-
-        ps.obj[5] = new ChickenEntity(gp, ps);
-        ps.obj[5].getBounds().getPos().x = ((int)(38f * gp.titleSize));
-        ps.obj[5].getBounds().getPos().y = ((int)(11f * gp.titleSize));
-        ps.obj[5].collision = false;
+//
+//        ps.obj[2] = new ChickenEntity(gp, ps);
+//        ps.obj[2].getBounds().getPos().x = ((int)(38f * gp.titleSize));
+//        ps.obj[2].getBounds().getPos().y = ((int)(10f * gp.titleSize));
+//        ps.obj[2].collision = false;
+//
+//        ps.obj[3] = new ChickenEntity(gp, ps);
+//        ps.obj[3].getBounds().getPos().x = ((int)(39f * gp.titleSize));
+//        ps.obj[3].getBounds().getPos().y = ((int)(10f * gp.titleSize));
+//        ps.obj[3].collision = false;
+//
+//        ps.obj[4] = new ChickenEntity(gp, ps);
+//        ps.obj[4].getBounds().getPos().x = ((int)(38f * gp.titleSize));
+//        ps.obj[4].getBounds().getPos().y = ((int)(9f * gp.titleSize));
+//        ps.obj[4].collision = false;
+//
+//        ps.obj[5] = new ChickenEntity(gp, ps);
+//        ps.obj[5].getBounds().getPos().x = ((int)(38f * gp.titleSize));
+//        ps.obj[5].getBounds().getPos().y = ((int)(11f * gp.titleSize));
+//        ps.obj[5].collision = false;
 //
 //        for (int i = 6; i < 20; i++) {
 //            ps.obj[i] = new ChickenEntity(gp, ps);

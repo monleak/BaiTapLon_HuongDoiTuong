@@ -4,6 +4,8 @@ import model.Animals.Animal;
 import states.PlayState;
 import view.Graphics.SpriteAnimation;
 import view.Graphics.SpriteSheet;
+import view.ai.Node;
+import view.ai.PathFinder;
 import view.effect.FocusManager;
 import view.main.*;
 import view.math.Vector2f;
@@ -41,6 +43,9 @@ public class Player extends Entity {
 
     private AnimalEntity animalEntity;
     private ArrayList<SuperObject> superObjects;
+    private PathFinder pathFinder;
+    private boolean isGoingToMousePosition;
+    private Vector2f mousePos;
 
     public Player(GamePanel gp, PlayState ps, Camera camera) {
         super(gp, ps);
@@ -56,12 +61,19 @@ public class Player extends Entity {
 
         this.ps = ps;
         // object collision
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
+//        solidAreaDefaultX = solidArea.x;
+//        solidAreaDefaultY = solidArea.y;
+
+        this.bounds.setXOffset(8);
+        this.bounds.setYOffset(28);
+        this.bounds.setWidth(48 - 16);
+        this.bounds.setHeight(48 - 28);
 
         tc = new TileCollision(this);
 
         superObjects = new ArrayList<>();
+
+        pathFinder = new PathFinder(gp, ps);
 
         setDefaultValue();
         setImage();
@@ -155,17 +167,68 @@ public class Player extends Entity {
     public void input(MouseHandler mouseH, KeyHandler keyH) {
         animate((keyH.rightPressed || keyH.upPressed || keyH.downPressed || keyH.leftPressed));
 
+        if (mouseH.getButton() != -1 && pathFinder.getPathList().size() == 0) {
+            pathFinder.setNodes(
+                    (int) this.pos.x,
+                    (int) this.pos.y,
+                    (int) - Vector2f.getWorldVarX(0) + mouseH.getX(),
+                    (int) - Vector2f.getWorldVarY(0) + mouseH.getY(),
+                    this
+            );
+            pathFinder.search();
+            mousePos = new Vector2f(
+                    (int) - Vector2f.getWorldVarX(0) + mouseH.getX(),
+                    (int) - Vector2f.getWorldVarY(0) + mouseH.getY()
+                    );
+            isGoingToMousePosition = true;
+        }
+
+        if (!isGoingToMousePosition) {
+            pathFinder.getPathList().clear();
+        }
+//            System.out.println(pathFinder.getPathList());
+            Node node;
+            if (pathFinder.getPathList().size() > 0 ) {
+                node = pathFinder.getPathList().get(0);
+                if (this.getPos().x > node.column * gp.titleSize) {
+                    this.getPos().x -= getSpeed();
+                    camera.getPos().x -= getSpeed();
+                    Vector2f.setWorldVar(camera.getPos().x, camera.getPos().y);
+                    direction = Direction.LEFT;
+                } else if (this.getPos().x < node.column * gp.titleSize) {
+                    this.getPos().x += getSpeed();
+                    camera.getPos().x += getSpeed();
+                    Vector2f.setWorldVar(camera.getPos().x, camera.getPos().y);
+                    direction = Direction.RIGHT;
+                } else if (this.getPos().y > node.row * gp.titleSize) {
+                    this.getPos().y -= getSpeed();
+                    camera.getPos().y -= getSpeed();
+                    Vector2f.setWorldVar(camera.getPos().x, camera.getPos().y);
+                    direction = Direction.UP;
+                } else if (this.getPos().y < node.row * gp.titleSize) {
+                    this.getPos().y += getSpeed();
+                    camera.getPos().y += getSpeed();
+                    Vector2f.setWorldVar(camera.getPos().x, camera.getPos().y);
+                    direction = Direction.DOWN;
+                } else
+                pathFinder.getPathList().remove(0);
+        }
+
         if(keyH.upPressed) {
             direction = Direction.UP;
+            isGoingToMousePosition = false;
         }
         else if(keyH.downPressed) {
             direction = Direction.DOWN;
+            isGoingToMousePosition = false;
         }
         else if(keyH.leftPressed) {
             direction = Direction.LEFT;
+            isGoingToMousePosition = false;
         }
         else if(keyH.rightPressed) {
             direction = Direction.RIGHT;
+            isGoingToMousePosition = false;
         }
 
         // Check tile collision
@@ -294,6 +357,14 @@ public class Player extends Entity {
             }
         }
         // TEST: draw character image frame
-        // g2.drawRect(screenX + soliArea.x, screenY + soliArea.y, soliArea.width, soliArea.height);
+         g2.drawRect(
+                 (int) this.getBounds().getPos().getWorldVar().x + (int) this.bounds.getXOffset(),
+                 (int) this.getBounds().getPos().getWorldVar().y + (int) this.bounds.getYOffset(),
+                 (int) this.getBounds().getWidth(),
+                 (int) this.getBounds().getHeight());
+
+         if (pathFinder.getPathList().size() > 0) {
+             g2.drawRect( (int) mousePos.getWorldVar().x - gp.titleSize / 2, (int) mousePos.getWorldVar().y - gp.titleSize / 2, gp.titleSize, gp.titleSize);
+         }
     }
 }

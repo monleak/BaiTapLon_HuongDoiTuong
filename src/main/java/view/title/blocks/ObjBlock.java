@@ -27,8 +27,9 @@ public class ObjBlock extends Block {
         return false;
     }
 
-    public void render(Graphics2D g){
-        super.render(g);
+    public void render(Graphics2D g2){
+        super.render(g2);
+//        g2.drawRect((int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, 100, 100);
     }
 
 }

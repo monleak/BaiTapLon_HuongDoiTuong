@@ -150,8 +150,8 @@ public class AABB {
         float dx = Math.max(aBox.getPos().x + aBox.getXOffset(), Math.min(pos.x + (r / 2), aBox.getPos().x + aBox.getXOffset() + aBox.getWidth()));
         float dy = Math.max(aBox.getPos().y + aBox.getYOffset(), Math.min(pos.y + (r / 2), aBox.getPos().y + aBox.getYOffset() + aBox.getHeight()));
 
-        dx = pos.x + (r / 2) - dx;
-        dy = pos.y + (r / 2) - dy;
+        dx = pos.x + this.xOffset + (r / 2) - dx;
+        dy = pos.y + this.yOffset +  (r / 2) - dy;
 
         if(Math.sqrt(dx * dx + dy * dy) < r / 2) {
             return true;
