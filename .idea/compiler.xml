@@ -2,9 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="17">
-      <module name="oolt-project" target="1.8" />
-      <module name="oolt-project.main" target="1.8" />
-      <module name="oolt-project.test" target="1.8" />
+      <module name="oolt-project-3" target="1.8" />
+      <module name="oolt-project-3.main" target="1.8" />
+      <module name="oolt-project-3.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
