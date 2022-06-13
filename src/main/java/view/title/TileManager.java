@@ -36,7 +36,7 @@ public class TileManager {
         tm = new ArrayList<>(50);
 //        mapFileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         this.imgList = new ArrayList<>();
-        loadMapNew ("/map/map1.xml");
+        loadMapNew ("/map1.xml");
     }
 
     private void loadMapNew (String xmlPath) {
