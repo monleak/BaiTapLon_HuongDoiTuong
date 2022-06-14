@@ -4,6 +4,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+/**
+ * Chuột
+ *
+ *  - mouseB != -1 nếu chuột được nhấn.
+ *  - mouseX, mouseY: tọa độ trên màn hình của chuột.
+ */
 public class MouseHandler implements MouseListener, MouseMotionListener {
 
     private static int mouseX = -1;

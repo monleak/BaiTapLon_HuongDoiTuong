@@ -1,11 +1,18 @@
 package view.math;
 
-
+/**
+ * Vector2f: Vector, 2dim, float.
+ * Xác định vị trí của 1 điẻm trên map và trên màn hình.
+ *
+ * Vị trí trên map: thuộc tính x, y
+ * Vị trí trên màn hình: getWorldVar(): Vector2f
+ *
+ */
 public class Vector2f {
-
+    // Tọa độ trên map
     public float x;
     public float y;
-
+    // Tọa đô của camera (static)
     public static float worldX;
     public static float worldY;
 
@@ -52,6 +59,11 @@ public class Vector2f {
         return y - worldY;
     }
 
+    /**
+     * Trả về vị trí của điểm trên màn hình.
+     *
+     * @return
+     */
     public Vector2f getWorldVar() {
         return new Vector2f(x - worldX, y - worldY);
     }

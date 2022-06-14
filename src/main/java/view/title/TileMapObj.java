@@ -10,6 +10,9 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * TileMapObject: các ô render không cho người chơi, con vật đi qua.
+ */
 public class TileMapObj extends TileMap {
 
     public static Block[] event_blocks;

@@ -7,6 +7,17 @@ import model.Animals.Cat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class chính sử dụng các class trong package model để mô phỏng nông trại ( con vật, lịch trình, thức ăn ... )
+ * - Danh sách con vật
+ * - Hoạt động
+ * - Lịch trình
+ * - Quản lý thức ăn
+ * - TTin ng chơi (nếu có)
+ *
+ * NOTE:    - chỉ xử lý các thuộc tính, logic của con vật.
+ *          - các vấn đề khác được xử lý ở phần giao diện.
+ */
 public class ModelState {
     private int simulationSpeed;
     private List<Animal> animalList;

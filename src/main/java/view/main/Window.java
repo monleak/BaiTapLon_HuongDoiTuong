@@ -4,6 +4,9 @@ package view.main;
 import javax.swing.*;
 import java.awt.image.BufferStrategy;
 
+/**
+ * @deprecated: Ko dùng nữa.
+ */
 public class Window extends JFrame {
     public static final long serialVersionUID = 1L;
 

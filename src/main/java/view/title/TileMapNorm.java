@@ -10,12 +10,16 @@ import view.math.Vector2f;
 import view.title.blocks.Block;
 import view.title.blocks.NormBlock;
 
+/**
+ * TileMapNorm: các ô mà người chơi, con vật có thể đi qua được.
+ *
+ */
 public class TileMapNorm extends TileMap {
 
     public Block[] blocks;
 
-    private int tileWidth;
-    private int tileHeight;
+    private int tileWidth;  // c.rộng mặc định: 48
+    private int tileHeight; // c.dài mặc định: 48
 
     private int height;
 

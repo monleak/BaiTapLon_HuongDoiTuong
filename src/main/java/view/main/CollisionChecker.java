@@ -3,6 +3,9 @@ package view.main;
 import states.PlayState;
 import view.entity.Entity;
 
+/**
+ * @deprecated Thay bằng TileColision
+ */
 public class CollisionChecker {
 
     GamePanel gp;

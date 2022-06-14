@@ -1,5 +1,9 @@
 package view.ai;
 
+/**
+ * Node là một ô trong bản đồ, dùng để tìm đường đi.
+ *
+ */
 public class Node {
     public int row;
     public int column;

@@ -6,6 +6,10 @@ import view.graphics.Sprite;
 import view.math.AABB;
 import view.math.Vector2f;
 
+/**
+ * Block: 1 ô 48x48 trên bản đồ
+ *
+ */
 public abstract class Block {
     protected int w;
     protected int h;

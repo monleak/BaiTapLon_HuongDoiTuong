@@ -1,6 +1,9 @@
 package view.graphics;
 
-
+/**
+ * Tạo các animation di chuyển cho nhân vật.
+ *
+ */
 public class SpriteAnimation {
 
     private Sprite[] frames;
@@ -41,6 +44,9 @@ public class SpriteAnimation {
     public void setFrame(int i) { currentFrame = i; }
     public void setNumFrames(int i, int state) { states[state] = i; }
 
+    /**
+     * gọi trong update của lớp chứa nó.
+     */
     public void update() {
         if(delay == -1) return;
 
@@ -59,6 +65,11 @@ public class SpriteAnimation {
     public int getDelay() { return delay; }
     public int getFrame() { return currentFrame; }
     public int getCount() { return count; }
+
+    /**
+     * Trả về ảnh hiện tại.
+     * Ảnh sẽ thay đổi sau vài frame để tạo thành animation.
+     */
     public Sprite getImage() { return frames[currentFrame]; }
     public boolean hasPlayedOnce() { return timesPlayed > 0; }
     public boolean hasPlayed(int i) { return timesPlayed == i; }

@@ -3,16 +3,15 @@ package view.ai;
 import states.PlayState;
 import view.entity.Entity;
 import view.main.GamePanel;
-import view.math.AABB;
-import view.math.Vector2f;
 import view.title.TileMapObj;
-import view.title.blocks.Block;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * Tìm đường đi ngắn nhất trên bản đồ.
+ *
+ */
 public class PathFinder {
-    private GamePanel gp;
+    private final GamePanel gp;
     private PlayState ps;
     private Node[][] node;
     private final ArrayList<Node> openList;
@@ -33,7 +32,7 @@ public class PathFinder {
         pathList = new ArrayList<>();
     }
 
-    public void initialNodes () {
+    private void initialNodes () {
         node = new Node[gp.maxWorldRow][gp.maxWorldCol];
 
         int col = 0;
@@ -49,7 +48,7 @@ public class PathFinder {
         }
     }
 
-    public void resetNodes () {
+    private void resetNodes () {
         int col = 0;
         int row = 0;
         while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
@@ -70,6 +69,45 @@ public class PathFinder {
         step = 0;
     }
 
+    private void getCost(Node node) {
+        int xDistance = Math.abs(node.column * gp.titleSize - startNode.column * gp.titleSize);
+        int yDistance = Math.abs(node.row * gp.titleSize - - startNode.row * gp.titleSize);
+        node.gCost = xDistance + yDistance;
+
+        xDistance = Math.abs(node.column * gp.titleSize - goalNode.column * gp.titleSize);
+        yDistance = Math.abs(node.row * gp.titleSize - goalNode.row * gp.titleSize);
+        node.hCost = xDistance + yDistance;
+
+        node.fCost = node.gCost + node.hCost;
+    }
+
+    private void trackThePath () {
+        Node current = goalNode;
+
+        while (current != startNode) {
+            pathList.add(0, current);
+            current = current.parent;
+        }
+    }
+
+    private void openNode (Node node) {
+        if (!node.open && !node.checked && !node.solid) {
+            node.open = true;
+            node.parent = currentNode;
+            openList.add(node);
+        }
+    }
+
+    /**
+     * Đặt các giá trị start và goal.
+     * Gọi 1 lần trước khi dùng serach()
+     *
+     * @param startX
+     * @param startY
+     * @param goalX
+     * @param goalY
+     * @param entity
+     */
     public void setNodes (int startX, int startY, int goalX, int goalY, Entity entity) {
         isInit = true;
         resetNodes();
@@ -109,18 +147,17 @@ public class PathFinder {
         }
     }
 
-    public void getCost(Node node) {
-        int xDistance = Math.abs(node.column * gp.titleSize - startNode.column * gp.titleSize);
-        int yDistance = Math.abs(node.row * gp.titleSize - - startNode.row * gp.titleSize);
-        node.gCost = xDistance + yDistance;
-
-        xDistance = Math.abs(node.column * gp.titleSize - goalNode.column * gp.titleSize);
-        yDistance = Math.abs(node.row * gp.titleSize - goalNode.row * gp.titleSize);
-        node.hCost = xDistance + yDistance;
-
-        node.fCost = node.gCost + node.hCost;
-    }
-
+    /**
+     * Tìm đường đi ngắn nhất từ startNode đến goalNode.
+     * Thuật toán: A* ( khá giống dijkstra nhưng ưu tiên tìm những nút có h(x) thấp hơn )
+     *
+     * Sử dụng:
+     *  - Kết tập trong đối tượng cần tìm đường đi.
+     *  - Cần gọi setNode() để set điểm đầu và đich của đường đi trước.
+     *  - Gọi pathFindet.search() trong parent.update().
+     *
+     * @return
+     */
     public boolean search () {
         if (isInit)
             while (!goalReached && step < 1000) {
@@ -129,7 +166,6 @@ public class PathFinder {
 
                 currentNode.checked = true;
                 openList.remove(currentNode);
-
 
                 if (col - 1 >= 0 )
                     openNode(node[col-1][row]);
@@ -140,7 +176,6 @@ public class PathFinder {
                 if (row - 1 >= 0 )
                     openNode(node[col][row - 1]);
 
-
                 int bestNodeIndex = 0;
                 int bestNodeFCost = 999;
                 for (int i = 0; i < openList.size(); i++ ) {
@@ -149,42 +184,31 @@ public class PathFinder {
                         bestNodeFCost = openList.get(i).fCost;
                     }
                     else if (openList.get(i).fCost == bestNodeFCost) {
-                    if (openList.get(i).gCost < openList.get(bestNodeIndex).gCost) {
-                        bestNodeIndex = i;
+                        if (openList.get(i).gCost < openList.get(bestNodeIndex).gCost) {
+                            bestNodeIndex = i;
+                        }
                     }
                 }
+
+                if (openList.size() == 0) break;
+
+                currentNode = openList.get(bestNodeIndex);
+
+                if (currentNode == goalNode) {
+                    goalReached = true;
+                    trackThePath();
+                }
+                step++;
             }
-
-            if (openList.size() == 0) break;
-
-            currentNode = openList.get(bestNodeIndex);
-
-            if (currentNode == goalNode) {
-                goalReached = true;
-                trackThePath();
-            }
-            step++;
-        }
         return goalReached;
     }
 
-    public void trackThePath () {
-        Node current = goalNode;
-
-        while (current != startNode) {
-            pathList.add(0, current);
-            current = current.parent;
-        }
-    }
-
-    public void openNode (Node node) {
-        if (!node.open && !node.checked && !node.solid) {
-            node.open = true;
-            node.parent = currentNode;
-            openList.add(node);
-        }
-    }
-
+    /**
+     * Trả về đường đi ngắn nhất từ startNode đến goalNode.
+     * Sử dụng: sau khi gọi setNode() và serach().
+     *
+     * @return
+     */
     public ArrayList<Node> getPathList() {
         return pathList;
     }

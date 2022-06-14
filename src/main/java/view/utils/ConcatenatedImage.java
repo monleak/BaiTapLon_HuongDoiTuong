@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Dùng để cắt ảnh lớn thành mảng 2 chiều các ảnh nhỏ
+ *
+ */
 public class ConcatenatedImage {
     private BufferedImage image;
     private BufferedImage[][] subImageList;

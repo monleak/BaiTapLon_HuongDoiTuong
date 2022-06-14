@@ -2,6 +2,10 @@ package view.graphics;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Hình của nhân vật (ng chơi, động vật).
+ *
+ */
 public class Sprite {
 
     public BufferedImage image;

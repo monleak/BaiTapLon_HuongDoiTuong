@@ -182,7 +182,13 @@ import java.awt.image.BufferedImage;
 //
 //}
 
-
+/**
+ * 1 sheet các sprite
+ * Cắt ảnh của nhân vật để tạo ra mảng 2 chiều
+ * - Chiều thứ 1: chỉ hành động (VD: các ảnh nhân vật chạy tạo thành 1 mảng).
+ * - Chiều thứ 2: các ảnh trong 1 hành động.
+ *
+ */
 public class SpriteSheet {
 
     private Sprite spritesArray[][];

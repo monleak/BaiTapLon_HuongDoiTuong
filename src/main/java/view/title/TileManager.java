@@ -17,14 +17,25 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Quản lý việc load map và render các ô trong bản đồ.
+ *
+ * Bản đồ gồm nhiều layer (TileMapNorm hoặc TileMapObject) chồng lên nhau.
+ * Mỗi layer gồm 50x50 block
+ * Mỗi block kích thước 48x48, là hình 16x16 scale x3
+ *
+ * TileMapNorm: layer các ô bình thường.
+ * TileMapObject: các ô render không cho người chơi, con vật đi qua.
+ *
+ */
 public class TileManager {
 
     GamePanel gp;
     PlayState ps;
-    private Camera camera;
+    private final Camera camera;
 //    public Tile[] tiles;
     public ArrayList<TileMap> tm;
-    private ArrayList<BufferedImage> imgList;
+    private final ArrayList<BufferedImage> imgList;
 //    public int[][] mapFileNum;
     private String file;
     private int columns;
