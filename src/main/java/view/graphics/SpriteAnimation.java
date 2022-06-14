@@ -1,4 +1,4 @@
-package view.Graphics;
+package view.graphics;
 
 
 public class SpriteAnimation {

@@ -1,13 +1,11 @@
 package view.entity;
 
 import states.PlayState;
-import view.Graphics.Sprite;
-import view.Graphics.SpriteAnimation;
-import view.Graphics.SpriteSheet;
+import view.graphics.Sprite;
+import view.graphics.SpriteAnimation;
+import view.graphics.SpriteSheet;
 import view.effect.IMoveable;
 import view.main.GamePanel;
-import view.main.KeyHandler;
-import view.main.MouseHandler;
 import view.math.Vector2f;
 import view.utils.Direction;
 

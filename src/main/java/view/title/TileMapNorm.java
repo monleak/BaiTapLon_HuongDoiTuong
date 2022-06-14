@@ -4,12 +4,11 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import view.Graphics.Sprite;
+import view.graphics.Sprite;
 import view.math.AABB;
 import view.math.Vector2f;
 import view.title.blocks.Block;
 import view.title.blocks.NormBlock;
-import view.utils.ConcatenatedImage;
 
 public class TileMapNorm extends TileMap {
 

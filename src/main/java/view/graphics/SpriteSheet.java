@@ -1,16 +1,9 @@
-package view.Graphics;
+package view.graphics;
 
 import states.GameStateManager;
-import view.math.Vector2f;
 import view.utils.ConcatenatedImage;
-import view.utils.Tool;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Objects;
-
-import javax.imageio.ImageIO;
 
 //public class SpriteSheet {
 //

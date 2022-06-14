@@ -1,9 +1,7 @@
 package view.entity;
 
-import model.Animals.Animal;
 import states.PlayState;
-import view.Graphics.SpriteAnimation;
-import view.Graphics.SpriteSheet;
+import view.graphics.SpriteSheet;
 import view.ai.Node;
 import view.ai.PathFinder;
 import view.effect.FocusManager;

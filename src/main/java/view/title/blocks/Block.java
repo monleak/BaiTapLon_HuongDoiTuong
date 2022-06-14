@@ -2,7 +2,7 @@ package view.title.blocks;
 
 import java.awt.Graphics2D;
 
-import view.Graphics.Sprite;
+import view.graphics.Sprite;
 import view.math.AABB;
 import view.math.Vector2f;
 
