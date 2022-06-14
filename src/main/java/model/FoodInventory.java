@@ -1,10 +1,10 @@
 package model;
 
-public class FoodAmount {
+public class FoodInventory {
     private final Food food;
     private int amount;
 
-    public FoodAmount(Food food, int amount) {
+    public FoodInventory(Food food, int amount) {
         this.food = food;
         this.amount = amount;
     }

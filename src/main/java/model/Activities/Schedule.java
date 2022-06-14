@@ -1,11 +1,13 @@
 package model.Activities;
 
 import model.Animals.Animal;
-import model.FoodAmount;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Lịch trình
+ */
 public class Schedule implements Cloneable {
     public ArrayList<Activity> activityList;
 

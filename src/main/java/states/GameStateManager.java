@@ -10,14 +10,24 @@ import view.utils.Fontf;
 
 import java.awt.*;
 
+/**
+ * Quản lý trạng thái của các màn hình.
+ *
+ */
 public class GameStateManager {
     private final GameState[] states;
 
+    /**
+     * index của các màn hình
+     *
+     * NOTE: màn hình có index cao hơn sẽ render chồng lên màn hình trước.
+     */
     public static final int MENU = 5;
     public static final int PLAY = 1;
     public static final int PAUSE = 2;
     public static final int GAME_OVER = 3;
     public static final int EDIT = 4;
+
     public static Font font;
     public static Fontf fontf;
 
@@ -67,6 +77,9 @@ public class GameStateManager {
             }
     }
 
+    /**
+     * Check xem có đang render state này ko
+     */
     public boolean isStateActive(int state) {
         return states[state] != null;
     }
@@ -75,10 +88,16 @@ public class GameStateManager {
         return states[state];
     }
 
+    /**
+     * Bỏ state
+     */
     public void pop(int state) {
         states[state] = null;
     }
 
+    /**
+     * Thêm state
+     */
     public void add(int state) {
         if (states[state] != null)
             return;
@@ -113,6 +132,9 @@ public class GameStateManager {
         add(state);
     }
 
+    /**
+     * Gọi trong GamePane.update()
+     */
     public void update(double time) {
         camera.update();
         for (int i = 0; i < states.length; i++) {
@@ -121,7 +143,9 @@ public class GameStateManager {
             }
         }
     }
-
+    /**
+     * Gọi trong GamePane.input(...)
+     */
     public void input(MouseHandler mouse, KeyHandler key) {
         camera.input(mouse, key);
         for (int i = 0; i < states.length; i++) {
@@ -131,7 +155,9 @@ public class GameStateManager {
             }
         }
     }
-
+    /**
+     * Gọi trong GamePane.draw()
+     */
     public void render(Graphics2D g2) {
 //        g.setFont(GameStateManager.fontf.getFont("MeatMadness"));
         for (int i = 0; i < states.length; i++) {

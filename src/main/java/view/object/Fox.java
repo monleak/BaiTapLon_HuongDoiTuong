@@ -1,20 +1,17 @@
 package view.object;
 
-import states.GameState;
 import states.PlayState;
-import view.Graphics.SpriteSheet;
+import view.graphics.SpriteSheet;
 import view.ai.Node;
 import view.ai.PathFinder;
 import view.entity.AnimalEntity;
 import view.entity.Entity;
 import view.main.GamePanel;
 import view.math.AABB;
-import view.math.Vector2f;
 import view.utils.ConcatenatedImage;
 import view.utils.Direction;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Fox extends AnimalEntity {
     protected PathFinder pathFinder;

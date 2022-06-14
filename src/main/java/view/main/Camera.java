@@ -5,6 +5,13 @@ import view.entity.Entity;
 import view.math.AABB;
 import view.math.Vector2f;
 
+/**
+ * Camera: 1 phần bản đồ được hiển thị lên màn hình.
+ * Chứa các phương thức để đièu chỉnh vị trí camera.
+ * Có thể đi theo mục tiêu băng cách sử dung target(player)
+ *
+ * Phần ngoài màn hình không render để tăng hiệu năng.
+ */
 public class Camera {
     private final AABB collisionCam;
     private Entity e;

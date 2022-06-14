@@ -1,7 +1,6 @@
 package view.title;
 
-import view.Graphics.Sprite;
-import view.Graphics.SpriteSheet;
+import view.graphics.Sprite;
 import view.math.AABB;
 import view.math.Vector2f;
 import view.title.blocks.Block;
@@ -11,6 +10,9 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * TileMapObject: các ô render không cho người chơi, con vật đi qua.
+ */
 public class TileMapObj extends TileMap {
 
     public static Block[] event_blocks;

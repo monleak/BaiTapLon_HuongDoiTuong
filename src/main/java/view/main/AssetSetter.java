@@ -9,6 +9,12 @@ import view.object.OBJ_Fence;
 import view.object.OBJ_Key;
 import view.utils.Direction;
 
+/**
+ * Dùng để tạo các con vật, vật thể trên bản đồ.
+ * phương thức: setObject
+ *
+ * TODO: Khi kết hợp với model phải tạo class khác.
+ */
 public class AssetSetter {
     GamePanel gp;
     PlayState ps;

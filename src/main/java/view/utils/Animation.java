@@ -3,6 +3,14 @@ package view.utils;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Giá trị chạy từ để tạo animation.
+ * - Bắt đầu: from
+ * - Kết thúc: to
+ * - Số khung hình: frames
+ * - Trễ: delay
+ *
+ */
 public class Animation {
     private float value;
     private int from;

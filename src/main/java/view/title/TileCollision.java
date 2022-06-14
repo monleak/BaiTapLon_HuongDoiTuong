@@ -3,6 +3,10 @@ package view.title;
 import view.entity.Entity;
 import view.title.blocks.Block;
 
+/**
+ * Xử lý va chạm giữa người chơi với tile block.
+ *
+ */
 public class TileCollision {
     private Entity e;
 

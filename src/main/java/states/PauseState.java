@@ -8,6 +8,9 @@ import view.utils.Animation;
 
 import java.awt.*;
 
+/**
+ * Pause screen
+ */
 public class PauseState extends GameState{
     private final Font font;
     private final String[] options;

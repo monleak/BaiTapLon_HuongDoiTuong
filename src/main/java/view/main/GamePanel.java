@@ -5,6 +5,9 @@ import states.GameStateManager;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Cửa sổ game.
+ */
 public class GamePanel extends JPanel implements Runnable {
 
     // Screen setting

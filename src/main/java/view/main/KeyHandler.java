@@ -3,7 +3,13 @@ package view.main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Xử lý bàn phím.
+ */
 public class KeyHandler implements KeyListener {
+    /**
+     *  true nếu các phím đang được nhấn.
+     */
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public boolean enterPressed, spacePressed, escPress;
     public boolean xPressed, pPressed;
@@ -37,13 +43,15 @@ public class KeyHandler implements KeyListener {
             xPressed = mark;
     }
 
+    /**
+     * Override các method của class cha.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
         markKey(code, true);
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();

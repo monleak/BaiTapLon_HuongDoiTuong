@@ -1,6 +1,6 @@
 package view.title.blocks;
 
-import view.Graphics.Sprite;
+import view.graphics.Sprite;
 import view.math.AABB;
 import view.math.Vector2f;
 

@@ -10,6 +10,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Menu screen
+ */
 public class MenuState extends GameState{
     private final Font font;
     private int option;

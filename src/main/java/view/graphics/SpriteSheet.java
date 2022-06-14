@@ -1,16 +1,9 @@
-package view.Graphics;
+package view.graphics;
 
 import states.GameStateManager;
-import view.math.Vector2f;
 import view.utils.ConcatenatedImage;
-import view.utils.Tool;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Objects;
-
-import javax.imageio.ImageIO;
 
 //public class SpriteSheet {
 //
@@ -189,7 +182,13 @@ import javax.imageio.ImageIO;
 //
 //}
 
-
+/**
+ * 1 sheet các sprite
+ * Cắt ảnh của nhân vật để tạo ra mảng 2 chiều
+ * - Chiều thứ 1: chỉ hành động (VD: các ảnh nhân vật chạy tạo thành 1 mảng).
+ * - Chiều thứ 2: các ảnh trong 1 hành động.
+ *
+ */
 public class SpriteSheet {
 
     private Sprite spritesArray[][];

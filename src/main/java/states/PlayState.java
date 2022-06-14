@@ -12,7 +12,6 @@ import java.awt.*;
  * PlayState
  * @brief trạng thái của màn hình chơi game.
  *
- *
  */
 public class PlayState extends GameState {
 

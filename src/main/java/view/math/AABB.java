@@ -1,18 +1,22 @@
 package view.math;
 
 import view.entity.GameObject;
-
 import java.util.ArrayList;
 
+/**
+ * AABB: Vị trí giữa 2 hình chữ nhật, hình tròn.
+ *
+ * TODO: Chia AABBCircle và AABBRectangle
+ */
 public class AABB {
 
-    private Vector2f pos;
-    private float xOffset = 0;
-    private float yOffset = 0;
-    private float w;
-    private float h;
-    private float r;
-    private int size;
+    private Vector2f pos;       // Tọa độ góc phải bên trên của hình.
+    private float xOffset = 0;  // offsetX
+    private float yOffset = 0;  // offsetY
+    private float w;            // c.rộng   -> hcn
+    private float h;            // c.dài    -> hcn
+    private float r;            // b.kính   -> h.tròn   -> chỉ dùng khi là h.tròn
+    private int size;           // size = r || max(w, h)
 
     private float surfaceArea;
 
@@ -33,6 +37,9 @@ public class AABB {
         size = r;
     }
 
+    /**
+     * Getter
+     */
     public Vector2f getPos() { return pos; }
 
     public float getRadius() { return r; }
@@ -41,6 +48,9 @@ public class AABB {
     public float getHeight() { return h; }
     public float getSurfaceArea() { return surfaceArea; }
 
+    /**
+     * Setter
+     */
     public void setBox(Vector2f pos, int w, int h) {
         this.pos = pos;
         this.w = w;
@@ -64,6 +74,10 @@ public class AABB {
     public float getXOffset() { return xOffset; }
     public float getYOffset() { return yOffset; }
 
+    /**
+     * collides: Trả về true nếu 2 hình chạm nhau.
+     *
+     */
     public boolean collides(AABB bBox) {
         return collides(0, 0, bBox);
     }
@@ -99,6 +113,9 @@ public class AABB {
         return false;
     }
 
+    /**
+     * Inside: Trả về true nếu điểm ở trong hình.
+     */
     public boolean inside(int xp, int yp) {
         if(xp == -1 || yp == - 1) return false;
 
@@ -116,6 +133,9 @@ public class AABB {
         return ((wTemp < x || wTemp > xp) && (hTemp < y || hTemp > yp));
     }
 
+    /**
+     * intersect: true nếu hình này chứa hình kia.
+     */
     public boolean intersect(AABB aBox)
     {
 
@@ -134,6 +154,9 @@ public class AABB {
         return true;
     }
 
+    /**
+     * colCircle: true nếu this=hcn chạm vào tham số: h.tròn
+     */
     public boolean colCircle(AABB circle) {
 
         float totalRadius = r + circle.getRadius();
@@ -145,6 +168,11 @@ public class AABB {
         return totalRadius < (dx * dx) + (dy * dy);
     }
 
+    /**
+     * H.tròn chạm hcn.
+     * this: circle
+     * aBox: rectangle
+     */
     public boolean colCircleBox(AABB aBox) {
 
         float dx = Math.max(aBox.getPos().x + aBox.getXOffset(), Math.min(pos.x + (r / 2), aBox.getPos().x + aBox.getXOffset() + aBox.getWidth()));
@@ -160,6 +188,9 @@ public class AABB {
         return false;
     }
 
+    /**
+     * Khoàng cách 2 hcn.
+     */
     public float distance(Vector2f other) {
         float dx = pos.x - other.x;
         float dy = pos.y - other.y;

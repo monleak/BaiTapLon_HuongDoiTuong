@@ -5,11 +5,27 @@ import model.Activities.ActivityType;
 import model.Activities.PlayActivity;
 import model.Activities.SleepActivity;
 import model.Food;
-import model.FoodAmount;
+import model.FoodInventory;
 import model.Activities.Schedule;
 
 import java.util.Random;
 
+/**
+ * Con vật:
+ *
+ * - Mỗi con vật có các thuộc tính HP, water, calo, age, sleep
+ *                              và maxHP, max...
+ * - Khi HP = 0 thì chết.
+ * - Thức ăn: neededFood
+ * - Lịch trình: schedule
+ * - isSick, isHungry, isThirsty: để kiểm tra đk ốm, đói, khát.
+ * - drink, eat được gọi khi hành động là ăn, uống.
+ * - nextActivity: h.động tiếp theo
+ * - growUp: sau 1 khoảng thời gian con vật sẽ lớn lên.
+ *
+ * - NOTE: life: được gọi trong animalEntity.update()
+ * - TODO: tính toán thức ăn khi hoạt động là random ???
+ */
 public abstract class Animal {
     private int HP;
     protected int maxHP;
@@ -24,7 +40,7 @@ public abstract class Animal {
     private boolean isDead = false;
     protected Activity activity;
     protected Schedule schedule;
-    protected FoodAmount neededFood;
+    protected FoodInventory neededFood;
 
     // Getter and protected setter
     public int getHP() {
@@ -101,8 +117,8 @@ public abstract class Animal {
         isDead = dead;
     }
 
-    public FoodAmount getNeededFood () {
-        return new FoodAmount(neededFood.getFood(), neededFood.getAmount() - calo);
+    public FoodInventory getNeededFood () {
+        return new FoodInventory(neededFood.getFood(), neededFood.getAmount() - calo);
     }
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;

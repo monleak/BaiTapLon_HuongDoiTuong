@@ -11,7 +11,6 @@ import java.awt.*;
  * GameState
  * @brief Quản lý trạng thái của 1 màn hình trong game
  *
- *
  */
 public abstract class GameState {
     protected GameStateManager gsm;

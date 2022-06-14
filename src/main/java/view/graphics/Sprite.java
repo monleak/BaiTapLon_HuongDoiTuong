@@ -1,14 +1,11 @@
-package view.Graphics;
+package view.graphics;
 
-import states.GameState;
-import states.GameStateManager;
-import view.math.Matrix;
-import view.utils.ConcatenatedImage;
-import view.utils.Tool;
-
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Hình của nhân vật (ng chơi, động vật).
+ *
+ */
 public class Sprite {
 
     public BufferedImage image;

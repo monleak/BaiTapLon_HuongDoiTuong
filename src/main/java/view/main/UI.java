@@ -3,6 +3,9 @@ package view.main;
 import java.awt.*;
 import java.util.Arrays;
 
+/**
+ * In thông tin ở phía bên trái màn hình khi nhấn enter vào con vật.
+ */
 public class UI {
     GamePanel gp;
     Graphics2D g2;

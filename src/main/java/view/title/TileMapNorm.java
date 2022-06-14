@@ -4,19 +4,22 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import view.Graphics.Sprite;
+import view.graphics.Sprite;
 import view.math.AABB;
 import view.math.Vector2f;
 import view.title.blocks.Block;
 import view.title.blocks.NormBlock;
-import view.utils.ConcatenatedImage;
 
+/**
+ * TileMapNorm: các ô mà người chơi, con vật có thể đi qua được.
+ *
+ */
 public class TileMapNorm extends TileMap {
 
     public Block[] blocks;
 
-    private int tileWidth;
-    private int tileHeight;
+    private int tileWidth;  // c.rộng mặc định: 48
+    private int tileHeight; // c.dài mặc định: 48
 
     private int height;
 
