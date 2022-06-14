@@ -50,11 +50,11 @@ public class Buffalo extends OBJ_Key {
 //            }
         }
         this.image = ci.getSubImage(r, c);
-        int screenX = getScreenX();
+//        int screenX = getScreenX();
 //                getWorldX() - gp.player.getWorldX() + gp.player.screenX + this.solidAreaDefaultX;
-        int screenY = getScreenY();
+//        int screenY = getScreenY();
 //                getWorldY() - gp.player.getWorldY() + gp.player.screenY + this.solidAreaDefaultY;
-        super.draw(g2, false);
+//        super.draw(g2, false);
 //        Rectangle s = (Rectangle) this.solidArea.clone();
 //        s.setLocation(screenX, screenY);
 //        g2.draw(s);

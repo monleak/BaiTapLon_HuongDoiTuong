@@ -1,5 +1,6 @@
 package states;
 
+import view.main.Camera;
 import view.main.KeyHandler;
 import view.main.MouseHandler;
 
@@ -14,9 +15,11 @@ import java.awt.*;
  */
 public abstract class GameState {
     protected GameStateManager gsm;
+    protected Camera camera;
 
-    public GameState(GameStateManager gsm) {
+    public GameState(GameStateManager gsm, Camera camera) {
         this.gsm = gsm;
+        this.camera = camera;
     }
 
     public abstract void update(double time);

@@ -1,6 +1,5 @@
 package view.math;
 
-
 import view.entity.GameObject;
 
 import java.util.ArrayList;
@@ -75,7 +74,8 @@ public class AABB {
         for(int i = 0; i < go.size(); i++) {
             collides = collides(dx, dy, go.get(i).getBounds());
             if(collides) {
-                go.get(i).getImage().restoreDefault();
+//                go.get(i).getImage().restoreDefault();
+                // do sth
                 go.remove(i);
                 return collides;
             }
@@ -150,8 +150,8 @@ public class AABB {
         float dx = Math.max(aBox.getPos().x + aBox.getXOffset(), Math.min(pos.x + (r / 2), aBox.getPos().x + aBox.getXOffset() + aBox.getWidth()));
         float dy = Math.max(aBox.getPos().y + aBox.getYOffset(), Math.min(pos.y + (r / 2), aBox.getPos().y + aBox.getYOffset() + aBox.getHeight()));
 
-        dx = pos.x + (r / 2) - dx;
-        dy = pos.y + (r / 2) - dy;
+        dx = pos.x + this.xOffset + (r / 2) - dx;
+        dy = pos.y + this.yOffset +  (r / 2) - dy;
 
         if(Math.sqrt(dx * dx + dy * dy) < r / 2) {
             return true;

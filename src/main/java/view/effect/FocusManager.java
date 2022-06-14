@@ -80,12 +80,14 @@ public class FocusManager {
                 }
                 focusedObjId = hoveredObjId;
                 isNewFocused = true;
-//                System.out.println("Hover" + focusedObjId);
+                System.out.println("Hover" + focusedObjId);
 //                gp.obj[focusedObjId].fch.setFocused(true);
                 if(ps.obj[focusedObjId] instanceof IFocusable) {
                     IFocusable obj = (IFocusable) ps.obj[focusedObjId];
                     obj.setFocused(true);
 //                    System.out.println("set " + obj.getIsFocused());
+                    System.out.println("checkAndFocusObject: " + "hover=" + hoveredObjId +
+                            "focus=" + focusedObjId);
                 }
             }
         }else {
@@ -99,5 +101,6 @@ public class FocusManager {
             focusedObjId = 999;
             isNewFocused = false;
         }
+
     }
 }

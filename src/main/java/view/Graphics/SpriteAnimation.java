@@ -1,6 +1,7 @@
-package view.graphics;
+package view.Graphics;
 
-public class Animation {
+
+public class SpriteAnimation {
 
     private Sprite[] frames;
     private int[] states;
@@ -12,13 +13,13 @@ public class Animation {
 
     private int timesPlayed;
 
-    public Animation(Sprite[] frames) {
+    public SpriteAnimation(Sprite[] frames) {
         setFrames(0, frames);
         timesPlayed = 0;
         states = new int[10];
     }
 
-    public Animation() {
+    public SpriteAnimation() {
         timesPlayed = 0;
         states = new int[10];
     }
@@ -42,14 +43,14 @@ public class Animation {
 
     public void update() {
         if(delay == -1) return;
-        
+
         count++;
 
         if(count == delay) {
             currentFrame++;
             count = 0;
         }
-        if(currentFrame == numFrames) {
+        if(currentFrame == numFrames || frames[currentFrame] == null) {
             currentFrame = 0;
             timesPlayed++;
         }

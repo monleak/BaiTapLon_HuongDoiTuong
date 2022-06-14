@@ -1,8 +1,10 @@
 package states;
 
+import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
 import view.main.MouseHandler;
+import view.utils.Animation;
 
 import java.awt.*;
 
@@ -13,21 +15,29 @@ public class PauseState extends GameState{
     private final int EXIT = 1;
     private boolean resumePressed;
     private boolean exitPressed;
-    private int shadowCounter = 0;
 
-    public PauseState (GameStateManager gsm) {
-        super(gsm);
+    private final Animation fadeAnim;
+
+    public PauseState (GameStateManager gsm, Camera camera) {
+        super(gsm, camera);
 
         font            = new Font("MeatMadness", Font.PLAIN, 48);
         options         = new String[2];
         options[RESUME] = "(Space) Resume";
         options[EXIT]   = "(X) Exit";
         this.resumePressed = false;
+
+        fadeAnim = new Animation()
+                .setDelay(0)
+                .setForm(0)
+                .setTo(100)
+                .setNumFrames(30);
+        fadeAnim.start();
     }
 
     @Override
     public void update(double time) {
-
+        fadeAnim.update();
     }
 
     @Override
@@ -47,9 +57,7 @@ public class PauseState extends GameState{
     public void draw(Graphics2D g2) {
         GamePanel gp = GameStateManager.gp;
 
-        if (shadowCounter < 100)
-            shadowCounter+=10 ;
-        g2.setColor(new Color(3, 3, 3, shadowCounter));
+        g2.setColor(new Color(3, 3, 3, fadeAnim.getValue()));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
         g2.setColor(Color.WHITE);

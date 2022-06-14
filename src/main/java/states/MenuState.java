@@ -1,10 +1,14 @@
 package states;
 
+import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
 import view.main.MouseHandler;
+import view.utils.Animation;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MenuState extends GameState{
     private final Font font;
@@ -16,8 +20,11 @@ public class MenuState extends GameState{
     private boolean upMark;
     private boolean downMark;
 
-    public MenuState (GameStateManager gsm) {
-        super(gsm);
+    private Animation fadeAnim;
+    private boolean switching;
+
+    public MenuState (GameStateManager gsm, Camera camera) {
+        super(gsm, camera);
 
         font            = new Font("MeatMadness", Font.PLAIN, 48);
         option          = 0;
@@ -29,18 +36,39 @@ public class MenuState extends GameState{
 
         this.upMark = false;
         this.downMark = false;
+
+        this.fadeAnim = new Animation()
+                .setNumFrames(72)
+                .setForm(255)
+                .setTo(0)
+                .setDelay(12)
+                .addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        gsm.pop(GameStateManager.MENU);
+                    }
+                });
+        this.switching = false;
     }
 
     @Override
     public void update(double time) {
-
+        this.fadeAnim.update();
     }
 
     @Override
     public void input(MouseHandler mouse, KeyHandler key) {
+
+        if (this.switching) {
+            return;
+        }
+
         if (key.enterPressed) {
             if(option == NEW_GAME) {
-                gsm.addAndpop(GameStateManager.PLAY, GameStateManager.MENU);
+//                gsm.addAndpop(GameStateManager.PLAY, GameStateManager.MENU);
+                gsm.add(GameStateManager.PLAY);
+                this.fadeAnim.start();
+                this.switching = true;
             }
             if(option == LOAD_GAME) {
                 loadGame();
@@ -89,6 +117,13 @@ public class MenuState extends GameState{
     @Override
     public void draw(Graphics2D g2) {
         GamePanel gp = GameStateManager.gp;
+
+        //fade animation
+        g2.setColor(new Color(0, 0, 0, fadeAnim.getValue()));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        if(switching)
+            return;
 
         g2.setColor(Color.WHITE);
         g2.setFont(font);

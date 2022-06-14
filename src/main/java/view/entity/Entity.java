@@ -1,26 +1,35 @@
 package view.entity;
 
 import states.PlayState;
+import view.Graphics.Sprite;
+import view.Graphics.SpriteAnimation;
+import view.Graphics.SpriteSheet;
 import view.effect.IMoveable;
 import view.main.GamePanel;
+import view.main.KeyHandler;
+import view.main.MouseHandler;
+import view.math.Vector2f;
 import view.utils.Direction;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public abstract class Entity extends GameObject implements IMoveable {
     // locatable
     // runnable
     private int speed;
-    protected BufferedImage[] up, down, right, left;
     public Direction direction;
     // run effect
     public int spriteCounter = 0;
     public int spriteNum = 1;
     public boolean collisionOn = false;
+    protected int currentAnimation;
+    protected SpriteSheet sprite;
+    protected SpriteAnimation ani;
 
     public Entity (GamePanel gp, PlayState ps) {
         super(gp, ps);
+        ani = new SpriteAnimation();
+//        setImage();
     }
 
     @Override
@@ -43,35 +52,25 @@ public abstract class Entity extends GameObject implements IMoveable {
         return spriteNum;
     }
 
-    public abstract void getImage();
-    public void setAction() {
+    public abstract void setImage();
+    public void setAction() {}
 
+    public Vector2f getPos() {
+        return pos;
     }
+
+    // entity
+    public void setAnimation(int i, Sprite[] frames, int delay) {
+        currentAnimation = i;
+        ani.setFrames(i, frames);
+        ani.setDelay(delay);
+    }
+    public abstract void animate(boolean isRunning);
+
+//    public abstract void input(MouseHandler mouseH, KeyHandler keyH);
     public void update() {
-        setAction();
+        ani.update();
+    };
 
-        collisionOn = false;
-        ps.cChecker.checkTile(this);
-
-        // if collision is false can move
-        if (!collisionOn) {
-            if (direction == Direction.UP)          setWorldY(getWorldY() - getSpeed());
-            else if (direction == Direction.DOWN)   setWorldY(getWorldY() + getSpeed());
-            else if (direction == Direction.RIGHT)  setWorldX(getWorldX() + getSpeed());
-            else if (direction == Direction.LEFT)   setWorldX(getWorldX() - getSpeed());
-        }
-
-        // action
-        spriteCounter++;
-        if(spriteCounter > 12) {
-            if(spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 1;
-            }
-            spriteCounter = 0;
-        }
-
-    }
     public abstract void draw (Graphics2D g2);
 }

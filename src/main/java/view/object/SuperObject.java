@@ -1,9 +1,12 @@
 package view.object;
 
+import states.GameStateManager;
 import states.PlayState;
 import view.effect.FloatingHandler;
 import view.entity.GameObject;
 import view.main.GamePanel;
+import view.math.AABB;
+import view.math.Vector2f;
 import view.utils.Tool;
 
 import java.awt.*;
@@ -23,11 +26,12 @@ public class SuperObject extends GameObject {
     private int[] calculatePosition () {
 //        int screenX = getWorldX() - ps.player.getWorldX() + ps.player.screenX;
 //        int screenY = getWorldY() - ps.player.getWorldY() + ps.player.screenY;
-        int screenX = getScreenX();
-        int screenY = getScreenY();
+        int screenX = (int) this.pos.getWorldVar().x;
+        int screenY = (int) this.pos.getWorldVar().y;
 
         return new int[]{screenX, screenY};
     }
+
     private int[] calculatePosition (boolean isFloatingEnabled) {
         int[] p = calculatePosition();
         if(isFloatingEnabled) {
@@ -37,15 +41,20 @@ public class SuperObject extends GameObject {
         }
         return p;
     }
+
     public boolean checkInMap () {
-        int mapLeftEdge = ps.player.getWorldX() - ps.player.screenX - gp.titleSize;
-        int mapRightEdge = ps.player.getWorldX() + ps.player.screenX + gp.titleSize;
-        int mapTopEdge = ps.player.getWorldY() - ps.player.screenY - gp.titleSize;
-        int mapBottomEdge = ps.player.getWorldY() + ps.player.screenY + gp.titleSize;
-        return  ( getWorldX() > mapLeftEdge &&
-                    getWorldX() < mapRightEdge &&
-                    getWorldY() > mapTopEdge &&
-                    getWorldY() < mapBottomEdge
+//        int mapLeftEdge = ps.player.getWorldX() - ps.player.screenX - gp.titleSize;
+//        int mapRightEdge = ps.player.getWorldX() + ps.player.screenX + gp.titleSize;
+//        int mapTopEdge = ps.player.getWorldY() - ps.player.screenY - gp.titleSize;
+//        int mapBottomEdge = ps.player.getWorldY() + ps.player.screenY + gp.titleSize;
+//        return  ( getWorldX() > mapLeftEdge &&
+//                    getWorldX() < mapRightEdge &&
+//                    getWorldY() > mapTopEdge &&
+//                    getWorldY() < mapBottomEdge
+//        );
+
+        return GameStateManager.camera.getBounds().collides(
+                this.bounds
         );
     }
 
