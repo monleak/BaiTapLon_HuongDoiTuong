@@ -1,6 +1,8 @@
 package view.math;
 
-
+/**
+ * Matrix
+ */
 public class Matrix {
 
     public static float[][] multiply(float[][] aMatrix, float[][] bMatrix) {

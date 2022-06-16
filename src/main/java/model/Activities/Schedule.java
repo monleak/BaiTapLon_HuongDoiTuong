@@ -13,10 +13,12 @@ public class Schedule implements Cloneable {
 
     public Schedule () {
         this.activityList = new ArrayList<Activity>();
+
         this.activityList.add(new DrinkActivity());
         this.activityList.add(new EatActivity());
         this.activityList.add(new PlayActivity());
         this.activityList.add(new SleepActivity());
+        // todo: add set list method and remove above lines
     }
 
 //    public void addActivity (Activity activity) {

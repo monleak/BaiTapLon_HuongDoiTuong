@@ -7,6 +7,21 @@ import java.util.ArrayList;
  * AABB: Vị trí giữa 2 hình chữ nhật, hình tròn.
  *
  * TODO: Chia AABBCircle và AABBRectangle
+ *
+ * <p>
+ * <div>AABB collisions:</div>
+ * AABB stands for axis-aligned bounding box,
+ * a rectangular collision shape aligned to the base axes of the scene,
+ * which in 2D aligns to the x and y axis.
+ * </p>
+ * <p>
+ * Being axis-aligned means the rectangular box has no rotation
+ * and its edges are parallel to the base axes of the scene
+ * (e.g. left and right edge are parallel to the y axis).
+ * The fact that these boxes are always aligned to the axes of the scene makes calculations easier.
+ * </p>
+ *
+ * @see <a href="https://learnopengl.com/In-Practice/2D-Game/Collisions/Collision-detection">Link</a>
  */
 public class AABB {
 

@@ -1,9 +1,9 @@
 package model.Animals;
 
-import model.Activities.Activity;
 import model.Activities.ActivityType;
 import model.Activities.PlayActivity;
 import model.Activities.SleepActivity;
+import model.Activities.Activity;
 import model.Food;
 import model.FoodInventory;
 import model.Activities.Schedule;

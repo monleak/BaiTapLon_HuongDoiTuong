@@ -6,7 +6,6 @@ import view.effect.FocusableHandler;
 import view.effect.IFocusable;
 import view.main.GamePanel;
 import view.title.TileCollision;
-import view.utils.Direction;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -63,16 +62,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
             collisionOn = false;
             ps.cChecker.checkTile(this);
 
-
-
-            // if collision is false can move
-//            if (!collisionOn) {
-//                if (direction == Direction.UP)          setWorldY(getWorldY() - getSpeed());
-//                else if (direction == Direction.DOWN)   setWorldY(getWorldY() + getSpeed());
-//                else if (direction == Direction.RIGHT)  setWorldX(getWorldX() + getSpeed());
-//                else if (direction == Direction.LEFT)   setWorldX(getWorldX() - getSpeed());
-//            }
-
             // action
             spriteCounter++;
             if(spriteCounter > 12) {
@@ -86,18 +75,18 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
         }
     }
 
-    public void drawCenteredString(Graphics g, int worldX, int worldY, String text, Rectangle rect, Font font) {
-        // Get the FontMetrics
-        FontMetrics metrics = g.getFontMetrics(font);
-        // Determine the X coordinate for the text
-        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
-        // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-        int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        // Set the font
-        g.setFont(font);
-        // Draw the String
-        g.drawString(text, worldX + x, worldY + y);
-    }
+//    public void drawCenteredString(Graphics g, int worldX, int worldY, String text, Rectangle rect, Font font) {
+//        // Get the FontMetrics
+//        FontMetrics metrics = g.getFontMetrics(font);
+//        // Determine the X coordinate for the text
+//        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+//        // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+//        int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+//        // Set the font
+//        g.setFont(font);
+//        // Draw the String
+//        g.drawString(text, worldX + x, worldY + y);
+//    }
 
     @Override
     public void draw(Graphics2D g2) {
@@ -110,13 +99,13 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
         if(this.fch.getIsFocused() || this.fch.getIsHovered()) {
 //                g2.setColor(Color.WHITE);
 //                drawCenteredString(g2, screenX , screenY - 24,name, new Rectangle(gp.titleSize, 14), new Font("Monaco", Font.PLAIN, 12));
-            }
-            if(this.fch.getIsFocused()) {
-                g2.setColor(Color.BLACK);
-                g2.fillPolygon(new int[] {screenX + 14, screenX+ gp.titleSize/2, screenX + gp.titleSize - 14}, new int[] {screenY - 30, screenY - 22, screenY - 30}, 3);
-                g2.setColor(Color.RED);
-                g2.fillPolygon(new int[] {screenX + 16, screenX+ gp.titleSize/2, screenX + gp.titleSize - 16}, new int[] {screenY - 28, screenY - 24, screenY - 28}, 3);
-                ps.ui.showMessage("Focus: " + this);
-            }
+        }
+        if(this.fch.getIsFocused()) {
+            g2.setColor(Color.BLACK);
+            g2.fillPolygon(new int[] {screenX + 14, screenX+ gp.titleSize/2, screenX + gp.titleSize - 14}, new int[] {screenY - 30, screenY - 22, screenY - 30}, 3);
+            g2.setColor(Color.RED);
+            g2.fillPolygon(new int[] {screenX + 16, screenX+ gp.titleSize/2, screenX + gp.titleSize - 16}, new int[] {screenY - 28, screenY - 24, screenY - 28}, 3);
+            ps.ui.showMessage("Focus: " + this);
+        }
     }
 }

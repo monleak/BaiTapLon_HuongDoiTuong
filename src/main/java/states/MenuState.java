@@ -26,8 +26,8 @@ public class MenuState extends GameState{
     private Animation fadeAnim;
     private boolean switching;
 
-    public MenuState (GameStateManager gsm, Camera camera) {
-        super(gsm, camera);
+    public MenuState (Camera camera) {
+        super(camera);
 
         font            = new Font("MeatMadness", Font.PLAIN, 48);
         option          = 0;
@@ -44,23 +44,23 @@ public class MenuState extends GameState{
                 .setNumFrames(72)
                 .setForm(255)
                 .setTo(0)
-                .setDelay(12)
-                .addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        gsm.pop(GameStateManager.MENU);
-                    }
-                });
+                .setDelay(12);
+//                .addActionListener(new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        gsm.pop(GameStateManager.MENU);
+//                    }
+//                });
         this.switching = false;
     }
 
     @Override
-    public void update(double time) {
+    public void update(double time, GameStateManager gsm) {
         this.fadeAnim.update();
     }
 
     @Override
-    public void input(MouseHandler mouse, KeyHandler key) {
+    public void input(MouseHandler mouse, KeyHandler key, GameStateManager gsm) {
 
         if (this.switching) {
             return;

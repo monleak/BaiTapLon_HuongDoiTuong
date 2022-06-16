@@ -26,8 +26,8 @@ public class GamePanel extends JPanel implements Runnable {
     private int fps;
 
     Thread gameThread;
-    private KeyHandler keyH = new KeyHandler(this);
-    private MouseHandler mouseH = new MouseHandler(this);
+    private final KeyHandler keyH = new KeyHandler(this);
+    private final MouseHandler mouseH = new MouseHandler(this);
 
     // world settings
     public final int maxWorldCol = 50;
@@ -40,7 +40,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
-        this.addKeyListener(keyH);
         this.setFocusable(true);
     }
 

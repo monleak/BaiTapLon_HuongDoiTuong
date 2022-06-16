@@ -15,7 +15,7 @@ import view.utils.Direction;
  *
  * TODO: Khi kết hợp với model phải tạo class khác.
  */
-public class AssetSetter {
+public class AssetSetter extends CollisionChecker {
     GamePanel gp;
     PlayState ps;
 

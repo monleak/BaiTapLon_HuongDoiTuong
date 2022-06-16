@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * Cắt ảnh
+ * @deprecated
  */
 public class Tool {
     public BufferedImage scaleImage (BufferedImage original, int width, int height) {

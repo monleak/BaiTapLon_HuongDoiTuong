@@ -46,15 +46,10 @@ public class GameStateManager {
                 gp.screenWidth + gp.titleSize * 2,
                 gp.screenHeight + gp.titleSize * 2
         );
-//        gameAABB.setXOffset(-gp.titleSize * 10);
-//        gameAABB.setYOffset(gp.titleSize * 100);
         GameStateManager.camera = new Camera(
                 gameAABB,
                 gp.titleSize
         );
-
-//        System.out.println(map.getWorldVar());
-
         font = new Font("font/font.png", 10, 10);
         fontf = new Fontf();
         fontf.loadFont("font/Stackedpixel.ttf", "MeatMadness");
@@ -62,7 +57,7 @@ public class GameStateManager {
 
         states = new GameState[6];
         // states[PLAY] = new PlayState(this);
-        states[MENU] = new MenuState(this, camera);
+        states[MENU] = new MenuState(camera);
     }
 
     /**
@@ -103,31 +98,30 @@ public class GameStateManager {
             return;
 
         if (state == PLAY) {
-//            cam = new Camera(new AABB(new Vector2f(0, 0), GamePanel.width + 64, GamePanel.height + 64));
-            states[PLAY] = new PlayState(this, camera);
+            states[PLAY] = new PlayState(camera);
             this.setup();
         }
         else if (state == MENU) {
-            states[MENU] = new MenuState(this, camera);
+            states[MENU] = new MenuState(camera);
         }
         else if (state == PAUSE) {
-            states[PAUSE] = new PauseState(this, camera);
+            states[PAUSE] = new PauseState(camera);
         }
         else if (state == GAME_OVER) {
-//            states[GAMEOVER] = new GameOverState(this);
+            // TODO
         }
         else if (state == EDIT) {
             if(states[PLAY] != null) {
-//                states[EDIT] = new EditState(this, cam);
+                // TODO
             }
         }
     }
 
-    public void addAndpop(int state) {
-        addAndpop(state, 0);
+    public void addAndPop(int state) {
+        addAndPop(state, 0);
     }
 
-    public void addAndpop(int state, int remove) {
+    public void addAndPop(int state, int remove) {
         pop(remove);
         add(state);
     }
@@ -139,7 +133,7 @@ public class GameStateManager {
         camera.update();
         for (int i = 0; i < states.length; i++) {
             if (states[i] != null) {
-                states[i].update(time);
+                states[i].update(time, this);
             }
         }
     }
@@ -151,7 +145,7 @@ public class GameStateManager {
         for (int i = 0; i < states.length; i++) {
             if (states[i] != null) {
 //                System.out.println(states[i]);
-                states[i].input(mouse, key);
+                states[i].input(mouse, key, this);
             }
         }
     }

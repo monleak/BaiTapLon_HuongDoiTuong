@@ -21,8 +21,8 @@ public class PauseState extends GameState{
 
     private final Animation fadeAnim;
 
-    public PauseState (GameStateManager gsm, Camera camera) {
-        super(gsm, camera);
+    public PauseState (Camera camera) {
+        super(camera);
 
         font            = new Font("MeatMadness", Font.PLAIN, 48);
         options         = new String[2];
@@ -39,12 +39,12 @@ public class PauseState extends GameState{
     }
 
     @Override
-    public void update(double time) {
+    public void update(double time, GameStateManager gsm) {
         fadeAnim.update();
     }
 
     @Override
-    public void input(MouseHandler mouse, KeyHandler key) {
+    public void input(MouseHandler mouse, KeyHandler key, GameStateManager gsm) {
         if (key.spacePressed) {
             resumePressed = true;
         } else if (key.xPressed) {

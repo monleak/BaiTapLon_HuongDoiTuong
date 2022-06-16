@@ -106,7 +106,6 @@ public class ChickenEntity extends AnimalEntity{
             }
             actionLockCounter = 0;
         }
-//        System.out.println(direction);
     }
 
     @Override

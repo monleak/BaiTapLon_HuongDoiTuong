@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+/**
+ * @deprecated
+ */
 public class SelectionSortAnimate extends JPanel {
 
     private static final int NUM_OF_ITEMS = 20;

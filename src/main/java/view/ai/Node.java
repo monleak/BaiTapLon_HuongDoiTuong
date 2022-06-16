@@ -1,7 +1,7 @@
 package view.ai;
 
 /**
- * Node là một ô trong bản đồ, dùng để tìm đường đi.
+ * Node là một ô trong bản đồ, dùng để tìm đường đi (trong class PathFinder).
  *
  */
 public class Node {

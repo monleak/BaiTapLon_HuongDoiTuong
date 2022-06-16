@@ -14,9 +14,8 @@ public class KeyHandler implements KeyListener {
     public boolean enterPressed, spacePressed, escPress;
     public boolean xPressed, pPressed;
 
-    GamePanel gp;
     public KeyHandler (GamePanel gp) {
-        this.gp = gp;
+        gp.addKeyListener(this);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class KeyHandler implements KeyListener {
     }
 
     /**
-     * Override các method của class cha.
+     * Override các method của class cha trong thư viện java swing.
      */
     @Override
     public void keyPressed(KeyEvent e) {

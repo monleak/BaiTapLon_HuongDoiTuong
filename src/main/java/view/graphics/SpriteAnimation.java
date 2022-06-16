@@ -3,6 +3,17 @@ package view.graphics;
 /**
  * Tạo các animation di chuyển cho nhân vật.
  *
+ * <ul>
+ * <li>
+ * Dựa trên file sprite sheet, cho hiển thị từng sprite chuyển tiếp nhau 1 cách liên tục sẽ tạo ra cảm giác đối tượng như đang chuyển động.
+ * </li>
+ * <li>
+ * Khi thao tác với sprite animation thường gặp thêm khái niệm Tile, 1 sprite sheet lưu 1 bức ảnh là 1 chuỗi các Tile, mỗi Tile hiển thị 1 khung hình của chuỗi chuyển động, như vậy Tile cũng giống với Sprite/Frame.
+ * </li>
+ * <li>
+ * Không chỉ cần sprite sheet để hiển thị ảnh lên màn hình mà còn cần 1 file đi kèm để lưu thông tin x, y, width, height của các tile trong sprite sheet.
+ * </li>
+ * </ul>
  */
 public class SpriteAnimation {
 

@@ -1,5 +1,7 @@
 package model.Activities;
 
+import model.Activities.ActivityType;
+
 /**
  * Hoạt động:
  *

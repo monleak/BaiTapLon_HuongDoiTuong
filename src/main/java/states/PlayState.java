@@ -25,9 +25,9 @@ public class PlayState extends GameState {
 
     public Player player;
 
-    public PlayState (GameStateManager gsm, Camera camera) {
+    public PlayState (Camera camera) {
         // init
-        super(gsm, camera);
+        super(camera);
 
         tileM       = new TileManager(GameStateManager.gp, this, camera);
         ui          = new UI(GameStateManager.gp);
@@ -46,7 +46,7 @@ public class PlayState extends GameState {
     }
 
     @Override
-    public void update(double time) {
+    public void update(double time, GameStateManager gsm) {
 
         if(!gsm.isStateActive(GameStateManager.PAUSE)) {
             player.update();
@@ -60,12 +60,12 @@ public class PlayState extends GameState {
     }
 
     @Override
-    public void input(MouseHandler mouse, KeyHandler key) {
+    public void input(MouseHandler mouse, KeyHandler key, GameStateManager gsm) {
         if(!gsm.isStateActive(GameStateManager.PAUSE)){
             player.input(mouse, key);
 
             if (key.pPressed) {
-                gsm.addAndpop(GameStateManager.PAUSE);
+                gsm.addAndPop(GameStateManager.PAUSE);
             }
         }
     }

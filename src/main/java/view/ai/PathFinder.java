@@ -7,8 +7,30 @@ import view.title.TileMapObj;
 import java.util.ArrayList;
 
 /**
- * Tìm đường đi ngắn nhất trên bản đồ.
+ * PathFinder: Tìm đường đi ngắn nhất trên bản đồ.
  *
+ * <p>
+ * A* là giải thuật tìm kiếm trong đồ thị,
+ * tìm đường đi từ một đỉnh hiện tại đến đỉnh đích có sử dụng hàm
+ * để ước lượng khoảng cách hay còn gọi là hàm Heuristic.
+ * </p>
+ * <p>
+ * Từ trạng thái hiện tại A* xây dựng tất cả các đường đi có thể đi dùng hàm ước lược khoảng cách (hàm Heuristic)
+ * để đánh giá đường đi tốt nhất có thể đi.
+ * Tùy theo mỗi dạng bài khác nhau mà hàm Heuristic sẽ được đánh giá khác nhau.
+ * A* luôn tìm được đường đi ngắn nhất nếu tồn tại đường đi như thế.
+ * </p>
+ * <p>
+ * A* lưu giữ một tập các đường đi qua đồ thị,
+ * từ đỉnh bắt đầu đến đỉnh kết thúc, tập các đỉnh có thể đi tiếp được lưu trong tập Open.
+ * </p>
+ * <p>
+ * Thứ tự ưu tiên cho một đường đi đươc quyết định bởi hàm Heuristic được đánh giá f(x) = g(x) + h(x)
+ * </p>
+ * <p>
+ * g(x) là chi chi phí của đường đi từ điểm xuất phát cho đến thời điểm hiện tại.
+ * h(x) là hàm ước lượng chi phí từ đỉnh hiện tại đến đỉnh đích f(x) thường có giá trị càng thấp thì độ ưu tiên càng cao.
+ * </p>
  */
 public class PathFinder {
     private final GamePanel gp;
@@ -102,11 +124,8 @@ public class PathFinder {
      * Đặt các giá trị start và goal.
      * Gọi 1 lần trước khi dùng serach()
      *
-     * @param startX
-     * @param startY
-     * @param goalX
-     * @param goalY
-     * @param entity
+     * @param startX, startY: tọa độ hiện tại
+     * @param goalX, goalY: đích
      */
     public void setNodes (int startX, int startY, int goalX, int goalY, Entity entity) {
         isInit = true;

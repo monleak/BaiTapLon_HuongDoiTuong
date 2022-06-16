@@ -13,16 +13,16 @@ import java.awt.*;
  *
  */
 public abstract class GameState {
-    protected GameStateManager gsm;
+//    protected GameStateManager gsm;
     protected Camera camera;
 
-    public GameState(GameStateManager gsm, Camera camera) {
-        this.gsm = gsm;
+    public GameState(Camera camera) {
+//        this.gsm = gsm;
         this.camera = camera;
     }
 
-    public abstract void update(double time);
-    public abstract void input(MouseHandler mouse, KeyHandler key);
+    public abstract void update(double time, GameStateManager gsm);
+    public abstract void input(MouseHandler mouse, KeyHandler key, GameStateManager gsm);
     public abstract void draw(Graphics2D g);
 
     public void setup() {}
