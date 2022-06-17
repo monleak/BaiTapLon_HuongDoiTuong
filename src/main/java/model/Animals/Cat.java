@@ -7,14 +7,14 @@ public class Cat extends Animal {
 
     // NOTE: This constructor only use for testing
     public Cat () {
-        this.maxCalo    = 100;
-        this.maxHP      = 100;
+        this.maxCalo    = 200;
+        this.maxHP      = 400;
         this.maxSleep   = 100;
         this.maxWater   = 100;
 
         this.setWater(100);
-        this.setCalo(100);
-        this.setHP(100);
+        this.setCalo(200);
+        this.setHP(400);
         this.setSleep(100);
         this.setAge(0);
 
@@ -24,14 +24,14 @@ public class Cat extends Animal {
     }
 
     public Cat (Schedule s, Food f, int foodAmount) {
-        this.maxCalo    = 100;
-        this.maxHP      = 100;
+        this.maxCalo    = 200;
+        this.maxHP      = 400;
         this.maxSleep   = 100;
         this.maxWater   = 100;
 
         this.setWater(100);
-        this.setCalo(100);
-        this.setHP(100);
+        this.setCalo(200);
+        this.setHP(400);
         this.setSleep(100);
         this.setAge(0);
 
