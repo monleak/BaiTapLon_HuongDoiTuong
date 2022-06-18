@@ -12,6 +12,11 @@ import view.utils.Tool;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Vật thể trong game
+ *
+ * todo:
+ */
 public class SuperObject extends GameObject {
 
     public BufferedImage image;

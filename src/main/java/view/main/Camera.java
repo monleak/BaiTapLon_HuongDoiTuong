@@ -6,11 +6,14 @@ import view.math.AABB;
 import view.math.Vector2f;
 
 /**
- * Camera: 1 phần bản đồ được hiển thị lên màn hình.
+ * <h1>Camera: 1 phần bản đồ được hiển thị lên màn hình.</h1>
+ * <p>
  * Chứa các phương thức để đièu chỉnh vị trí camera.
  * Có thể đi theo mục tiêu băng cách sử dung target(player)
+ * Phần ngoài màn hình ( quá 2 ô ) không render để tăng hiệu năng.
+ * </p>
  *
- * Phần ngoài màn hình không render để tăng hiệu năng.
+ * @see <a href="https://www.youtube.com/watch?v=7Av3LVa3Ksg">Youtube</a>
  */
 public class Camera {
     private final AABB collisionCam;
@@ -24,8 +27,6 @@ public class Camera {
     private boolean left;
     private boolean right;
     private float speed = 8f;
-//    private float acc = 3f;
-//    private float deacc = 0.3f;
 
     public Camera(AABB collisionCam, int tileSize) {
         this.collisionCam = collisionCam;

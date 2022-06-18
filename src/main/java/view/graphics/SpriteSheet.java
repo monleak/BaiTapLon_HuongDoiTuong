@@ -1,7 +1,7 @@
 package view.graphics;
 
 import states.GameStateManager;
-import view.utils.ConcatenatedImage;
+import view.utils.ImageSplitter;
 
 import java.awt.image.BufferedImage;
 
@@ -36,7 +36,7 @@ public class SpriteSheet {
     }
 
     public SpriteSheet (String fileName, int w, int h) {
-        ConcatenatedImage ci = new ConcatenatedImage(GameStateManager.gp, fileName, w, h, 0);
+        ImageSplitter ci = new ImageSplitter(GameStateManager.gp, fileName, w, h, 0);
 
         spritesArray = new Sprite[ci.getRows()][ci.getColumns()];
 

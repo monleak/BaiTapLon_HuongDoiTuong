@@ -9,7 +9,7 @@ import view.main.*;
 import view.math.Vector2f;
 import view.object.SuperObject;
 import view.title.TileCollision;
-import view.utils.ConcatenatedImage;
+import view.utils.ImageSplitter;
 import view.utils.Direction;
 
 import java.awt.*;
@@ -88,7 +88,7 @@ public class Player extends Entity {
 
     @Override
     public void setImage() {
-        ConcatenatedImage ci = new ConcatenatedImage(gp,"/sprout-lands-sprites/characters/basic-charakter-spritesheet.png", 48, 48, 32);
+        ImageSplitter ci = new ImageSplitter(gp,"/sprout-lands-sprites/characters/basic-charakter-spritesheet.png", 48, 48, 32);
 
         sprite = new SpriteSheet(8, 2);
 

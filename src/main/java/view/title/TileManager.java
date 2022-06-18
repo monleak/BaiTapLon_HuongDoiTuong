@@ -8,7 +8,7 @@ import states.GameStateManager;
 import states.PlayState;
 import view.main.Camera;
 import view.main.GamePanel;
-import view.utils.ConcatenatedImage;
+import view.utils.ImageSplitter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -59,7 +59,7 @@ public class TileManager {
         int tileColumns;
         int layers = 0;
 //        SpriteSheet sprite;
-        ConcatenatedImage ci;
+        ImageSplitter ci;
 
         String[] data = new String[10];
 
@@ -84,7 +84,7 @@ public class TileManager {
             for (int i = 0; i < list.getLength(); i++) {
                 Element e = (Element) list.item(i);
                 imagePath = e.getAttribute("name");
-                ci = new ConcatenatedImage(GameStateManager.gp, "/" + imagePath, tileWidth, tileHeight, 0);
+                ci = new ImageSplitter(GameStateManager.gp, "/" + imagePath, tileWidth, tileHeight, 0);
                 this.imgList.addAll(ci.getArrayList());
                 System.out.println("Arrlist: add " + this.imgList.size());
             }

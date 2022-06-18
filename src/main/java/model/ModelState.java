@@ -93,28 +93,18 @@ public class ModelState {
         return player;
     }
 
+    public void run (int day, int hour, int minute) {
+
+        // Tính lượng thức ăn khi bắt đầu ngày mới.
+        if (minute == 0 && hour == 0) {
+            foodManager.calcFoodDay(animalList);
+        }
+
+        // Cập nhật trạng thái của các con vật theo thời gian.
+        for (Animal a : animalList) {
+            a.life(day, hour, minute);
+        }
+
+    }
+
 }
-//
-//class ModelStateMain {
-//    public static void main (String[] args) {
-//        // test foodManager
-//        ModelState gameState = new ModelState(10);
-//
-//        System.out.println(gameState.foodManager.calcFoodDay(gameState.getAnimalList()));
-//
-//
-////        for (int i = 0; i < 2; i++) {
-////            for (int j = 0; j < 15; j++ ) {
-////                for (int k = 0; k < 24; k++) {
-////                    for (int l = 0; l < 60; l++) {
-////                        gameState.getAnimalList().get(0).life(j, k, l);
-//////                        System.out.println("j: " + j + ", k: " + k + ", l: " + l);
-////                    }
-////                }
-////            }
-////        }
-////        gameState.getAnimalList().get(0).life(0, 0, 0);
-//        System.out.println(gameState.getAnimalList().get(0));
-//
-//    }
-//}

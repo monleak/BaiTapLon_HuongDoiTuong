@@ -2,12 +2,12 @@ package view.object;
 
 import states.PlayState;
 import view.main.GamePanel;
-import view.utils.ConcatenatedImage;
+import view.utils.ImageSplitter;
 
 import java.awt.*;
 
 public class Buffalo extends OBJ_Key {
-    ConcatenatedImage ci;
+    ImageSplitter ci;
     private int counter;
 
     public Buffalo (GamePanel gp, PlayState ps) {
@@ -18,7 +18,7 @@ public class Buffalo extends OBJ_Key {
         this.solidArea = new Rectangle(solidAreaDefaultX, solidAreaDefaultY, 36, 28);
 
         name = "Buffalo";
-        ci = new ConcatenatedImage(gp,
+        ci = new ImageSplitter(gp,
                 "/sprout-lands-sprites/characters/free-cow-sprites.png",
                 32, 32, 0);
         this.image = ci.getSubImage(0, 0);

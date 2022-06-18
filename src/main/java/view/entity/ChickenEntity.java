@@ -5,7 +5,7 @@ import model.ModelState;
 import states.PlayState;
 import view.graphics.SpriteSheet;
 import view.main.GamePanel;
-import view.utils.ConcatenatedImage;
+import view.utils.ImageSplitter;
 import view.utils.Direction;
 
 import java.awt.*;
@@ -36,7 +36,7 @@ public class ChickenEntity extends AnimalEntity{
     }
 
     public void setImage() {
-        ConcatenatedImage ci = new ConcatenatedImage(gp, "/chicken/chicken-sprite-sheet.png", 32, 32, 0);
+        ImageSplitter ci = new ImageSplitter(gp, "/chicken/chicken-sprite-sheet.png", 32, 32, 0);
 
         sprite = new SpriteSheet(4, 16);
         for(int i = 0; i < 4; i++) {

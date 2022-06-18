@@ -8,7 +8,7 @@ import view.entity.AnimalEntity;
 import view.entity.Entity;
 import view.main.GamePanel;
 import view.math.AABB;
-import view.utils.ConcatenatedImage;
+import view.utils.ImageSplitter;
 import view.utils.Direction;
 
 import java.awt.*;
@@ -64,7 +64,7 @@ public class Fox extends AnimalEntity {
 
     @Override
     public void setImage() {
-        ConcatenatedImage ci = new ConcatenatedImage(gp,
+        ImageSplitter ci = new ImageSplitter(gp,
                 "/fox-sprite-sheet.png",
                 32, 32, 12, 12, 6, 12
         );

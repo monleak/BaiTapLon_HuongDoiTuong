@@ -1,5 +1,6 @@
 package view.utils;
 
+import view.entity.ChickenEntity;
 import view.main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -12,10 +13,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * Dùng để cắt ảnh lớn thành mảng 2 chiều các ảnh nhỏ
+ * <code>ImageSplitter</code>Dùng để cắt ảnh lớn thành mảng 2 chiều các ảnh nhỏ
  *
+ * <p>
+ * Example: {@link ChickenEntity#setImage()}
+ * </p>
  */
-public class ConcatenatedImage {
+public class ImageSplitter {
     private BufferedImage image;
     private BufferedImage[][] subImageList;
     int rows, columns;
@@ -51,11 +55,11 @@ public class ConcatenatedImage {
         }
     }
 
-    public ConcatenatedImage  (GamePanel gp, String path, int subImageWidth, int subImageHeight, int pt, int pb, int pl, int pr) {
+    public ImageSplitter(GamePanel gp, String path, int subImageWidth, int subImageHeight, int pt, int pb, int pl, int pr) {
         constructor( gp, path, subImageWidth, subImageHeight, pt, pb, pl, pr);
     }
 
-    public ConcatenatedImage (GamePanel gp, String path, int subImageWidth, int subImageHeight, int padding) {
+    public ImageSplitter(GamePanel gp, String path, int subImageWidth, int subImageHeight, int padding) {
         constructor( gp, path, subImageWidth, subImageHeight, padding/2, padding, padding/2, padding);
     }
 
