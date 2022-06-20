@@ -13,16 +13,16 @@ public class PlayActivity extends Activity {
 
     @Override
     public int getDeltaWater() {
-        return 0;
+        return -4;
     }
 
     @Override
     public int getDeltaCalo() {
-        return 0;
+        return -4;
     }
 
     @Override
     public int getDeltaSleep() {
-        return 0;
+        return -2;
     }
 }

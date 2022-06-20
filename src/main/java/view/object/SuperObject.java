@@ -48,15 +48,6 @@ public class SuperObject extends GameObject {
     }
 
     public boolean checkInMap () {
-//        int mapLeftEdge = ps.player.getWorldX() - ps.player.screenX - gp.titleSize;
-//        int mapRightEdge = ps.player.getWorldX() + ps.player.screenX + gp.titleSize;
-//        int mapTopEdge = ps.player.getWorldY() - ps.player.screenY - gp.titleSize;
-//        int mapBottomEdge = ps.player.getWorldY() + ps.player.screenY + gp.titleSize;
-//        return  ( getWorldX() > mapLeftEdge &&
-//                    getWorldX() < mapRightEdge &&
-//                    getWorldY() > mapTopEdge &&
-//                    getWorldY() < mapBottomEdge
-//        );
 
         return GameStateManager.camera.getBounds().collides(
                 this.bounds

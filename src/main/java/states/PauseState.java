@@ -22,6 +22,7 @@ public class PauseState extends GameState{
     private final Animation fadeAnim;
 
     public PauseState (Camera camera) {
+        // todo
         super(camera);
 
         font            = new Font("MeatMadness", Font.PLAIN, 48);
@@ -38,11 +39,26 @@ public class PauseState extends GameState{
         fadeAnim.start();
     }
 
+    /**
+     * Update:
+     * <ul>
+     *     <li>
+     *         Hiệu ứng fade (tối dần)
+     *     </li>
+     * </ul>
+     */
     @Override
     public void update(double time, GameStateManager gsm) {
         fadeAnim.update();
     }
 
+    /**
+     * Trong khi pause:
+     * <ul>
+     *     <li>Nhấn SPACE: Tiếp tục chơi</li>
+     *     <li>Nhấn X:     Thoát game</li>
+     * </ul>
+     */
     @Override
     public void input(MouseHandler mouse, KeyHandler key, GameStateManager gsm) {
         if (key.spacePressed) {
@@ -60,12 +76,16 @@ public class PauseState extends GameState{
     public void draw(Graphics2D g2) {
         GamePanel gp = GameStateManager.gp;
 
+        // Màu tối dần trên màn hình
         g2.setColor(new Color(3, 3, 3, fadeAnim.getValue()));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
+        // Text: pause
         g2.setColor(Color.WHITE);
         g2.setFont(font);
         g2.drawString("Pause", 100, 100);
+
+        // Button:
         g2.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 24));
         for (int i = 0; i < options.length; i++) {
             FontMetrics metrics = g2.getFontMetrics(font);
@@ -82,5 +102,10 @@ public class PauseState extends GameState{
             }
             g2.drawString(options[i], x - 100 + 100 * i, y);
         }
+
+        // test
+//        g2.setColor(Color.red);
+//        g2.drawRect(10, 5, 100, 20);
+//        g2.fillRect(10, 5, 50, 20);
     }
 }

@@ -11,7 +11,7 @@ import view.utils.Direction;
 import java.awt.*;
 import java.util.Random;
 
-public class ChickenEntity extends AnimalEntity{
+public class ChickenEntity extends AnimalEntity {
     private int counter;
     private int lifeCounter;
     private int actionLockCounter;
@@ -35,18 +35,26 @@ public class ChickenEntity extends AnimalEntity{
 //        this.collision = true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setImage() {
+        System.out.println("Set Image: /chicken/chicken-sprite-sheet.png: " + sprite);
         ImageSplitter ci = new ImageSplitter(gp, "/chicken/chicken-sprite-sheet.png", 32, 32, 0);
+        System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
 
-        sprite = new SpriteSheet(4, 16);
+        this.sprite = new SpriteSheet(4, 16);
+
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
-                sprite.addSprite(UP, ci.getSubImage(i, j)) ;
-                sprite.addSprite(LEFT, ci.getSubImage(i, j)) ;
-                sprite.addSprite(DOWN, ci.getFlipSubImage(i, j)) ;
-                sprite.addSprite(RIGHT, ci.getFlipSubImage(i, j)) ;
+                this.sprite.addSprite(UP, ci.getSubImage(i, j)) ;
+                this.sprite.addSprite(LEFT, ci.getSubImage(i, j)) ;
+                this.sprite.addSprite(DOWN, ci.getFlipSubImage(i, j)) ;
+                this.sprite.addSprite(RIGHT, ci.getFlipSubImage(i, j)) ;
             }
         }
+
     }
 
     // test
@@ -70,6 +78,9 @@ public class ChickenEntity extends AnimalEntity{
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setAction () {
         // TODO: GENERIC
@@ -77,11 +88,12 @@ public class ChickenEntity extends AnimalEntity{
             if (lifeCounter == 15 * 24 * 60) {
                 lifeCounter = 0;
             }
-            this.animal.life(
+            if (this.animal != null)
+                this.animal.life(
                     lifeCounter / (24 * 60),
                     lifeCounter / (60) % 24,
                     lifeCounter % 60
-            );
+                );
             // NOTE: De counter xuat phat tu 0
             lifeCounter++;
         }
@@ -107,7 +119,9 @@ public class ChickenEntity extends AnimalEntity{
             actionLockCounter = 0;
         }
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void animate(boolean isRunning) {
         // todo: move animate logic here
@@ -137,7 +151,6 @@ public class ChickenEntity extends AnimalEntity{
 
             int[] stand = {1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4};
             int[] eat = {5, 6, 7, 8, 5, 6, 7, 8, 5, 6, 7, 8};
-            // lay
             int[] sit = {9, 10, 11, 12, 12, 12, 12, 12, 12, 11, 10, 9 };
             int[] leap = {13, 13, 14, 14, 15, 15, 16, 16, 15, 14, 13, 12, 13};
 
@@ -156,22 +169,17 @@ public class ChickenEntity extends AnimalEntity{
                     i = leap[c] - 1;
                     break;
             }
+            // set image
             switch (direction) {
                 case UP:
-//                    image = sprite.getSprite(UP, i).image;
-//                    this.pos.y -= this.getSpeed();
-//                    break;
                 case LEFT:
-                    image = sprite.getSprite(UP, i).image;
-//                    this.pos.x -= this.getSpeed();
+                    if (sprite.getSprite(UP, i)  != null)
+                        image = sprite.getSprite(UP, i).image;
                     break;
                 case DOWN:
-//                    image = sprite.getSprite(DOWN, i).image;
-//                    this.pos.y += this.getSpeed();
-//                    break;
                 case RIGHT:
-                    image = sprite.getSprite(DOWN, i).image;
-//                    this.pos.x += this.getSpeed();
+                    if (sprite.getSprite(UP, i)  != null)
+                        image = sprite.getSprite(DOWN, i).image;
                     break;
             }
 
@@ -203,14 +211,16 @@ public class ChickenEntity extends AnimalEntity{
                 }
                 else collisionOn = true;
             }
-
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void draw (Graphics2D g2) {
         // todo
         update (0);
         super.draw(g2);
-        g2.drawImage(image, (int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, null );
+        //        g2.drawImage(image, (int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, null );
     }
 }

@@ -35,8 +35,6 @@ public class Player extends Entity {
     public int RUN_RIGHT = 4;
     private Camera camera;
 
-//    private boolean xCollision;
-//    private boolean yCollision;
     private TileCollision tc;
 
     private AnimalEntity animalEntity;
@@ -47,20 +45,12 @@ public class Player extends Entity {
 
     public Player(GamePanel gp, PlayState ps, Camera camera) {
         super(gp, ps);
+        setImage();
+
         this.camera = camera;
         this.focusManager   = new FocusManager(gp, ps);
 
-        // collision
-//        solidArea   = new Rectangle();
-//        solidArea.x = 10;
-//        solidArea.y = 24;
-//        solidArea.height    = 24;
-//        solidArea.width     = 28;
-
         this.ps = ps;
-        // object collision
-//        solidAreaDefaultX = solidArea.x;
-//        solidAreaDefaultY = solidArea.y;
 
         this.bounds.setXOffset(8);
         this.bounds.setYOffset(28);
@@ -74,22 +64,23 @@ public class Player extends Entity {
         pathFinder = new PathFinder(gp, ps);
 
         setDefaultValue();
-        setImage();
     }
 
     public void setDefaultValue () {
-//        setWorldX(gp.worldWidth / 2 - 2 * gp.titleSize);
-//        setWorldY(gp.worldHeight / 2 - 4 * gp.titleSize);
         pos.setX ((gp.worldWidth - gp.titleSize) / 2.0f) ;
         pos.setY ((gp.worldHeight - gp.titleSize) / 2.0f + 100);
         setSpeed(4);
         direction = Direction.DOWN;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setImage() {
+        System.out.println("Set image: /sprout-lands-sprites/characters/basic-charakter-spritesheet.png" + sprite);
         ImageSplitter ci = new ImageSplitter(gp,"/sprout-lands-sprites/characters/basic-charakter-spritesheet.png", 48, 48, 32);
-
+        System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
         sprite = new SpriteSheet(8, 2);
 
         for(int i = 0; i < 2; i++) {
@@ -108,6 +99,11 @@ public class Player extends Entity {
         setAnimation(RIGHT, sprite.getSpriteArray(DOWN), 10);
     }
 
+    /**
+     * {@inheritDoc}
+     * Player.animate:
+     * Custom player khi chạy và không chạy.
+     */
     public void animate(boolean isRunning) {
         if (prevDirection == direction && this.isRunning == isRunning) {
             return;
@@ -115,7 +111,7 @@ public class Player extends Entity {
             prevDirection = direction;
             this.isRunning = isRunning;
         }
-
+        if ( sprite != null) // if setImage not error
         if (!isRunning)
         {
             if (direction == Direction.DOWN) {
@@ -148,8 +144,6 @@ public class Player extends Entity {
     }
 
     public void targetAnimal (AnimalEntity animal) {
-//        if (!animalEntities.contains(animal))
-//            animalEntities.add(animal);
         if (this.animalEntity != null)
             this.animalEntity.setFocused(false);
 
@@ -184,7 +178,6 @@ public class Player extends Entity {
         if (!isGoingToMousePosition) {
             pathFinder.getPathList().clear();
         }
-//            System.out.println(pathFinder.getPathList());
             Node node;
             if (pathFinder.getPathList().size() > 0 ) {
                 node = pathFinder.getPathList().get(0);
@@ -238,13 +231,7 @@ public class Player extends Entity {
 //        targetAnimal();
         this.focusManager.checkAndHoverObject(objIndex);
 
-//        System.out.println(tc.collisionTile(getSpeed(), 0));
-
-        // if collision is false can move
-//        if (!collisionOn) {
-            /**
-             * TODO: handle multi direction ( press multi key )
-             */
+        // run
             if (keyH.upPressed) {
                 if (!tc.collisionTile(0, - getSpeed())) {
                     pos.addY(-getSpeed());
@@ -324,28 +311,14 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void draw (Graphics2D g2) {
-        /**
-         * NOTE: Stop moving camera at the edge
-         */
-//        if (screenX > getWorldX()) {
-//            x = getWorldX();
-//        }
-//        if (screenY > getWorldY() ) {
-//            y = getWorldY();
-////        }
-//        int rightOffset = gp.screenWidth - (int) Vector2f.getWorldVarX(pos.x);
-//        if (rightOffset > gp.worldWidth - ps.player.getWorldX()) {
-//            x = gp.screenWidth - (gp.worldWidth - getWorldX());
-//        }
-//        int bottomOffset = gp.screenHeight - (int) Vector2f.getWorldVarY(pos.x);
-//        if (bottomOffset > gp.worldHeight - ps.player.getWorldY()) {
-//            y = gp.screenHeight - (gp.worldHeight - getWorldY());
-//        }
 
-//        g2.drawImage(image, x, y, gp.titleSize, gp.titleSize, null);
+        // draw player
         g2.drawImage(ani.getImage().image, (int) pos.getWorldVar().x, (int) pos.getWorldVar().y, gp.titleSize, gp.titleSize, null);
-//        System.out.println(this.focusManager.getFocusedObjId());
+
         if (this.focusManager.getFocusedObjId() != 999) {
             GameObject selectedAnimal = ps.obj[this.focusManager.getFocusedObjId()];
             if ( selectedAnimal instanceof  AnimalEntity) {

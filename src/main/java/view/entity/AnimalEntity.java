@@ -4,6 +4,7 @@ import model.Animals.Animal;
 import states.PlayState;
 import view.effect.FocusableHandler;
 import view.effect.IFocusable;
+import view.graphics.SpriteSheet;
 import view.main.GamePanel;
 import view.title.TileCollision;
 
@@ -17,8 +18,6 @@ enum Posture {
 public abstract class AnimalEntity extends Entity implements IFocusable {
 
     protected Animal animal;
-
-    BufferedImage image;
     protected TileCollision tc;
     public FocusableHandler fch;
     public Posture posture;
@@ -28,6 +27,7 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
         tc = new TileCollision(this);
         fch = new FocusableHandler();
 
+//        setImage();
     }
 
     public Animal getAnimal() {
@@ -53,6 +53,19 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
 
     public abstract String[] getAnimalStatus ();
 
+    /**
+     * {@inheritDoc}
+     *
+     * AnimalEntity.update:
+     * <ul>
+     *     <li>
+     *         Set action
+     *     </li>
+     *     <li>
+     *         Check collision tiles
+     *     </li>
+     * </ul>
+     */
     @Override
     public void update() {
         {
@@ -62,16 +75,16 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
             collisionOn = false;
             ps.cChecker.checkTile(this);
 
-            // action
-            spriteCounter++;
-            if(spriteCounter > 12) {
-                if(spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
-                    spriteNum = 1;
-                }
-                spriteCounter = 0;
-            }
+//            // action
+//            spriteCounter++;
+//            if(spriteCounter > 12) {
+//                if(spriteNum == 1) {
+//                    spriteNum = 2;
+//                } else if (spriteNum == 2) {
+//                    spriteNum = 1;
+//                }
+//                spriteCounter = 0;
+//            }
         }
     }
 
@@ -88,8 +101,20 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
 //        g.drawString(text, worldX + x, worldY + y);
 //    }
 
+    /**
+     * {@inheritDoc}
+     *
+     * AnimalEntity.draw:
+     * <ul>
+     *     <li>
+     *         Vẽ tam giác màu đỏ trên đầu con vật khi focus.
+     *     </li>
+     * </ul>
+     */
     @Override
     public void draw(Graphics2D g2) {
+        super.draw(g2);
+
         if(fch.getIsHovered()) {
             g2.drawRect((int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, gp.titleSize, gp.titleSize);
         }

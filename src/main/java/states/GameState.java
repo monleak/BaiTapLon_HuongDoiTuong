@@ -13,11 +13,9 @@ import java.awt.*;
  *
  */
 public abstract class GameState {
-//    protected GameStateManager gsm;
     protected Camera camera;
 
     public GameState(Camera camera) {
-//        this.gsm = gsm;
         this.camera = camera;
     }
 
@@ -25,6 +23,17 @@ public abstract class GameState {
     public abstract void input(MouseHandler mouse, KeyHandler key, GameStateManager gsm);
     public abstract void draw(Graphics2D g);
 
+    /**
+     * Setup:
+     * <ul>
+     *     <li>
+     *         Chỉ override (nếu cần), chạy 1 lần khi khởi tạo GameState.
+     *     </li>
+     *     <li>
+     *         EX: Thêm các con vật trước khi hiện bản đồ game.
+     *     </li>
+     * </ul>
+     */
     public void setup() {}
 
     @Override

@@ -39,12 +39,18 @@ public class PlayState extends GameState {
         camera.target(player);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setup () {
         assetSetter.setObject();
         playMusic(0);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(double time, GameStateManager gsm) {
 
@@ -59,6 +65,9 @@ public class PlayState extends GameState {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void input(MouseHandler mouse, KeyHandler key, GameStateManager gsm) {
         if(!gsm.isStateActive(GameStateManager.PAUSE)){
@@ -70,6 +79,9 @@ public class PlayState extends GameState {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw(Graphics2D g2) {
 

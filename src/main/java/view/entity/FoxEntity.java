@@ -1,11 +1,9 @@
-package view.object;
+package view.entity;
 
 import states.PlayState;
 import view.graphics.SpriteSheet;
 import view.ai.Node;
 import view.ai.PathFinder;
-import view.entity.AnimalEntity;
-import view.entity.Entity;
 import view.main.GamePanel;
 import view.math.AABB;
 import view.utils.ImageSplitter;
@@ -13,7 +11,7 @@ import view.utils.Direction;
 
 import java.awt.*;
 
-public class Fox extends AnimalEntity {
+public class FoxEntity extends AnimalEntity {
     protected PathFinder pathFinder;
     protected int currentRow;
     protected int currentColumn;
@@ -24,15 +22,12 @@ public class Fox extends AnimalEntity {
     protected AABB followRange;
     protected AABB unFollowRange;
 
-    public Fox (GamePanel gp, PlayState ps) {
+    public FoxEntity(GamePanel gp, PlayState ps) {
         super(gp, ps);
         this.name = "Fox";
 
         this.collision = false;
         this.direction = Direction.DOWN;
-
-        // todo: move to AnimalEntity class
-        setImage();
 
         this.currentRow = 0;
         this.currentColumn = 0;
@@ -45,36 +40,43 @@ public class Fox extends AnimalEntity {
         this.unFollowRange = new AABB(this.pos, 11*gp.titleSize);
         this.unFollowRange.setXOffset( (int) -5 * gp.titleSize);
         this.unFollowRange.setYOffset((int) -5 * gp.titleSize);
+
+        setImage();
+
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setAction() {
         super.setAction();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void animate(boolean isRunning) {
 //        setAnimation(0, sprite.getSpriteArray(0), 100);
     }
-
-//    @Override
-//    public void update() {
-//        super.update();
-//    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setImage() {
+        System.out.println("Set image: /fox-sprite-sheet.png" + sprite);
         ImageSplitter ci = new ImageSplitter(gp,
                 "/fox-sprite-sheet.png",
                 32, 32, 12, 12, 6, 12
         );
+        System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
 
         sprite = new SpriteSheet(7, 14);
         int[] framePerAction =  {5, 14, 8, 11, 5, 6, 7};
         int i = 0;
         for (int len : framePerAction) {
             for (int j = 0; j < len; j++) {
-//                System.out.println("i = " + i + "j =  " + j);
                 sprite.addSprite(i, ci.getSubImage(i, j));
             }
             i++;
@@ -88,7 +90,6 @@ public class Fox extends AnimalEntity {
         this.entity = entity;
         int entityRow = (int) entity.getBounds().getPos().x;
         int entityCol = (int) entity.getBounds().getPos().y / gp.titleSize;
-//        if () {
             pathFinder.setNodes(
                     (int) this.pos.x,
                     (int) this.pos.y,
@@ -96,14 +97,12 @@ public class Fox extends AnimalEntity {
                     (int) entity.getBounds().getPos().y,
                     null
             );
-//            this.currentColumn = currentColumn;
-//            this.currentRow = currentRow;
-//        }
     }
 
     public void unfollow () {
         entity = null;
-        setAnimation(3, sprite.getSpriteArray(3), 10);
+        if (sprite != null) // if setImage not error
+            setAnimation(3, sprite.getSpriteArray(3), 10);
     }
 
     @Override
@@ -111,15 +110,29 @@ public class Fox extends AnimalEntity {
         return new String[0];
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * FoxEntity.update:
+     * <ul>
+     *     <li>
+     *         Update image
+     *     </li>
+     *     <li>
+     *         Update follow and unfollow range collision
+     *     </li>
+     *     <li>
+     *         If follow: find path and go to
+     *     </li>
+     * </ul>
+     */
     @Override
     public void update () {
-//        animate(true);
         super.update();
 
+        image = ani.getImage().image;
+
         if (entity == null && this.followRange.colCircleBox(ps.player.getBounds()) ) {
-//            System.out.println(this.followRange.distance(ps.player.getPos()));
-//            System.out.println(this.followRange.collides(ps.player.getBounds()));
-//            System.out.println("followowww");
             follow(ps.player);
         } else if (!this.unFollowRange.colCircleBox(ps.player.getBounds())) {
             unfollow();
@@ -135,35 +148,17 @@ public class Fox extends AnimalEntity {
 
             if ((currentColumn != this.currentColumn || currentRow != this.currentRow) ||
                     (this.entityRow != entityRow || this.entityColumn != entityCol) ) {
-//            pathFinder.setNodes(
-//                    currentRow,
-//                    currentColumn,
-//                    30,
-//                    30,
-//                    null
-//            );
                 this.currentColumn = currentColumn;
                 this.currentRow = currentRow;
                 this.entityColumn = entityCol;
                 this.entityRow = entityRow;
                 follow(ps.player);
-//                pathFinder.setNodes(
-//                        (int) this.getBounds().getPos().x,
-//                        (int) this.getBounds().getPos().y,
-//                        (int) entity.getBounds().getPos().x,
-//                        (int) entity.getBounds().getPos().y,
-//                        null
-//                );
             }
             pathFinder.search();
         }
 
-//        System.out.println(this.getBounds().getPos().x / gp.titleSize);
-
-//        System.out.println(pathFinder.getPathList());
         // run to goal
         if(pathFinder.getPathList().size() > 0) {
-//            System.out.println(getSpeed());
             Node next = pathFinder.getPathList().get(0);
             if (this.getPos().x > next.column * gp.titleSize) {
                 this.getPos().x -= getSpeed();
@@ -180,37 +175,21 @@ public class Fox extends AnimalEntity {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * FoxEntity.draw:
+     * <ul>
+     *     <li>
+     *         Vẽ vòng tròn follow range và unfollow range (debug).
+     *     </li>
+     * </ul>
+     */
     @Override
     public void draw(Graphics2D g2) {
         super.draw(g2);
-//        int r = 1;
-//        int C_MAX = 13;
-//
-//        this.counter++;
-//        if(counter == C_MAX * 10){
-//            counter = 0;
-//        }
-//        int c = counter / 10;
-//        image = ci.getSubImage(r, c);
-//        System.out.println(ani.getFrame());
-        g2.drawImage(ani.getImage().image, (int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, gp.titleSize, gp.titleSize, null);
-//        System.out.println(ani.getImage());
-//        ArrayList<Node> pathList = pathFinder.getPathList();
-//        for (Node node : pathList) {
-//            Vector2f pos = new Vector2f(node.column * gp.titleSize, node.row * gp.titleSize);
-//            g2.setColor(Color.DARK_GRAY);
-//            g2.drawRect(
-////                    ani.getImage().image,
-//                    (int) pos.getWorldVar().x,
-//                    (int) pos.getWorldVar().y,
-//                    gp.titleSize,
-//                    gp.titleSize
-////                    null
-//            );
-//            System.out.println(node.row * gp.titleSize);
-//            System.out.println((int) this.pos.getWorldVar().x);
-//        }
 
+        // Vẽ vòng tròn follow range và unfollow range.
         if (entity == null) {
             g2.setColor(Color.RED);
             g2.drawOval(

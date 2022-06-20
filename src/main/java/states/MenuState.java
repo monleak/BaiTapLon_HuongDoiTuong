@@ -23,7 +23,7 @@ public class MenuState extends GameState{
     private boolean upMark;
     private boolean downMark;
 
-    private Animation fadeAnim;
+    private final Animation fadeAnim;
     private boolean switching;
 
     public MenuState (Camera camera) {
@@ -68,10 +68,7 @@ public class MenuState extends GameState{
 
         if (key.enterPressed) {
             if(option == NEW_GAME) {
-//                gsm.addAndpop(GameStateManager.PLAY, GameStateManager.MENU);
-                gsm.add(GameStateManager.PLAY);
-                this.fadeAnim.start();
-                this.switching = true;
+                newGame(gsm);
             }
             if(option == LOAD_GAME) {
                 loadGame();
@@ -104,13 +101,10 @@ public class MenuState extends GameState{
     }
 
     // ???
-    private void newGame() {
-//        gsm.addAndpop(GameStateManager.PLAY, GameStateManager.MENU);
-//        gsm.pop(0);
-//        System.out.println("Is active: " + gsm.isStateActive(0));
-//        System.out.println(gsm.getState(0) == null);
-//        gsm.add(GameStateManager.PLAY);
-//        gsm.setup();
+    private void newGame(GameStateManager gsm) {
+        gsm.add(GameStateManager.PLAY);
+        this.fadeAnim.start();
+        this.switching = true;
     }
 
     private void loadGame() {
@@ -121,10 +115,10 @@ public class MenuState extends GameState{
     public void draw(Graphics2D g2) {
         GamePanel gp = GameStateManager.gp;
 
-        //fade animation
+        // fade animation
         g2.setColor(new Color(0, 0, 0, fadeAnim.getValue()));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
-
+        // Đang chạy animation
         if(switching)
             return;
 

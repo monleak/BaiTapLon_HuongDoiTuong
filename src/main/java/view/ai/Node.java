@@ -3,6 +3,7 @@ package view.ai;
 /**
  * Node là một ô trong bản đồ, dùng để tìm đường đi (trong class PathFinder).
  *
+ * @see view.ai.PathFinder
  */
 public class Node {
     public int row;

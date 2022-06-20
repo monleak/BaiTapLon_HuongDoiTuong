@@ -1,13 +1,9 @@
 package view.main;
 
 import states.PlayState;
-import view.entity.AnimalEntity;
 import view.entity.ChickenEntity;
-import view.object.Buffalo;
-import view.object.Fox;
-import view.object.OBJ_Fence;
+import view.entity.FoxEntity;
 import view.object.OBJ_Key;
-import view.utils.Direction;
 
 /**
  * Dùng để tạo các con vật, vật thể trên bản đồ.
@@ -31,18 +27,17 @@ public class AssetSetter
         ps.obj[0].getBounds().getPos().x = (23 * gp.titleSize);
         ps.obj[0].getBounds().getPos().y = (7 * gp.titleSize);
 
-        ps.obj[1] = new Fox(gp, ps);
+        ps.obj[1] = new FoxEntity(gp, ps);
         ps.obj[1].getBounds().getPos().x = ((int)(38f * gp.titleSize));
         ps.obj[1].getBounds().getPos().y = ((int)(14f * gp.titleSize));
         ps.obj[1].collision = false;
-        Fox f = (Fox) ps.obj[1];
+        FoxEntity f = (FoxEntity) ps.obj[1];
 //        f.follow(ps.player);
 
-//
-//        ps.obj[2] = new ChickenEntity(gp, ps);
-//        ps.obj[2].getBounds().getPos().x = ((int)(38f * gp.titleSize));
-//        ps.obj[2].getBounds().getPos().y = ((int)(10f * gp.titleSize));
-//        ps.obj[2].collision = false;
+        ps.obj[2] = new ChickenEntity(gp, ps);
+        ps.obj[2].getBounds().getPos().x = ((int)(38f * gp.titleSize));
+        ps.obj[2].getBounds().getPos().y = ((int)(10f * gp.titleSize));
+        ps.obj[2].collision = false;
 //
 //        ps.obj[3] = new ChickenEntity(gp, ps);
 //        ps.obj[3].getBounds().getPos().x = ((int)(39f * gp.titleSize));

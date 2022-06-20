@@ -49,36 +49,6 @@ public class Camera {
         if (e != null)
             if (!e.collisionOn)
                 move();
-//        if(e != null) {
-//            if (!e.xCol) {
-//                if ((e.getPos().getWorldVar().x + dy) < Vector2f.getWorldVarX(widthLimit - collisionCam.getWidth() / 2) + tileSize
-//                        && (e.getPos().getWorldVar().x + dy) > Vector2f.getWorldVarX(GamePanel.width / 2 - tileSize * 2)) {
-//                    PlayState.map.x += dx;
-//                    collisionCam.getPos().x += dx;
-//                    //bounds.getPos().x += dx;
-//                }
-//            }
-//            if (!e.yCol) {
-//                if ((e.getPos().getWorldVar().y + dy) < Vector2f.getWorldVarY(heightLimit - collisionCam.getHeight() / 2) + tileSize
-//                        && (e.getPos().getWorldVar().y + dy) > Vector2f.getWorldVarY(GamePanel.height / 2 - tileSize * 2)) {
-//                    PlayState.map.y += dy;
-//                    collisionCam.getPos().y += dy;
-//                    //bounds.getPos().y += dy;
-//                }
-//            }
-//        } else {
-//            if(collisionCam.getPos().x + dx > 0
-//                    && collisionCam.getPos().getWorldVar().x + dx < Vector2f.getWorldVarX(widthLimit - collisionCam.getWidth()) - tileSize) {
-//                PlayState.map.x += dx;
-//                collisionCam.getPos().x += dx;
-//            }
-//
-//            if(collisionCam.getPos().y + dy > 0
-//                    && collisionCam.getPos().getWorldVar().y + dy < Vector2f.getWorldVarY(heightLimit - collisionCam.getHeight()) - tileSize) {
-//                PlayState.map.y += dy;
-//                collisionCam.getPos().y += dy;
-//            }
-//        }
     }
 
     private void move() {

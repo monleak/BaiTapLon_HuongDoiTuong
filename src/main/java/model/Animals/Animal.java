@@ -151,7 +151,7 @@ public abstract class Animal {
             }
         }
         return 0;
-    };
+    }
     public void play () {
         this.activity = new PlayActivity();
     }
@@ -161,11 +161,11 @@ public abstract class Animal {
         return activity.getActivityType();
     }
 
-//    /**
-//     * Method: nextActivity
-//     * @brief Cập nhật trạng thái của con vật khi thực hiện hành động.
-//     * NOTE: Có thể override, và goi super.updateState()
-//     */
+    /**
+     * Method: updateState
+     * @brief Cập nhật trạng thái của con vật khi thực hiện hành động.
+     * NOTE: Có thể override, và goi super.updateState()
+     */
     protected void updateState () {
         System.out.println(this.activity);
         if (this.activity != null) {
@@ -175,7 +175,10 @@ public abstract class Animal {
             this.setWater(this.getWater() + this.activity.getDeltaWater());;
             this.setSleep(this.getSleep() + this.activity.getDeltaSleep());
             System.out.println(
-                    "Hp: " + this.activity.getDeltaHP()
+                    "Hp: " + this.activity.getDeltaHP() +
+                    "Calo: " + this.activity.getDeltaCalo() +
+                    "Water: " + this.activity.getDeltaWater() +
+                    "Sleep: " + this.activity.getDeltaSleep()
             );
 
             // if specific activity
@@ -199,9 +202,8 @@ public abstract class Animal {
         try {
             Random r = new Random(100);
             // FIXME: SET ACTIVITY
-//            this.activity = this.schedule.activityList[hours];
-            System.out.println(hours);
-//            System.out.println(" Set activity: " + this.schedule.activityList[hours]);
+            this.activity = this.schedule.getRandomActivity(this);
+            System.out.println( "[ hour: "  + hours + "]" +"Set next activity: ");
             if (isHungry() && r.nextInt() < 2) {
                 this.activity = new SleepActivity();
             }
@@ -241,8 +243,11 @@ public abstract class Animal {
             if(day == 0 && hours == 0 && minutes == 0) {
                 growUp();               // Lớn lên mỗi 15 ngày.
             }
+            System.out.println("life" + day + " " + hours + " " + minutes + " " + this);
+        } else {
+            System.out.println("dead");
         }
-        System.out.println("life" + day + " " + hours + " " + minutes + " " + this);
+//        System.out.println("exec" + minutes);
     }
 
     @Override

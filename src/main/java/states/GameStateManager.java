@@ -28,11 +28,15 @@ public class GameStateManager {
     public static final int GAME_OVER = 3;
     public static final int EDIT = 4;
 
+    // Custom font
     public static Font font;
     public static Fontf fontf;
 
+    // Graphics
     public static Graphics2D g2;
     public static GamePanel gp;
+
+    // pos: cam, vec
     public static Camera camera;
     public static Vector2f map;
 
@@ -56,7 +60,8 @@ public class GameStateManager {
         fontf.loadFont("font/GravityBold8.ttf", "GravityBold8");
 
         states = new GameState[6];
-        // states[PLAY] = new PlayState(this);
+
+        // Màn hình mặc định là menu.
         states[MENU] = new MenuState(camera);
     }
 
@@ -153,13 +158,11 @@ public class GameStateManager {
      * Gọi trong GamePane.draw()
      */
     public void render(Graphics2D g2) {
-//        g.setFont(GameStateManager.fontf.getFont("MeatMadness"));
-        for (int i = 0; i < states.length; i++) {
-            if (states[i] != null) {
-                states[i].draw(g2);
+        for (GameState state : states) {
+            if (state != null) {
+                state.draw(g2);
             }
         }
-//        states[PLAY].draw(g2);
     }
 
 }

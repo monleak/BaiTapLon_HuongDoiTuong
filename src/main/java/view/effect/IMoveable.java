@@ -10,5 +10,4 @@ public interface IMoveable {
 
     int getSpeed();
     Direction getDirection();
-    int getSpriteNum();
 }

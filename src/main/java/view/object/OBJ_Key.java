@@ -10,7 +10,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class OBJ_Key extends  SuperObject implements IFocusable {
+public class OBJ_Key extends SuperObject implements IFocusable {
     public static final int DELAY_FRAME = 10;
     public static final int ANIMATION_FRAME = 10;
 
