@@ -161,11 +161,11 @@ public abstract class Animal {
         return activity.getActivityType();
     }
 
-    /**
-     * Method: nextActivity
-     * @brief Cập nhật trạng thái của con vật khi thực hiện hành động.
-     * NOTE: Có thể override, và gọi super.updateState()
-     */
+//    /**
+//     * Method: nextActivity
+//     * @brief Cập nhật trạng thái của con vật khi thực hiện hành động.
+//     * NOTE: Có thể override, và goi super.updateState()
+//     */
     protected void updateState () {
         System.out.println(this.activity);
         if (this.activity != null) {
@@ -190,9 +190,9 @@ public abstract class Animal {
 
     /**
      * Method: nextActivity
-     * @param hours: giờ hiện tại [0, 23]
+     * @param hours:  hiện tại [0, 23]
      * @brief Thực hiện hành động tiếp thep.
-     * NOTE: Có thể override, và gọi super.updateState()
+     * NOTE: Có thể override, và  super.updateState()
      */
     protected void nextActivity(int hours) {
         // next activity
@@ -233,7 +233,7 @@ public abstract class Animal {
     public final void life(int day ,int hours, int minutes) {
         if(!isDead) {
             if(minutes == 0) {
-                nextActivity(hours);    // Thay đổi hành động mỗi giờ
+                nextActivity(hours);    // Thay đổi hành động mỗi
             }
             if (minutes % 15 == 0) {
                 updateState();          // thực hiện hành động gây thay đổi trạng thái mỗi 15' 1 lần.
