@@ -3,19 +3,19 @@ package model.Animals;
 import model.*;
 import model.Activities.Schedule;
 
-public class Cat extends Animal {
+public class Pig extends Animal {
 
     // NOTE: This constructor only use for testing
-    public Cat () {
-        this.maxCalo    = 200;
-        this.maxHP      = 400;
-        this.maxSleep   = 100;
+    public Pig () {
+        this.maxCalo    = 800;
+        this.maxHP      = 300;
+        this.maxSleep   = 200;
         this.maxWater   = 100;
 
         this.setWater(100);
-        this.setCalo(200);
-        this.setHP(400);
-        this.setSleep(100);
+        this.setCalo(800);
+        this.setHP(300);
+        this.setSleep(200);
         this.setAge(0);
 
         this.neededFood = new FoodInventory(new Food("Fish", 10), 100);
@@ -23,16 +23,16 @@ public class Cat extends Animal {
 //        this.schedule = new Schedule();
     }
 
-    public Cat (Schedule s, Food f, int foodAmount) {
-        this.maxCalo    = 200;
-        this.maxHP      = 400;
-        this.maxSleep   = 100;
+    public Pig (Schedule s, Food f, int foodAmount) {
+        this.maxCalo    = 800;
+        this.maxHP      = 300;
+        this.maxSleep   = 200;
         this.maxWater   = 100;
 
         this.setWater(100);
-        this.setCalo(200);
-        this.setHP(400);
-        this.setSleep(100);
+        this.setCalo(800);
+        this.setHP(300);
+        this.setSleep(200);
         this.setAge(0);
 
         this.neededFood = new FoodInventory(f, foodAmount);
