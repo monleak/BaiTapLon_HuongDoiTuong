@@ -57,7 +57,7 @@ public class Camera {
                 - GameStateManager.gp.worldWidth
                 + (int) getPos().getWorldVar().x;
         if (e != null)
-            System.out.println(e.getPos());
+//            System.out.println(e.getPos());
         if (
                 up
                 && (int) e.getPos().y >= GameStateManager.gp.screenHeight / 2

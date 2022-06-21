@@ -1,12 +1,14 @@
 package view.entity;
 
 import model.Animals.Animal;
+import model.Food;
 import states.PlayState;
 import view.effect.FocusableHandler;
 import view.effect.IFocusable;
 import view.graphics.SpriteSheet;
 import view.main.GamePanel;
 import view.title.TileCollision;
+import view.utils.Direction;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -20,14 +22,11 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     protected Animal animal;
     protected TileCollision tc;
     public FocusableHandler fch;
-    public Posture posture;
     public AnimalEntity(GamePanel gp, PlayState ps) {
         super(gp, ps);
 
         tc = new TileCollision(this);
         fch = new FocusableHandler();
-
-//        setImage();
     }
 
     public Animal getAnimal() {
@@ -51,7 +50,71 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
         return this.fch.getIsFocused();
     }
 
-    public abstract String[] getAnimalStatus ();
+    /**
+     * AnimalEntity.getAnimalStatus:
+     * Lấy thông tin của con vật để hiển thị ra màn hình.
+     */
+    public String[] getAnimalStatus () {
+        if (this.animal != null) {
+            String name = this.name;
+            int HP = animal.getHP();
+            int age = animal.getAge();
+            int calo = animal.getCalo();
+            int sleep = animal.getSleep();
+            int water =  animal.getWater();
+            Food food = animal.getNeededFood().getFood();
+
+            return (new String[] {
+                    "Name: " + name,
+                    "HP: " + HP,
+                    "Age: " + age,
+                    "Calo: " + calo,
+                    "Sleep: " + sleep,
+                    "Water: " + water,
+                    "Food: " + food.getName()
+            });
+        }
+        return (new String[] {
+                "Warning: this.animal is null!"
+        });
+    }
+
+    /**
+     * AnimalEntity.checkCollisionAndMove:
+     * <p>
+     * Check va chạm, nếu ko va vòa tường thì di chuyển theo thược tính dierection.
+     * </p>
+     */
+    public void checkCollisionAndMove(Direction direction, int speed) {
+        if (direction == Direction.UP) {
+            if (!tc.collisionTile(0, - speed)) {
+                pos.addY(-speed);
+                collisionOn = false;
+            }
+            else collisionOn = true;
+        }
+        else if (direction == Direction.DOWN) {
+            if (!tc.collisionTile(0, speed)) {
+                pos.addY(speed);
+                collisionOn = false;
+            }
+            else collisionOn = true;
+        }
+        else if (direction == Direction.RIGHT) {
+            if (!tc.collisionTile(speed, 0)) {
+                pos.addX(speed);
+                collisionOn = false;
+            }
+            else collisionOn = true;
+        }
+        else if (direction == Direction.LEFT) {
+            if (!tc.collisionTile(-speed, 0)) {
+                pos.addX(-speed);
+                collisionOn = false;
+            }
+            else collisionOn = true;
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -74,32 +137,23 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
 
             collisionOn = false;
             ps.cChecker.checkTile(this);
-
-//            // action
-//            spriteCounter++;
-//            if(spriteCounter > 12) {
-//                if(spriteNum == 1) {
-//                    spriteNum = 2;
-//                } else if (spriteNum == 2) {
-//                    spriteNum = 1;
-//                }
-//                spriteCounter = 0;
-//            }
         }
     }
 
-//    public void drawCenteredString(Graphics g, int worldX, int worldY, String text, Rectangle rect, Font font) {
-//        // Get the FontMetrics
-//        FontMetrics metrics = g.getFontMetrics(font);
-//        // Determine the X coordinate for the text
-//        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
-//        // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-//        int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-//        // Set the font
-//        g.setFont(font);
-//        // Draw the String
-//        g.drawString(text, worldX + x, worldY + y);
-//    }
+    public void drawCenteredString(Graphics g, int worldX, int worldY, String text, Rectangle rect, Font font) {
+        // Get the FontMetrics
+        FontMetrics metrics = g.getFontMetrics(font);
+        if (metrics != null) {
+            // Determine the X coordinate for the text
+            int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+            // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+            int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+            // Set the font
+            g.setFont(font);
+            // Draw the String
+            g.drawString(text, worldX + x, worldY + y);
+        }
+    }
 
     /**
      * {@inheritDoc}

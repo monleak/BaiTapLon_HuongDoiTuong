@@ -9,30 +9,43 @@ import view.utils.ImageSplitter;
 import view.utils.Direction;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class ChickenEntity extends AnimalEntity {
     private int counter;
     private int lifeCounter;
     private int actionLockCounter;
-    public int UP = 3;
-    public int DOWN = 2;
-    public int LEFT = 1;
-    public int RIGHT = 0;
+    // Có flip ảnh hay không
+    public static final int NOFLIP = 0;
+    public static final int FLIP = 4;
+    // Tư thế
+    public static final int STAND = 0;
+    public static final int EAT = 1;
+    public static final int SIT = 2;
+    public static final int LEAP = 3;
+
+    public Direction prevDirection;
+    public int posture;
+
+
+    /**
+     * DOWN + STAND
+     */
 
     public ChickenEntity (GamePanel gp, PlayState ps) {
         super(gp, ps);
-        // TODO: HARD CODE
-        ModelState gs = new ModelState(100);
-
-        this.animal = gs.getAnimalList().get(0);
 
         this.setSpeed(1);
         this.direction = Direction.DOWN;
-        posture = Posture.STAND;
+        posture = STAND;
 
         setImage();
-//        this.collision = true;
+        setAnimation(
+                FLIP,
+                sprite.getSpriteArray(FLIP + posture),
+                12
+        );
     }
 
     /**
@@ -44,38 +57,44 @@ public class ChickenEntity extends AnimalEntity {
         ImageSplitter ci = new ImageSplitter(gp, "/chicken/chicken-sprite-sheet.png", 32, 32, 0);
         System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
 
-        this.sprite = new SpriteSheet(4, 16);
+        BufferedImage[] imgs = new BufferedImage[16];
+        BufferedImage[] flipImgs = new BufferedImage[16];
+
 
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
-                this.sprite.addSprite(UP, ci.getSubImage(i, j)) ;
-                this.sprite.addSprite(LEFT, ci.getSubImage(i, j)) ;
-                this.sprite.addSprite(DOWN, ci.getFlipSubImage(i, j)) ;
-                this.sprite.addSprite(RIGHT, ci.getFlipSubImage(i, j)) ;
+                imgs[i*4+j] = ci.getSubImage(i, j);
+                flipImgs[i*4+j] = ci.getFlipSubImage(i, j);
+//                this.sprite.addSprite(UP, ci.getSubImage(i, j)) ;
+//                this.sprite.addSprite(LEFT, ci.getSubImage(i, j)) ;
+//                this.sprite.addSprite(DOWN, ci.getFlipSubImage(i, j)) ;
+//                this.sprite.addSprite(RIGHT, ci.getFlipSubImage(i, j)) ;
             }
         }
 
-    }
+        // Mảng gồm index của các ảnh trong 1 động tác.
+        int[][] actIds = {
+                {1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4},   // STAND
+                {5, 6, 7, 8, 5, 6, 7, 8, 5, 6, 7, 8},   // EAT
+                {9, 10, 11, 12, 12, 12, 12, 12, 12, 11, 10, 9 },    // SIT
+                {13, 13, 14, 14, 15, 15, 16, 16, 15, 14, 13, 12, 13}    // LEAP
+        };
 
-    // test
-    public String[] getAnimalStatus () {
-        String name = "Chicken";
-        int HP = animal.getHP();
-        int age = animal.getAge();
-        int calo = animal.getCalo();
-        int sleep = animal.getSleep();
-        int water =  animal.getWater();
-        Food food = animal.getNeededFood().getFood();
-
-        return (new String[] {
-                "Name: " + name,
-                "HP: " + HP,
-                "Age: " + age,
-                "Calo: " + calo,
-                "Sleep: " + sleep,
-                "Water: " + water,
-                "Food: " + food
-        });
+        // spritesheet
+        this.sprite = new SpriteSheet(8, 16);
+        for (int i = 0; i < actIds.length; i++) {
+            int[] ids = actIds[i];
+            for (int j : ids) {
+                this.sprite.addSprite(
+                        NOFLIP + i,
+                        imgs[j-1]
+                );
+                this.sprite.addSprite(
+                        FLIP + i,
+                        imgs[j-1]
+                );
+            }
+        }
     }
 
     /**
@@ -118,109 +137,68 @@ public class ChickenEntity extends AnimalEntity {
             }
             actionLockCounter = 0;
         }
+
+        // random tu the
+        counter++;
+        int circle = 10;
+        int nState = 12;
+        if(counter >= (circle * nState)) {
+            counter = 0;
+            Random random = new Random();
+            int r = random.nextInt(4);
+            if (r == 0) posture = EAT;
+            else if (r == 1) posture = LEAP;
+            else if (r == 2) posture = SIT;
+            else posture = STAND;
+
+            if(posture == EAT || posture == SIT) {
+                setSpeed(0);
+            } else {
+                setSpeed(1);
+            }
+        }
     }
     /**
      * {@inheritDoc}
      */
     @Override
     public void animate(boolean isRunning) {
-        // todo: move animate logic here
+
+        if (direction == prevDirection)
+            return;
+        prevDirection = direction;
+
+        switch (direction) {
+            case UP:
+            case LEFT:
+                setAnimation(
+                        FLIP,
+                        sprite.getSpriteArray(FLIP + posture),
+                        12
+                );
+                break;
+            case DOWN:
+            case RIGHT:
+                setAnimation(
+                        NOFLIP,
+                        sprite.getSpriteArray(NOFLIP + posture),
+                        12
+                );
+                break;
+        }
     }
 
     public void update (double time) {
-        counter++;
-        int circle = 10;
-        int nState = 12;
-        int c = counter / (circle);
-        if(counter >= (circle * nState)) {
-            counter = 0;
-
-            Random random = new Random();
-            int r = random.nextInt(4);
-            if (r == 0) posture = Posture.EAT;
-            else if (r == 1) posture = Posture.LEAP;
-            else if (r == 2) posture = Posture.SIT;
-            else posture = Posture.STAND;
-
-            if(posture == Posture.EAT || posture == Posture.SIT) {
-                setSpeed(0);
-            } else {
-                setSpeed(1);
-            }
-        } else {
-
-            int[] stand = {1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4};
-            int[] eat = {5, 6, 7, 8, 5, 6, 7, 8, 5, 6, 7, 8};
-            int[] sit = {9, 10, 11, 12, 12, 12, 12, 12, 12, 11, 10, 9 };
-            int[] leap = {13, 13, 14, 14, 15, 15, 16, 16, 15, 14, 13, 12, 13};
-
-            int i = 0;
-            switch (posture) {
-                case SIT:
-                    i = sit[c] - 1;
-                    break;
-                case EAT:
-                    i = eat[c] - 1;
-                    break;
-                case STAND:
-                    i = stand[c] - 1;
-                    break;
-                case LEAP:
-                    i = leap[c] - 1;
-                    break;
-            }
-            // set image
-            switch (direction) {
-                case UP:
-                case LEFT:
-                    if (sprite.getSprite(UP, i)  != null)
-                        image = sprite.getSprite(UP, i).image;
-                    break;
-                case DOWN:
-                case RIGHT:
-                    if (sprite.getSprite(UP, i)  != null)
-                        image = sprite.getSprite(DOWN, i).image;
-                    break;
-            }
-
-            if (direction == Direction.UP) {
-                if (!tc.collisionTile(0, - getSpeed())) {
-                    pos.addY(-getSpeed());
-                    collisionOn = false;
-                }
-                else collisionOn = true;
-            }
-            else if (direction == Direction.DOWN) {
-                if (!tc.collisionTile(0, getSpeed())) {
-                    pos.addY(getSpeed());
-                    collisionOn = false;
-                }
-                else collisionOn = true;
-            }
-            else if (direction == Direction.RIGHT) {
-                if (!tc.collisionTile(getSpeed(), 0)) {
-                    pos.addX(getSpeed());
-                    collisionOn = false;
-                }
-                else collisionOn = true;
-            }
-            else if (direction == Direction.LEFT) {
-                if (!tc.collisionTile(-getSpeed(), 0)) {
-                    pos.addX(-getSpeed());
-                    collisionOn = false;
-                }
-                else collisionOn = true;
-            }
-        }
+        checkCollisionAndMove(this.direction, this.getSpeed());
+        animate(true);
+        image = ani.getImage().image;
     }
 
     /**
      * {@inheritDoc}
      */
     public void draw (Graphics2D g2) {
-        // todo
         update (0);
         super.draw(g2);
-        //        g2.drawImage(image, (int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, null );
     }
 }

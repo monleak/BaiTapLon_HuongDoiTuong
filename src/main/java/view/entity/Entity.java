@@ -66,7 +66,7 @@ public abstract class Entity extends GameObject implements IMoveable {
     /**
      * Entity.setAction:
      * <ul><li>
-     * set hươngs di chuyển cho con vật
+     * random hươngs di chuyển và tư thế cho con vật
      * </li></ul>
      */
     public void setAction() {}

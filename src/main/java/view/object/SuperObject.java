@@ -29,8 +29,6 @@ public class SuperObject extends GameObject {
     }
 
     private int[] calculatePosition () {
-//        int screenX = getWorldX() - ps.player.getWorldX() + ps.player.screenX;
-//        int screenY = getWorldY() - ps.player.getWorldY() + ps.player.screenY;
         int screenX = (int) this.pos.getWorldVar().x;
         int screenY = (int) this.pos.getWorldVar().y;
 
@@ -48,7 +46,6 @@ public class SuperObject extends GameObject {
     }
 
     public boolean checkInMap () {
-
         return GameStateManager.camera.getBounds().collides(
                 this.bounds
         );

@@ -42,7 +42,6 @@ public class FoxEntity extends AnimalEntity {
         this.unFollowRange.setYOffset((int) -5 * gp.titleSize);
 
         setImage();
-
     }
 
     /**
@@ -60,6 +59,7 @@ public class FoxEntity extends AnimalEntity {
     public void animate(boolean isRunning) {
 //        setAnimation(0, sprite.getSpriteArray(0), 100);
     }
+
     /**
      * {@inheritDoc}
      */
@@ -84,31 +84,28 @@ public class FoxEntity extends AnimalEntity {
         setAnimation(3, sprite.getSpriteArray(3), 10);
     }
 
+    /**
+     * Follow:
+     * - Đi theo, đến vị trí của 1 entity ( 1 con vật khác, người chơi, vật thể khác ) trên bản đò.
+     */
     public void follow (Entity entity) {
         if (currentAnimation != 4)
             setAnimation(4, sprite.getSpriteArray(4), 10);
         this.entity = entity;
-        int entityRow = (int) entity.getBounds().getPos().x;
-        int entityCol = (int) entity.getBounds().getPos().y / gp.titleSize;
-            pathFinder.setNodes(
-                    (int) this.pos.x,
-                    (int) this.pos.y,
-                    (int) entity.getBounds().getPos().x,
-                    (int) entity.getBounds().getPos().y,
-                    null
-            );
+        pathFinder.setNodes(
+                (int) this.pos.x,
+                (int) this.pos.y,
+                (int) entity.getBounds().getPos().x,
+                (int) entity.getBounds().getPos().y,
+                null
+        );
     }
-
     public void unfollow () {
         entity = null;
         if (sprite != null) // if setImage not error
             setAnimation(3, sprite.getSpriteArray(3), 10);
     }
 
-    @Override
-    public String[] getAnimalStatus() {
-        return new String[0];
-    }
 
     /**
      * {@inheritDoc}
