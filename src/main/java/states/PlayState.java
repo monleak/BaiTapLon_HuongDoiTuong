@@ -1,12 +1,13 @@
 package states;
 
-import view.entity.Entity;
-import view.entity.GameObject;
-import view.entity.Player;
+import model.Animals.Animal;
+import model.Animals.Chicken;
+import view.entity.*;
 import view.main.*;
 import view.title.TileManager;
 
 import java.awt.*;
+import java.util.List;
 
 /**
  * PlayState
@@ -44,7 +45,26 @@ public class PlayState extends GameState {
      */
     @Override
     public void setup () {
-        assetSetter.setObject();
+        GamePanel gp = GameStateManager.gp;
+        PlayState ps = this;
+        if (GameStateManager.modelState == null)
+            assetSetter.setObject();
+        else {
+            List<Animal> animals = GameStateManager.modelState.getAnimalList();
+            for (int i = 0; i < animals.size(); i++) {
+                if (animals.get(i) instanceof Chicken) {
+                    obj[i] = new ChickenEntity(gp, ps, animals.get(i));
+                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[i].collision = false;
+                } else {
+                    obj[i] = new FoxEntity(gp, ps, animals.get(i));
+                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[i].collision = false;
+                }
+            }
+        }
         playMusic(0);
     }
 

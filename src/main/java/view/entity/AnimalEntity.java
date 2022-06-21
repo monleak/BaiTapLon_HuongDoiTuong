@@ -13,12 +13,9 @@ import view.utils.Direction;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-enum Posture {
-    STAND, SIT, EAT, LEAP
-}
-
 public abstract class AnimalEntity extends Entity implements IFocusable {
 
+    // Kết tập animal
     protected Animal animal;
     protected TileCollision tc;
     public FocusableHandler fch;
@@ -29,6 +26,9 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
         fch = new FocusableHandler();
     }
 
+    /**
+     * Lấy ra đối tượng animal
+     */
     public Animal getAnimal() {
         return animal;
     }

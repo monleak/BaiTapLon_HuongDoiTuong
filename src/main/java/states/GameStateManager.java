@@ -1,5 +1,6 @@
 package states;
 
+import model.ModelState;
 import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
@@ -16,6 +17,7 @@ import java.awt.*;
  */
 public class GameStateManager {
     private final GameState[] states;
+    public static ModelState modelState = null;
 
     /**
      * index của các màn hình

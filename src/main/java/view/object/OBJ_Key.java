@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class OBJ_Key extends SuperObject implements IFocusable {
-    public static final int DELAY_FRAME = 10;
-    public static final int ANIMATION_FRAME = 10;
 
     public FocusableHandler fch = new FocusableHandler();
 
@@ -76,5 +74,4 @@ public class OBJ_Key extends SuperObject implements IFocusable {
     public void draw(Graphics2D g2) {
         draw(g2, true);
     }
-
 }

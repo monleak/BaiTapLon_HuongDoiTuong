@@ -64,37 +64,14 @@ public class ModelState {
         Activity drinkActivity  = new DrinkActivity();
 
         Schedule catSchedule = new Schedule();
-        // FIXME:
-//        catSchedule.setActivity(0, sleepActivity)
-//                .setActivity(1, sleepActivity)
-//                .setActivity(2, sleepActivity)
-//                .setActivity(3, sleepActivity)
-//                .setActivity(4, sleepActivity)
-//                .setActivity(5, sleepActivity)
-//                .setActivity(6, sleepActivity)
-//                .setActivity(7, playActivity)
-//                .setActivity(8, playActivity)
-//                .setActivity(9, playActivity)
-//                .setActivity(10, eatActivity)
-//                .setActivity(11, eatActivity)
-//                .setActivity(12, drinkActivity)
-//                .setActivity(13, drinkActivity)
-//                .setActivity(14, playActivity)
-//                .setActivity(15, playActivity)
-//                .setActivity(16, playActivity)
-//                .setActivity(17, playActivity)
-//                .setActivity(18, playActivity)
-//                .setActivity(19, playActivity)
-//                .setActivity(20, playActivity)
-//                .setActivity(21, sleepActivity)
-//                .setActivity(22, sleepActivity)
-//                .setActivity(23, sleepActivity);
 
         defaultScheduleList.add(catSchedule);
 
-        this.animalList.add(new Cat(catSchedule, foodList.get(0), 10));
         this.foodManager = new FoodManager();
+    }
 
+    public List<Schedule> getDefaultScheduleList() {
+        return defaultScheduleList;
     }
 
     public int getSimulationSpeed() {
@@ -107,6 +84,10 @@ public class ModelState {
 
     public List<Schedule> getDefaultSchedule() {
         return defaultScheduleList;
+    }
+
+    public List<Food> getFoodList() {
+        return foodList;
     }
 
     public Player getPlayer() {

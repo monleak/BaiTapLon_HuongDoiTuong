@@ -10,6 +10,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Ko dùng nữa
+ * @deprecated
+ */
 public class OBJ_Fence extends SuperObject{
     Direction direction;
     int num;

@@ -1,5 +1,6 @@
 package view.entity;
 
+import model.Animals.Animal;
 import states.PlayState;
 import view.graphics.SpriteSheet;
 import view.ai.Node;
@@ -44,6 +45,10 @@ public class FoxEntity extends AnimalEntity {
         setImage();
     }
 
+    public FoxEntity (GamePanel gp, PlayState ps, Animal animal) {
+        this(gp, ps);
+        this.animal = animal;
+    }
     /**
      * {@inheritDoc}
      */

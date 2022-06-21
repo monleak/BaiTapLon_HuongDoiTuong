@@ -1,5 +1,6 @@
 package view.main;
 
+import model.ModelState;
 import states.GameStateManager;
 
 import javax.swing.*;
@@ -43,8 +44,15 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
+    public GamePanel(ModelState modelState) {
+        this();
+
+        GameStateManager.modelState = modelState;
+    }
+
     // call in main
     public void setupGame () {
+        // todo: custom
         gsm.setup();
         // ...when start game
     }

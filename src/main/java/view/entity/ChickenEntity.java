@@ -1,5 +1,6 @@
 package view.entity;
 
+import model.Animals.Animal;
 import model.Food;
 import model.ModelState;
 import states.PlayState;
@@ -48,6 +49,10 @@ public class ChickenEntity extends AnimalEntity {
         );
     }
 
+    public ChickenEntity (GamePanel gp, PlayState ps, Animal animal) {
+        this(gp, ps);
+        this.animal = animal;
+    }
     /**
      * {@inheritDoc}
      */

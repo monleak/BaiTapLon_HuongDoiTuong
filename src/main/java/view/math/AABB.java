@@ -1,6 +1,8 @@
 package view.math;
 
 import view.entity.GameObject;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -234,4 +236,12 @@ public class AABB {
 	}
 
 
+    public void render(Graphics2D g2) {
+        g2.drawRect(
+                (int)(pos.x - xOffset),
+                (int) (pos.y - yOffset),
+                (int) w,
+                (int) h
+        );
+    }
 }

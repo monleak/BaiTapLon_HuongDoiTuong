@@ -6,6 +6,9 @@ import view.utils.ImageSplitter;
 
 import java.awt.*;
 
+/**
+ * @deprecated
+ */
 public class Buffalo extends OBJ_Key {
     ImageSplitter ci;
     private int counter;
@@ -43,20 +46,8 @@ public class Buffalo extends OBJ_Key {
             else if(counter < INTERVAL * 3) {
                 c = 2;
             }
-//            else if (counter < INTERVAL*4) {
-//                r = 1; c = 0;
-//            } else if (counter < INTERVAL*5) {
-//                r = 1; c = 1;
-//            }
         }
         this.image = ci.getSubImage(r, c);
-//        int screenX = getScreenX();
-//                getWorldX() - gp.player.getWorldX() + gp.player.screenX + this.solidAreaDefaultX;
-//        int screenY = getScreenY();
-//                getWorldY() - gp.player.getWorldY() + gp.player.screenY + this.solidAreaDefaultY;
-//        super.draw(g2, false);
-//        Rectangle s = (Rectangle) this.solidArea.clone();
-//        s.setLocation(screenX, screenY);
-//        g2.draw(s);
+
     }
 }
