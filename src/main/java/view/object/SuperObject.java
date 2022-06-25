@@ -3,6 +3,8 @@ package view.object;
 import states.GameStateManager;
 import states.PlayState;
 import view.effect.FloatingHandler;
+import view.effect.FocusableHandler;
+import view.effect.IFocusable;
 import view.entity.GameObject;
 import view.main.GamePanel;
 import view.math.AABB;
@@ -17,12 +19,32 @@ import java.awt.image.BufferedImage;
  *
  * todo:
  */
-public class SuperObject extends GameObject {
+public class SuperObject extends GameObject implements IFocusable {
 
     public BufferedImage image;
     Tool tool = new Tool();
 
     private final FloatingHandler flh = new FloatingHandler();
+
+    public FocusableHandler fch = new FocusableHandler(ps, this);
+
+    // IFocusManager
+    @Override
+    public void setHovered(boolean hovered) {
+        this.fch.setHovered(hovered);
+    }
+    @Override
+    public void setFocused(boolean focused) {
+        this.fch.setFocused(focused);
+    }
+    @Override
+    public boolean getIsHovered() {
+        return this.fch.getIsHovered();
+    }
+    @Override
+    public boolean getIsFocused() {
+        return this.fch.getIsFocused();
+    }
 
     public SuperObject(GamePanel gp, PlayState ps) {
         super(gp, ps);
@@ -57,6 +79,8 @@ public class SuperObject extends GameObject {
         if (checkInMap()) {
             g2.drawImage(image, p[0], p[1], gp.titleSize, gp.titleSize, null);
         }
+
+        fch.draw(g2, this.bounds, this.name);
     }
 
     public void draw (Graphics2D g2, boolean isFloatingEnabled) {
@@ -64,5 +88,7 @@ public class SuperObject extends GameObject {
         if (checkInMap()) {
             g2.drawImage(image, p[0], p[1], gp.titleSize, gp.titleSize, null);
         }
+        fch.draw(g2, this.bounds, this.name);
+
     }
 }

@@ -2,6 +2,7 @@ package view.main;
 
 import states.GameStateManager;
 import view.entity.Entity;
+import view.entity.GameObject;
 import view.math.AABB;
 import view.math.Vector2f;
 
@@ -17,7 +18,7 @@ import view.math.Vector2f;
  */
 public class Camera {
     private final AABB collisionCam;
-    private Entity e;
+    private GameObject e;
 
     private int widthLimit;
     private int heightLimit;
@@ -37,7 +38,7 @@ public class Camera {
         this.widthLimit = widthLimit;
         this.heightLimit = heightLimit;
     }
-    public Entity getTarget() { return e; }
+    public GameObject getTarget() { return e; }
     public Vector2f getPos() {
         return collisionCam.getPos();
     }
@@ -47,113 +48,52 @@ public class Camera {
 
     public void update() {
         if (e != null)
-            if (!e.collisionOn)
-                move();
+            move();
     }
 
     private void move() {
-        int rightOffset = GameStateManager.gp.screenWidth
-                - (int) Vector2f.getWorldVarX(0)
-                - GameStateManager.gp.worldWidth
-                + (int) getPos().getWorldVar().x;
-        if (e != null)
-//            System.out.println(e.getPos());
-        if (
-                up
-                && (int) e.getPos().y >= GameStateManager.gp.screenHeight / 2
-                && (int) e.getPos().y <= GameStateManager.gp.worldHeight - (GameStateManager.gp.screenHeight) / 2
-        ) {
-            collisionCam.getPos().y = collisionCam.getPos().y - speed;
-            Vector2f.setWorldVar(collisionCam.getPos().x, collisionCam.getPos().y);
+        if (e != null) {
+            int centerScreenX = (GameStateManager.gp.screenWidth - GameStateManager.gp.titleSize) / 2;
+            int centerScreenY = (GameStateManager.gp.screenHeight - GameStateManager.gp.titleSize) / 2;
+
+            if (e.getPos().x > centerScreenX && e.getPos().x < GameStateManager.gp.worldWidth - centerScreenX - GameStateManager.gp.titleSize ) {
+                collisionCam.getPos().x = e.getPos().x - centerScreenX;
+                Vector2f.setWorldVar(collisionCam.getPos().x, collisionCam.getPos().y);
+            }
+            if (e.getPos().y > centerScreenY && e.getPos().y < GameStateManager.gp.worldHeight - centerScreenY - GameStateManager.gp.titleSize ) {
+                collisionCam.getPos().y = e.getPos().y - centerScreenY;
+                Vector2f.setWorldVar(collisionCam.getPos().x, collisionCam.getPos().y);
+            }
         }
-//        System.out.println(collisionCam.getPos().y);
-        else if (
-                down
-                && collisionCam.getPos().y < GameStateManager.gp.worldHeight - GameStateManager.gp.screenHeight
-                && (int) e.getPos().y > GameStateManager.gp.screenHeight / 2
-        ) {
-            collisionCam.getPos().y = collisionCam.getPos().y + speed;
-            Vector2f.setWorldVar(collisionCam.getPos().x, collisionCam.getPos().y);
-        }
-        else if (right
-                && collisionCam.getPos().x < GameStateManager.gp.worldWidth - GameStateManager.gp.screenWidth
-                && (int) e.getPos().x > GameStateManager.gp.screenWidth / 2) {
-            collisionCam.getPos().x = collisionCam.getPos().x + speed;
-            Vector2f.setWorldVar(collisionCam.getPos().x, collisionCam.getPos().y);
-        }
-        else if (
-                left
-                        && (int) e.getPos().x >= GameStateManager.gp.screenWidth / 2
-                        && (int) e.getPos().x <= GameStateManager.gp.worldWidth - (GameStateManager.gp.screenWidth) / 2
-//                && collisionCam.getPos().x > 0
-//                && (int) e.getPos().getWorldVar().x == GameStateManager.gp.screenWidth / 2
-        ) {
-            collisionCam.getPos().x = collisionCam.getPos().x - speed;
-            Vector2f.setWorldVar(collisionCam.getPos().x, collisionCam.getPos().y);
-        }
-//        if (up) {
-//            dy -= acc;
-//            if (dy < -maxSpeed) {
-//                dy = -maxSpeed;
-//            }
-//        } else {
-//            if (dy < 0) {
-//                dy += deacc;
-//                if (dy > 0) {
-//                    dy = 0;
-//                }
-//            }
-//        }
-//        if (down) {
-//            dy += acc;
-//            if (dy > maxSpeed) {
-//                dy = maxSpeed;
-//            }
-//        } else {
-//            if (dy > 0) {
-//                dy -= deacc;
-//                if (dy < 0) {
-//                    dy = 0;
-//                }
-//            }
-//        }
-//        if (left) {
-//            dx -= acc;
-//            if (dx < -maxSpeed) {
-//                dx = -maxSpeed;
-//            }
-//        } else {
-//            if (dx < 0) {
-//                dx += deacc;
-//                if (dx > 0) {
-//                    dx = 0;
-//                }
-//            }
-//        }
-//        if (right) {
-//            dx += acc;
-//            if (dx > maxSpeed) {
-//                dx = maxSpeed;
-//            }
-//        } else {
-//            if (dx > 0) {
-//                dx -= deacc;
-//                if (dx < 0) {
-//                    dx = 0;
-//                }
-//            }
-//        }
+
     }
 
-    public void target(Entity e) {
+    public void target(GameObject e) {
         this.e = e;
-        collisionCam.getPos().x = e.getPos().x - GameStateManager.gp.screenWidth / 2.0f;
-        collisionCam.getPos().y = e.getPos().y - GameStateManager.gp.screenHeight / 2.0f;
+        int centerScreenX = (GameStateManager.gp.screenWidth - GameStateManager.gp.titleSize) / 2;
+        int centerScreenY = (GameStateManager.gp.screenHeight - GameStateManager.gp.titleSize) / 2;
+        float camX = e.getPos().x - centerScreenX;
+        float camY = e.getPos().y - centerScreenY;
+        int maxCamX = GameStateManager.gp.worldWidth - GameStateManager.gp.screenWidth;
+        int maxCamY = GameStateManager.gp.worldHeight - GameStateManager.gp.screenHeight;
+        if(camX >= 0 && camX <= maxCamX)
+            collisionCam.getPos().x = camX;
+        else if (camX < 0)
+            collisionCam.getPos().x = 0;
+        else if (camX > maxCamX)
+            collisionCam.getPos().x = maxCamX;
+
+        if(camY >= 0 && camY <= maxCamY)
+            collisionCam.getPos().y = camY;
+        else if (camY < 0)
+            collisionCam.getPos().y = 0;
+        else if (camY > maxCamX)
+            collisionCam.getPos().y = maxCamY;
+
         Vector2f.setWorldVar(collisionCam.getPos().x, collisionCam.getPos().y);
-//        Vector2f.setWorldVar(e.getWorldX(), e.getWorldY());
-//        getPos().setVector(e.getPos().getWorldVar());
         if(e != null) {
-            speed = e.getSpeed();
+            if (e instanceof Entity)
+                speed = ((Entity) e ).getSpeed();
         } else {
             speed = 8;
         }
@@ -164,54 +104,10 @@ public class Camera {
     public void input(MouseHandler mouse, KeyHandler key) {
 
         if (e != null) {
-            if (key.upPressed) {
-                up = true;
-            } else {
-                up = false;
-            }
-            if (key.downPressed) {
-                down = true;
-            } else {
-                down = false;
-            }
-            if (key.leftPressed) {
-                left = true;
-            } else {
-                left = false;
-            }
-            if (key.rightPressed) {
-                right = true;
-            } else {
-                right = false;
-            }
-        } else {
-//            if (!e.yCol) {
-//                if (collisionCam.getPos().y + collisionCam.getHeight() / 2 + dy > e.getPos().y + e.getSize() / 2 + e.getDy() + 2) {
-//                    up = true;
-//                    down = false;
-//                } else if (collisionCam.getPos().y + collisionCam.getHeight() / 2 + dy < e.getPos().y + e.getSize() / 2 + e.getDy() - 2) {
-//                    down = true;
-//                    up = false;
-//                } else {
-//                    dy = 0;
-//                    up = false;
-//                    down = false;
-//                }
-//            }
-//
-//            if (!e.xCol) {
-//                if (collisionCam.getPos().x + collisionCam.getWidth() / 2  + dx > e.getPos().x + e.getSize() / 2 + e.getDx() + 2) {
-//                    left = true;
-//                    right = false;
-//                } else if (collisionCam.getPos().x + collisionCam.getWidth() / 2 + dx < e.getPos().x + e.getSize() / 2 + e.getDx() - 2) {
-//                    right = true;
-//                    left = false;
-//                } else {
-//                    dx = 0;
-//                    right = false;
-//                    left = false;
-//                }
-//            }
+            up = key.upPressed;
+            down = key.downPressed;
+            left = key.leftPressed;
+            right = key.rightPressed;
         }
     }
 

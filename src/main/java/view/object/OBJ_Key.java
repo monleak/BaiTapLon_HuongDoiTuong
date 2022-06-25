@@ -10,27 +10,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class OBJ_Key extends SuperObject implements IFocusable {
+public class OBJ_Key extends SuperObject {
 
-    public FocusableHandler fch = new FocusableHandler();
 
-    // IFocusManager
-    @Override
-    public void setHovered(boolean hovered) {
-        this.fch.setHovered(hovered);
-    }
-    @Override
-    public void setFocused(boolean focused) {
-        this.fch.setFocused(focused);
-    }
-    @Override
-    public boolean getIsHovered() {
-        return this.fch.getIsHovered();
-    }
-    @Override
-    public boolean getIsFocused() {
-        return this.fch.getIsFocused();
-    }
 
     public OBJ_Key (GamePanel gp, PlayState ps) {
         super (gp, ps);

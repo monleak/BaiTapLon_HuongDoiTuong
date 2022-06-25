@@ -52,6 +52,7 @@ public class ChickenEntity extends AnimalEntity {
     public ChickenEntity (GamePanel gp, PlayState ps, Animal animal) {
         this(gp, ps);
         this.animal = animal;
+        this.name = "Chicken";
     }
     /**
      * {@inheritDoc}

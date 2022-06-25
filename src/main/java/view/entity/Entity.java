@@ -71,9 +71,6 @@ public abstract class Entity extends GameObject implements IMoveable {
      */
     public void setAction() {}
 
-    public Vector2f getPos() {
-        return pos;
-    }
 
     // entity
     public void setAnimation(int i, Sprite[] frames, int delay) {

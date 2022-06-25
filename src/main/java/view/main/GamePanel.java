@@ -52,9 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // call in main
     public void setupGame () {
-        // todo: custom
         gsm.setup();
-        // ...when start game
     }
 
     public void startGameThread() {
@@ -86,17 +84,16 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             if(timer > 1000000000) {
-                // System.out.println("FPS: " + drawCount);
                 fps = drawCount;
                 drawCount = 0;
                 timer = 0;
             }
+
         }
     }
 
     public void update(double time) {
         gsm.update(time);
-        // ...etc
     }
 
     public void input (MouseHandler mouseH, KeyHandler keyH) {
@@ -127,15 +124,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void drawDebugInfo (Graphics2D g2, Graphics g, long passed) {
-        //
         g2.setColor(Color.WHITE);
         g2.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 
         g2.drawString(passed/1000000f + "ms", this.screenWidth - 100, 28);
         g2.drawString("Draw time: ", this.screenWidth - 200, 28);
 
-//        Test2.commonNumber++;
-//        g.drawString("" + Test2.commonNumber,this.screenWidth - 100, 14);
         g.drawString("Value: ",this.screenWidth - 200, 14);
 
         counter++;

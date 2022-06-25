@@ -5,13 +5,12 @@ import model.Food;
 import states.PlayState;
 import view.effect.FocusableHandler;
 import view.effect.IFocusable;
-import view.graphics.SpriteSheet;
 import view.main.GamePanel;
 import view.title.TileCollision;
 import view.utils.Direction;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class AnimalEntity extends Entity implements IFocusable {
 
@@ -19,11 +18,12 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     protected Animal animal;
     protected TileCollision tc;
     public FocusableHandler fch;
+
     public AnimalEntity(GamePanel gp, PlayState ps) {
         super(gp, ps);
 
         tc = new TileCollision(this);
-        fch = new FocusableHandler();
+        fch = new FocusableHandler(ps, this);
     }
 
     /**
@@ -131,28 +131,9 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
      */
     @Override
     public void update() {
-        {
-            super.update();
-            setAction();
+        super.update();
+        setAction();
 
-            collisionOn = false;
-            ps.cChecker.checkTile(this);
-        }
-    }
-
-    public void drawCenteredString(Graphics g, int worldX, int worldY, String text, Rectangle rect, Font font) {
-        // Get the FontMetrics
-        FontMetrics metrics = g.getFontMetrics(font);
-        if (metrics != null) {
-            // Determine the X coordinate for the text
-            int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
-            // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-            int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-            // Set the font
-            g.setFont(font);
-            // Draw the String
-            g.drawString(text, worldX + x, worldY + y);
-        }
     }
 
     /**
@@ -168,23 +149,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     @Override
     public void draw(Graphics2D g2) {
         super.draw(g2);
-
-        if(fch.getIsHovered()) {
-            g2.drawRect((int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, gp.titleSize, gp.titleSize);
-        }
-
-        int screenX = (int) this.pos.getWorldVar().x;
-        int screenY = (int) this.pos.getWorldVar().y;
-        if(this.fch.getIsFocused() || this.fch.getIsHovered()) {
-//                g2.setColor(Color.WHITE);
-//                drawCenteredString(g2, screenX , screenY - 24,name, new Rectangle(gp.titleSize, 14), new Font("Monaco", Font.PLAIN, 12));
-        }
-        if(this.fch.getIsFocused()) {
-            g2.setColor(Color.BLACK);
-            g2.fillPolygon(new int[] {screenX + 14, screenX+ gp.titleSize/2, screenX + gp.titleSize - 14}, new int[] {screenY - 30, screenY - 22, screenY - 30}, 3);
-            g2.setColor(Color.RED);
-            g2.fillPolygon(new int[] {screenX + 16, screenX+ gp.titleSize/2, screenX + gp.titleSize - 16}, new int[] {screenY - 28, screenY - 24, screenY - 28}, 3);
-            ps.ui.showMessage("Focus: " + this);
-        }
+        fch.draw(g2, this.bounds, this.name);
     }
 }

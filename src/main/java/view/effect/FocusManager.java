@@ -1,7 +1,11 @@
 package view.effect;
 
+import states.GameStateManager;
 import states.PlayState;
 import view.main.GamePanel;
+import view.math.Vector2f;
+
+import java.awt.*;
 
 public class FocusManager {
     private GamePanel gp;
