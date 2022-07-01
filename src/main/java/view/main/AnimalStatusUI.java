@@ -10,7 +10,7 @@ public class AnimalStatusUI {
     private GamePanel gp;
     private String[] messages;
     private boolean isShown;
-    private Font msgFont;
+    private final Font msgFont;
     private Animal animal;
     private final Animation animation;
 

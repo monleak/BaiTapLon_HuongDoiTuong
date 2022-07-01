@@ -11,7 +11,7 @@ public class NormBlock extends Block {
     public NormBlock(Sprite img, Vector2f pos, int w, int h) {
         super(img, pos, w, h);
 
-//        img.setEffect(Sprite.effect.DECAY);
+        // img.setEffect(Sprite.effect.DECAY);
     }
 
     public boolean update(AABB p) {

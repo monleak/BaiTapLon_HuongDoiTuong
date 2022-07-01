@@ -3,6 +3,7 @@ package view.entity;
 import model.Animals.Animal;
 import model.Food;
 import states.PlayState;
+import view.ai.PathFinder;
 import view.effect.FocusableHandler;
 import view.effect.IFocusable;
 import view.main.GamePanel;
@@ -16,13 +17,12 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
 
     // Kết tập animal
     protected Animal animal;
-    protected TileCollision tc;
     public FocusableHandler fch;
+
 
     public AnimalEntity(GamePanel gp, PlayState ps) {
         super(gp, ps);
 
-        tc = new TileCollision(this);
         fch = new FocusableHandler(ps, this);
     }
 
@@ -80,43 +80,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     }
 
     /**
-     * AnimalEntity.checkCollisionAndMove:
-     * <p>
-     * Check va chạm, nếu ko va vòa tường thì di chuyển theo thược tính dierection.
-     * </p>
-     */
-    public void checkCollisionAndMove(Direction direction, int speed) {
-        if (direction == Direction.UP) {
-            if (!tc.collisionTile(0, - speed)) {
-                pos.addY(-speed);
-                collisionOn = false;
-            }
-            else collisionOn = true;
-        }
-        else if (direction == Direction.DOWN) {
-            if (!tc.collisionTile(0, speed)) {
-                pos.addY(speed);
-                collisionOn = false;
-            }
-            else collisionOn = true;
-        }
-        else if (direction == Direction.RIGHT) {
-            if (!tc.collisionTile(speed, 0)) {
-                pos.addX(speed);
-                collisionOn = false;
-            }
-            else collisionOn = true;
-        }
-        else if (direction == Direction.LEFT) {
-            if (!tc.collisionTile(-speed, 0)) {
-                pos.addX(-speed);
-                collisionOn = false;
-            }
-            else collisionOn = true;
-        }
-    }
-
-    /**
      * {@inheritDoc}
      *
      * AnimalEntity.update:
@@ -149,6 +112,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     @Override
     public void draw(Graphics2D g2) {
         super.draw(g2);
-        fch.draw(g2, this.bounds, this.name);
+        fch.draw(g2, this);
     }
 }

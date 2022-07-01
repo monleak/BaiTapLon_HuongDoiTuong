@@ -17,10 +17,8 @@ import java.util.ArrayList;
 
 public class Player extends Entity {
 
-//    public final int screenX, screenY;
     private final FocusManager focusManager;
 
-    // instead of BufferedImage
     private Direction prevDirection;
     private boolean isRunning;
 
@@ -33,13 +31,10 @@ public class Player extends Entity {
     public int RUN_DOWN = 6;
     public int RUN_LEFT = 5;
     public int RUN_RIGHT = 4;
-    private Camera camera;
 
-    private TileCollision tc;
 
     private AnimalEntity animalEntity;
-    private ArrayList<SuperObject> superObjects;
-    private PathFinder pathFinder;
+    private final ArrayList<SuperObject> superObjects;
     private boolean isGoingToMousePosition;
     private Vector2f mousePos;
 
@@ -47,7 +42,6 @@ public class Player extends Entity {
         super(gp, ps);
         setImage();
 
-        this.camera = camera;
         this.focusManager   = new FocusManager(gp, ps);
 
         this.ps = ps;
@@ -57,11 +51,7 @@ public class Player extends Entity {
         this.bounds.setWidth(48 - 16);
         this.bounds.setHeight(48 - 28);
 
-        tc = new TileCollision(this);
-
         superObjects = new ArrayList<>();
-
-        pathFinder = new PathFinder(gp, ps);
 
         setDefaultValue();
     }
@@ -96,7 +86,7 @@ public class Player extends Entity {
                     .addSprite(RUN_RIGHT, ci.getSubImage(3, i));
         }
 
-        setAnimation(RIGHT, sprite.getSpriteArray(DOWN), 10);
+        setAnimation(RIGHT, sprite.getSpriteArray(DOWN), 10);   // DEFAULT ANIMATION
     }
 
     /**
@@ -105,14 +95,14 @@ public class Player extends Entity {
      * Custom player khi chạy và không chạy.
      */
     public void animate(boolean isRunning) {
-        if (prevDirection == direction && this.isRunning == isRunning) {
+        if (prevDirection == direction && this.isRunning == isRunning ) {
             return;
         } else {
             prevDirection = direction;
             this.isRunning = isRunning;
         }
         if ( sprite != null) // if setImage not error
-            if (!isRunning)
+            if (!isRunning && !isGoingToMousePosition)
             {
                 if (direction == Direction.DOWN) {
                     setAnimation(DOWN, sprite.getSpriteArray(DOWN), 30);
@@ -140,7 +130,6 @@ public class Player extends Entity {
                     setAnimation(RUN_RIGHT, sprite.getSpriteArray(RUN_RIGHT), 10);
                 }
             }
-
     }
 
     public void targetAnimal (AnimalEntity animal) {
@@ -154,37 +143,6 @@ public class Player extends Entity {
     public void targetSuperObject (SuperObject superObject) {
         if (superObjects.contains(superObject))
             superObjects.add(superObject);
-    }
-
-    private void run (boolean up, boolean down, boolean right, boolean left) {
-        if (up) {
-            if (!tc.collisionTile(0, - getSpeed())) {
-                pos.addY(-getSpeed());
-                collisionOn = false;
-            }
-            else collisionOn = true;
-        }
-        else if (down) {
-            if (!tc.collisionTile(0, getSpeed())) {
-                pos.addY(getSpeed());
-                collisionOn = false;
-            }
-            else collisionOn = true;
-        }
-        else if (right) {
-            if (!tc.collisionTile(getSpeed(), 0)) {
-                pos.addX(getSpeed());
-                collisionOn = false;
-            }
-            else collisionOn = true;
-        }
-        else if (left) {
-            if (!tc.collisionTile(-getSpeed(), 0)) {
-                pos.addX(-getSpeed());
-                collisionOn = false;
-            }
-            else collisionOn = true;
-        }
     }
 
     public void input(MouseHandler mouseH, KeyHandler keyH) {
@@ -209,50 +167,64 @@ public class Player extends Entity {
         if (!isGoingToMousePosition) {
             pathFinder.getPathList().clear();
         }
-            Node node;
-            if (pathFinder.getPathList().size() > 0 ) {
-                node = pathFinder.getPathList().get(0);
-                if (this.getPos().x > node.column * gp.titleSize) {
-                    this.getPos().x -= getSpeed();
-                    direction = Direction.LEFT;
-                } else if (this.getPos().x < node.column * gp.titleSize) {
-                    this.getPos().x += getSpeed();
-                    direction = Direction.RIGHT;
-                } else if (this.getPos().y > node.row * gp.titleSize) {
-                    this.getPos().y -= getSpeed();
-                    direction = Direction.UP;
-                } else if (this.getPos().y < node.row * gp.titleSize) {
-                    this.getPos().y += getSpeed();
-                    direction = Direction.DOWN;
+        // run to goal
+        if (pathFinder.getPathList().size() > 0 ) {
+            this.isRunning = true;
+            Node node = pathFinder.getPathList().get(0);
+            if (this.getPos().x > node.column * gp.titleSize) {
+                this.getPos().x -= getSpeed();
+                direction = Direction.LEFT;
+            } else if (this.getPos().x < node.column * gp.titleSize) {
+                this.getPos().x += getSpeed();
+                direction = Direction.RIGHT;
+            } else if (this.getPos().y > node.row * gp.titleSize) {
+                this.getPos().y -= getSpeed();
+                direction = Direction.UP;
+            } else if (this.getPos().y < node.row * gp.titleSize) {
+                this.getPos().y += getSpeed();
+                direction = Direction.DOWN;
+            }
+            else {
+                pathFinder.getPathList().remove(0);
+                if (pathFinder.getPathList().size() == 0) {
+                    if (isGoingToMousePosition) {
+                        isGoingToMousePosition = false;
+                        animate(false);
+                    }
                 }
-                else
-                    pathFinder.getPathList().remove(0);
+            }
         }
 
         if(keyH.upPressed) {
             direction = Direction.UP;
+            isRunning = true;
             isGoingToMousePosition = false;
         }
         else if(keyH.downPressed) {
             direction = Direction.DOWN;
+            isRunning = true;
             isGoingToMousePosition = false;
         }
         else if(keyH.leftPressed) {
             direction = Direction.LEFT;
+            isRunning = true;
             isGoingToMousePosition = false;
         }
         else if(keyH.rightPressed) {
             direction = Direction.RIGHT;
+            isRunning = true;
             isGoingToMousePosition = false;
+        } else {
+            isRunning = false;
         }
+        // run
+        if(isRunning)
+            checkCollisionAndMove(direction, getSpeed());
 
         // Check object collision
         int objIndex = ps.cChecker.checkObject(this, true);
         targetNewObject(objIndex);
         this.focusManager.checkAndHoverObject(objIndex);
-
-        // run
-        run(keyH.upPressed, keyH.downPressed, keyH.rightPressed, keyH.leftPressed);
 
         // Handle focus
         if (keyH.enterPressed) {
@@ -285,15 +257,6 @@ public class Player extends Entity {
 
         // draw player
         g2.drawImage(ani.getImage().image, (int) pos.getWorldVar().x, (int) pos.getWorldVar().y, gp.titleSize, gp.titleSize, null);
-
-//        if (this.focusManager.getFocusedObjId() != 999) {
-//            GameObject selectedAnimal = ps.obj[this.focusManager.getFocusedObjId()];
-////            if ( selectedAnimal instanceof AnimalEntity ) {
-////                ps.ui.getAnimalStatusUI().showAnimalStatus(((AnimalEntity) selectedAnimal).animal);
-////            }
-////        } else  if (ps.ui.getAnimalStatusUI().isShown()) {
-////            ps.ui.getAnimalStatusUI().hideAnimalStatus();
-//        }
 
         // TEST: draw character image frame
          g2.drawRect(

@@ -1,12 +1,14 @@
 package view.entity;
 
 import states.PlayState;
+import view.ai.PathFinder;
 import view.graphics.Sprite;
 import view.graphics.SpriteAnimation;
 import view.graphics.SpriteSheet;
 import view.effect.IMoveable;
 import view.main.GamePanel;
 import view.math.Vector2f;
+import view.title.TileCollision;
 import view.utils.Direction;
 
 import java.awt.*;
@@ -17,10 +19,11 @@ public abstract class Entity extends GameObject implements IMoveable {
     BufferedImage image;
 
     public Direction direction;
-    public boolean collisionOn = false;
     protected int currentAnimation;
     protected SpriteSheet sprite;
     protected SpriteAnimation ani;
+    protected PathFinder pathFinder;
+    protected TileCollision tc;
 
     /**
      * WARNING: DO NOT USE THIS
@@ -33,6 +36,8 @@ public abstract class Entity extends GameObject implements IMoveable {
     public Entity (GamePanel gp, PlayState ps) {
         super(gp, ps);
         ani = new SpriteAnimation();
+        pathFinder = new PathFinder(gp, ps);
+        tc = new TileCollision(this);
     }
 
     @Override
@@ -96,6 +101,34 @@ public abstract class Entity extends GameObject implements IMoveable {
      */
     public abstract void animate(boolean isRunning);
 
+    /**
+     * AnimalEntity.checkCollisionAndMove:
+     * <p>
+     * Check va chạm, nếu ko va vòa tường thì di chuyển theo thược tính dierection.
+     * </p>
+     */
+    public void checkCollisionAndMove(Direction direction, int speed) {
+        if (direction == Direction.UP) {
+            if (!tc.collisionTile(0, - speed)) {
+                pos.addY(-speed);
+            }
+        }
+        else if (direction == Direction.DOWN) {
+            if (!tc.collisionTile(0, speed)) {
+                pos.addY(speed);
+            }
+        }
+        else if (direction == Direction.RIGHT) {
+            if (!tc.collisionTile(speed, 0)) {
+                pos.addX(speed);
+            }
+        }
+        else if (direction == Direction.LEFT) {
+            if (!tc.collisionTile(-speed, 0)) {
+                pos.addX(-speed);
+            }
+        }
+    }
 //    public abstract void input(MouseHandler mouseH, KeyHandler keyH);
 
     /**

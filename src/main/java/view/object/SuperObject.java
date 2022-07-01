@@ -89,6 +89,5 @@ public class SuperObject extends GameObject implements IFocusable {
             g2.drawImage(image, p[0], p[1], gp.titleSize, gp.titleSize, null);
         }
         fch.draw(g2, this.bounds, this.name);
-
     }
 }

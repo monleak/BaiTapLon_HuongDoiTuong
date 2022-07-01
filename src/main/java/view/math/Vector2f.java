@@ -9,9 +9,11 @@ package view.math;
  *
  */
 public class Vector2f {
+
     // Tọa độ trên map
     public float x;
     public float y;
+
     // Tọa đô của camera (static)
     public static float worldX;
     public static float worldY;
