@@ -55,6 +55,11 @@ public abstract class Animal {
             isDead = true;
         }
     }
+
+    public int getMaxHP() {
+        return maxHP;
+    }
+
     public int getWater() {
         return water;
     }

@@ -113,7 +113,7 @@ public class FocusableHandler implements IFocusable {
         g2.setColor(Color.RED);
         // remove calculate
         g2.fillRect(barScreenX, barScreenY,
-                barWidth * (animalEntity.getAnimal().getHP() / 100),
+                barWidth * (animalEntity.getAnimal().getHP() / animalEntity.getAnimal().getMaxHP()),
                 barHeight / 3
         );
         g2.setColor(Color.GREEN);
