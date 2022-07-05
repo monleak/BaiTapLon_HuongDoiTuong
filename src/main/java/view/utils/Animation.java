@@ -89,6 +89,10 @@ public class Animation {
         }
     }
 
+    public void reset () {
+        reset(true, false);
+    }
+
     public void start() {
         if (!isDone) {
             isActive = true;

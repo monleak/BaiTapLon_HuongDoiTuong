@@ -4,6 +4,7 @@ import model.Animals.Animal;
 import model.Animals.Chicken;
 import view.entity.*;
 import view.main.*;
+import view.object.OBJ_Key;
 import view.title.TileManager;
 
 import java.awt.*;
@@ -64,8 +65,14 @@ public class PlayState extends GameState {
                     obj[i].collision = false;
                 }
             }
+            obj[10] = new OBJ_Key(gp, ps);
+            obj[10].getBounds().getPos().x = 20 * gp.titleSize;
+            obj[10].getBounds().getPos().y = 20 * gp.titleSize;
+
         }
         playMusic(0);
+
+//        camera.target(obj[1]);
     }
 
     /**
@@ -76,6 +83,7 @@ public class PlayState extends GameState {
 
         if(!gsm.isStateActive(GameStateManager.PAUSE)) {
             player.update();
+            ui.update();
 
             for (int i = 0; i < obj.length; i++) {
                 if(obj[i] instanceof Entity ) {
@@ -110,8 +118,6 @@ public class PlayState extends GameState {
         for (GameObject superObject : obj) {
             if (superObject != null) {
                 superObject.draw(g2);
-            } else {
-                break;
             }
         }
 

@@ -8,7 +8,7 @@ import view.title.blocks.Block;
  *
  */
 public class TileCollision {
-    private Entity e;
+    private final Entity e;
 
     private int tileId;
 

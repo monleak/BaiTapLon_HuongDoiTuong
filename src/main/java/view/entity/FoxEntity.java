@@ -4,7 +4,6 @@ import model.Animals.Animal;
 import states.PlayState;
 import view.graphics.SpriteSheet;
 import view.ai.Node;
-import view.ai.PathFinder;
 import view.main.GamePanel;
 import view.math.AABB;
 import view.utils.ImageSplitter;
@@ -13,7 +12,6 @@ import view.utils.Direction;
 import java.awt.*;
 
 public class FoxEntity extends AnimalEntity {
-    protected PathFinder pathFinder;
     protected int currentRow;
     protected int currentColumn;
     protected int entityRow;
@@ -32,7 +30,6 @@ public class FoxEntity extends AnimalEntity {
 
         this.currentRow = 0;
         this.currentColumn = 0;
-        pathFinder = new PathFinder(gp, ps);
         this.setSpeed(2);
 
         this.followRange = new AABB(this.pos, 5*gp.titleSize);
@@ -134,6 +131,7 @@ public class FoxEntity extends AnimalEntity {
 
         image = ani.getImage().image;
 
+        // follow player if in range
         if (entity == null && this.followRange.colCircleBox(ps.player.getBounds()) ) {
             follow(ps.player);
         } else if (!this.unFollowRange.colCircleBox(ps.player.getBounds())) {
@@ -164,15 +162,19 @@ public class FoxEntity extends AnimalEntity {
             Node next = pathFinder.getPathList().get(0);
             if (this.getPos().x > next.column * gp.titleSize) {
                 this.getPos().x -= getSpeed();
+                direction = Direction.LEFT;
             } else
             if (this.getPos().x < next.column * gp.titleSize) {
                 this.getPos().x += getSpeed();
+                direction = Direction.RIGHT;
             } else
             if (this.getPos().y > next.row * gp.titleSize) {
                 this.getPos().y -= getSpeed();
+                direction = Direction.UP;
             } else
             if (this.getPos().y < next.row * gp.titleSize) {
                 this.getPos().y += getSpeed();
+                direction = Direction.DOWN;
             }
         }
     }
