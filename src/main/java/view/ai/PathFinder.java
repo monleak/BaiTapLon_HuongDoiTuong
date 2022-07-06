@@ -43,6 +43,7 @@ public class PathFinder {
     boolean goalReached = false;
     int step = 0;
     int startX, startY, goalX, goalY;
+    int goalRow, goalCol;
     boolean isInit;
 
     public PathFinder(GamePanel gp, PlayState ps) {
@@ -136,11 +137,11 @@ public class PathFinder {
         this.goalX = goalX;
         this.goalY = goalY;
 
-        int startRow = startX / gp.titleSize;
-        int startCol = startY / gp.titleSize;
+        int startRow = (startX) / gp.titleSize;
+        int startCol = (startY) / gp.titleSize;
 
-        int goalRow = goalX / gp.titleSize;
-        int goalCol = goalY / gp.titleSize;
+        this.goalRow = goalX / gp.titleSize;
+        this.goalCol = goalY / gp.titleSize;
 
         startNode = node[startRow][startCol];
         currentNode = startNode;
@@ -186,10 +187,15 @@ public class PathFinder {
                 currentNode.checked = true;
                 openList.remove(currentNode);
 
+                int deltaX = Math.abs(goalCol - col);
+                int deltaY = Math.abs(goalRow - row);
+
+                // open x
                 if (col - 1 >= 0 )
                     openNode(node[col-1][row]);
                 if (col + 1 < gp.maxWorldCol)
                     openNode(node[col+1][row]);
+                // open y
                 if (row + 1 < gp.maxWorldRow)
                     openNode(node[col][row+1]);
                 if (row - 1 >= 0 )

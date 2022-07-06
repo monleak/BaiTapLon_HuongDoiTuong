@@ -38,5 +38,10 @@ public class AssetSetter
         ps.obj[2].getBounds().getPos().y = ((int)(10f * gp.titleSize));
         ps.obj[2].collision = false;
 
+        ps.obj[3] = new ChickenEntity(gp, ps);
+        ps.obj[3].getBounds().getPos().x = ((int)(38f * gp.titleSize));
+        ps.obj[3].getBounds().getPos().y = ((int)(10f * gp.titleSize));
+        ps.obj[3].collision = false;
+
     }
 }

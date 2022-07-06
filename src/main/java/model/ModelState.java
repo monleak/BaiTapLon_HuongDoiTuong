@@ -42,7 +42,6 @@ public class ModelState {
     private int simulationSpeed;
     private List<Animal> animalList;
     private List<Schedule> defaultScheduleList;
-    private Player player;
     private final List<Food> foodList;
     protected FoodManager foodManager;
 
@@ -51,7 +50,6 @@ public class ModelState {
         this.simulationSpeed = simulationSpeed;
         this.animalList = new ArrayList<Animal>(10);
         this.defaultScheduleList = new ArrayList<>(10);
-        this.player = new Player();
         this.foodList = new ArrayList<Food>(10);
 
         foodList.add(new Food("egg"));
@@ -90,10 +88,6 @@ public class ModelState {
         return foodList;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
     public void run (int day, int hour, int minute) {
 
         // Tính lượng thức ăn khi bắt đầu ngày mới.
@@ -105,7 +99,5 @@ public class ModelState {
         for (Animal a : animalList) {
             a.life(day, hour, minute);
         }
-
     }
-
 }

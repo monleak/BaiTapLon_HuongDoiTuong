@@ -150,8 +150,8 @@ public class Player extends Entity {
 
         if (mouseH.getButton() != -1 && pathFinder.getPathList().size() == 0) {
             pathFinder.setNodes(
-                    (int) this.pos.x,
-                    (int) this.pos.y,
+                    (int) this.pos.x + (int) this.getBounds().getXOffset() + (int) this.getBounds().getWidth() / 2,
+                    (int) this.pos.y + (int) this.getBounds().getYOffset() + (int) this.getBounds().getHeight() / 2,
                     (int) - Vector2f.getWorldVarX(0) + mouseH.getX(),
                     (int) - Vector2f.getWorldVarY(0) + mouseH.getY(),
                     this
@@ -267,6 +267,16 @@ public class Player extends Entity {
 
          if (pathFinder.getPathList().size() > 0) {
              g2.drawRect( (int) mousePos.getWorldVar().x - gp.titleSize / 2, (int) mousePos.getWorldVar().y - gp.titleSize / 2, gp.titleSize, gp.titleSize);
+             for (Node step : pathFinder.getPathList() ) {
+                 g2.setColor(Color.red);
+                 g2.drawRect(
+                         (int) Vector2f.getWorldVarX(step.column * gp.titleSize),
+                         (int) Vector2f.getWorldVarY(step.row * gp.titleSize),
+                         gp.titleSize,
+                         gp.titleSize
+                         );
+             }
          }
+
     }
 }

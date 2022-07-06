@@ -5,16 +5,14 @@ import view.ai.PathFinder;
 import view.graphics.Sprite;
 import view.graphics.SpriteAnimation;
 import view.graphics.SpriteSheet;
-import view.effect.IMoveable;
 import view.main.GamePanel;
-import view.math.Vector2f;
 import view.title.TileCollision;
 import view.utils.Direction;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Entity extends GameObject implements IMoveable {
+public abstract class Entity extends GameObject{
     private int speed;
     BufferedImage image;
 
@@ -40,17 +38,14 @@ public abstract class Entity extends GameObject implements IMoveable {
         tc = new TileCollision(this);
     }
 
-    @Override
     public int getSpeed() {
         return speed;
     }
 
-    @Override
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
-    @Override
     public Direction getDirection() {
         return direction;
     }

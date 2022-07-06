@@ -71,10 +71,6 @@ public class ChickenEntity extends AnimalEntity {
             for(int j = 0; j < 4; j++) {
                 imgs[i*4+j] = ci.getSubImage(i, j);
                 flipImgs[i*4+j] = ci.getFlipSubImage(i, j);
-//                this.sprite.addSprite(UP, ci.getSubImage(i, j)) ;
-//                this.sprite.addSprite(LEFT, ci.getSubImage(i, j)) ;
-//                this.sprite.addSprite(DOWN, ci.getFlipSubImage(i, j)) ;
-//                this.sprite.addSprite(RIGHT, ci.getFlipSubImage(i, j)) ;
             }
         }
 

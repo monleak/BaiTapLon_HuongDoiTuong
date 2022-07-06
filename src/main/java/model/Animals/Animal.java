@@ -1,12 +1,8 @@
 package model.Animals;
 
-import model.Activities.ActivityType;
-import model.Activities.PlayActivity;
-import model.Activities.SleepActivity;
-import model.Activities.Activity;
+import model.Activities.*;
 import model.Food;
 import model.FoodInventory;
-import model.Activities.Schedule;
 
 import java.util.Random;
 
@@ -187,9 +183,9 @@ public abstract class Animal {
             );
 
             // if specific activity
-            if(this.activity.getActivityType() == ActivityType.eat) {
+            if(this.activity instanceof EatActivity) {
                 this.eat(this.neededFood.getFood(), 10);
-            } else if (this.activity.getActivityType() == ActivityType.drink) {
+            } else if (this.activity instanceof DrinkActivity) {
                 this.drink(10);
             }
 

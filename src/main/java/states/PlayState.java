@@ -43,6 +43,10 @@ public class PlayState extends GameState {
 
     /**
      * {@inheritDoc}
+     * <ul>
+     *     <li>Nếu truyền thêm modelState vào constructor GameState thì tạo con vật dựa trên ModelState </li>
+     *     <li>Ngược lại, tạo con vật dựa trên AssetsSetter</li>
+     * </ul>
      */
     @Override
     public void setup () {

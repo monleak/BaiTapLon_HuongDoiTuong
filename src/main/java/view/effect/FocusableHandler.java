@@ -110,24 +110,28 @@ public class FocusableHandler implements IFocusable {
                 barWidth + 2,
                 barHeight + 2
         );
-        g2.setColor(Color.RED);
-        // remove calculate
-        g2.fillRect(barScreenX, barScreenY,
-                barWidth * (animalEntity.getAnimal().getHP() / animalEntity.getAnimal().getMaxHP()),
-                barHeight / 3
-        );
-        g2.setColor(Color.GREEN);
-        g2.fillRect(barScreenX,
-                barScreenY + barHeight / 3,
-                barWidth * (animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo()),
-                barHeight / 3
-        );
-        g2.setColor(Color.BLUE);
-        g2.fillRect(barScreenX,
-                barScreenY + 2 * barHeight / 3,
-                barWidth * (animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo()),
-                barHeight / 3
-        );
+
+        System.out.println(animalEntity.getAnimal().getHP() / animalEntity.getAnimal().getMaxHP());
+        if (animalEntity.getAnimal() != null) {
+            g2.setColor(Color.RED);
+            // remove calculate
+            g2.fillRect(barScreenX, barScreenY,
+                    barWidth * (animalEntity.getAnimal().getHP() / animalEntity.getAnimal().getMaxHP()),
+                    barHeight / 3
+            );
+            g2.setColor(Color.GREEN);
+            g2.fillRect(barScreenX,
+                    barScreenY + barHeight / 3,
+                    barWidth * (animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo()),
+                    barHeight / 3
+            );
+            g2.setColor(Color.BLUE);
+            g2.fillRect(barScreenX,
+                    barScreenY + 2 * barHeight / 3,
+                    barWidth * (animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo()),
+                    barHeight / 3
+            );
+        }
         g2.setColor(Color.WHITE);
     }
 
