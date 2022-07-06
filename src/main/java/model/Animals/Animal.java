@@ -137,16 +137,16 @@ public abstract class Animal {
 
     // handle specific activity
     public void drink (int ml) {
-        water += ml;
+        this.setSleep(this.getSleep() + ml);
     }
     public int eat (Food food, int amount) {
         if(food.equals(neededFood.getFood())) {
             if(this.calo + amount * food.getCalo() <= neededFood.getTotalCalo()) {
-                this.calo += amount * food.getCalo();
+                this.setCalo(this.getCalo() + amount * food.getCalo());
                 return amount;
             } else {
                 int eatAmount = neededFood.getAmount() - this.calo / food.getCalo();
-                this.calo = neededFood.getTotalCalo();
+                this.setCalo(this.getCalo() + neededFood.getTotalCalo());
                 return eatAmount;
             }
         }

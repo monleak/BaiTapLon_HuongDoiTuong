@@ -7,11 +7,11 @@ public class EatActivity extends Activity {
 
     @Override
     public int getDeltaWater(int maxWater) {
-        return 8;
+        return 4;
     }
     @Override
     public int getDeltaCalo(FoodInventory foodInventory) {
-        return foodInventory.getTotalCalo();
+        return foodInventory.getTotalCalo() / 10;
     }
     @Override
     public int getDeltaSleep(int maxSleep) {
