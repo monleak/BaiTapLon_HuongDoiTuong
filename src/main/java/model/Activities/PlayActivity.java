@@ -14,6 +14,6 @@ public class PlayActivity extends Activity {
     }
     @Override
     public int getDeltaSleep(int maxSleep) {
-        return -4;
+        return -10;
     }
 }

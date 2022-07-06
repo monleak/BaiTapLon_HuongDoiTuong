@@ -1,15 +1,22 @@
 plugins {
     id 'java'
 }
-compileJava.options.encoding = 'UTF-8'
+
 group 'org.example'
 version '1.0-SNAPSHOT'
 
+compileJava.options.encoding = 'UTF-8'
+
 repositories {
     mavenCentral()
+    maven {
+        url 'https://repo.clojars.org'
+        name 'Clojars'
+    }
 }
 
 dependencies {
+    implementation 'org.clojars.guv:jmathplot:0.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
