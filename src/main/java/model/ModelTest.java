@@ -1,10 +1,15 @@
 package model;
 
 import model.Animals.Animal;
+import model.Animals.Cat;
 
 public class ModelTest {
     public static void main (String[] args) {
         ModelState modelState = new ModelState(10);
+
+        modelState.getAnimalList().add(
+                new Cat()
+        );
 
         // gia lap update (60 times per second)
         long lastTime = System.nanoTime();
@@ -24,7 +29,7 @@ public class ModelTest {
 
                 // Ham update
                 modelState.run(dayCounter, hourCounter, minuteCounter);
-
+                System.out.println("day: " + dayCounter + ", hour: " + hourCounter + ", minute: " + minuteCounter);
                 // logic cap nhat ngay thang nam
                 minuteCounter++;
                 if (minuteCounter == 60) {

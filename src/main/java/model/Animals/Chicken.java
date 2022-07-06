@@ -5,7 +5,7 @@ import model.Activities.Schedule;
 
 public class Chicken extends Animal {
 
-    // NOTE: This constructor only use for testing
+    // NOTE: FOR TESTING
     public Chicken () {
         this.maxCalo    = 100;
         this.maxHP      = 100;
@@ -20,7 +20,7 @@ public class Chicken extends Animal {
 
         this.neededFood = new FoodInventory(new Food("Fish", 10), 100);
         this.activity = null;
-//        this.schedule = new Schedule();
+        this.schedule = new Schedule();
     }
 
     public Chicken (Schedule s, Food f, int foodAmount) {

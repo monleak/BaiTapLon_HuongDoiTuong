@@ -76,13 +76,12 @@ public abstract class Animal {
     public int getMaxCalo() {
         return maxCalo;
     }
-    protected void setCalo(int calo) {
+    public void setCalo(int calo) {
         int min = Math.min(calo, maxCalo);
         if (min > 0) {
             this.calo = min;
         } else {
             this.calo = 0;
-            this.activity = new SleepActivity();
         }
     }
     public int getAge() {
@@ -91,7 +90,7 @@ public abstract class Animal {
     public int getMaxAge() {
         return maxAge;
     }
-    protected void setAge(int age) {
+    public void setAge(int age) {
         this.age = age;
     }
     public int getMaxSleep() {
@@ -100,7 +99,7 @@ public abstract class Animal {
     public int getSleep() {
         return sleep;
     }
-    protected void setSleep(int sleep) {
+    public void setSleep(int sleep) {
         int min = Math.min(sleep, maxSleep);
         if ( min > 0 ) {
             this.sleep = min;
@@ -142,24 +141,20 @@ public abstract class Animal {
     }
     public int eat (Food food, int amount) {
         if(food.equals(neededFood.getFood())) {
-            if(this.calo + amount * food.getCalo() <= neededFood.getCalo()) {
+            if(this.calo + amount * food.getCalo() <= neededFood.getTotalCalo()) {
                 this.calo += amount * food.getCalo();
                 return amount;
             } else {
                 int eatAmount = neededFood.getAmount() - this.calo / food.getCalo();
-                this.calo = neededFood.getCalo();
+                this.calo = neededFood.getTotalCalo();
                 return eatAmount;
             }
         }
         return 0;
     }
-    public void play () {
-        this.activity = new PlayActivity();
-    }
 
-    //
-    protected ActivityType getCurrentActivity() {
-        return activity.getActivityType();
+    public Activity getActivity() {
+        return activity;
     }
 
     /**
@@ -171,15 +166,15 @@ public abstract class Animal {
         System.out.println(this.activity);
         if (this.activity != null) {
             // update animal state
-            this.setHP(this.getHP() + this.activity.getDeltaHP());
-            this.setCalo (this.getCalo() + this.activity.getDeltaCalo());
-            this.setWater(this.getWater() + this.activity.getDeltaWater());;
-            this.setSleep(this.getSleep() + this.activity.getDeltaSleep());
+            this.setHP(this.getHP() + this.activity.getDeltaHP(this.maxHP));
+            this.setCalo (this.getCalo() + this.activity.getDeltaCalo(this.neededFood));
+            this.setWater(this.getWater() + this.activity.getDeltaWater(this.maxWater));;
+            this.setSleep(this.getSleep() + this.activity.getDeltaSleep(this.maxSleep));
             System.out.println(
-                    "Hp: " + this.activity.getDeltaHP() +
-                    "Calo: " + this.activity.getDeltaCalo() +
-                    "Water: " + this.activity.getDeltaWater() +
-                    "Sleep: " + this.activity.getDeltaSleep()
+                    "Hp: " + this.activity.getDeltaHP(this.maxHP) +
+                    "Calo: " + this.activity.getDeltaCalo(this.neededFood) +
+                    "Water: " + this.activity.getDeltaWater(this.maxWater) +
+                    "Sleep: " + this.activity.getDeltaSleep(this.maxSleep)
             );
 
             // if specific activity
@@ -228,27 +223,23 @@ public abstract class Animal {
 
     /**
      * Method: life
-     * @param day: [0, 15]
+     * @param day: [0, 30]
      * @param hours [0, 23]
      * @param minutes [0, 60]
      * NOTE: Không override.
      */
     public final void life(int day ,int hours, int minutes) {
         if(!isDead) {
-            if(minutes == 0) {
+            if(minutes == 0)
                 nextActivity(hours);    // Thay đổi hành động mỗi
-            }
-            if (minutes % 15 == 0) {
+            if (minutes % 15 == 0)
                 updateState();          // thực hiện hành động gây thay đổi trạng thái mỗi 15' 1 lần.
-            }
-            if(day == 0 && hours == 0 && minutes == 0) {
+            if(day == 30 && hours == 0 && minutes == 0)
                 growUp();               // Lớn lên mỗi 15 ngày.
-            }
-            System.out.println("life" + day + " " + hours + " " + minutes + " " + this);
+            System.out.println("life: [" + day + "|" + hours + ":" + minutes + "] " + this);
         } else {
             System.out.println("dead");
         }
-//        System.out.println("exec" + minutes);
     }
 
     @Override
