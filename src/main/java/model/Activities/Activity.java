@@ -1,6 +1,8 @@
 package model.Activities;
 
+import model.Animals.Animal;
 import model.FoodInventory;
+import model.IInteractable;
 
 /**
  * Hoạt động:
@@ -21,7 +23,7 @@ public abstract class Activity {
     }
 
     public abstract int getDeltaWater(int maxWater);
-    public abstract int getDeltaCalo(FoodInventory foodInventory);
+    public abstract int getDeltaCalo(int maxCalo);
     public abstract int getDeltaSleep(int maxSleep);
 
     @Override

@@ -1,7 +1,6 @@
 package visualization;
 
 import model.Activities.*;
-import model.Animals.Cat;
 import model.Animals.Chicken;
 import org.math.plot.Plot2DPanel;
 import org.math.plot.plotObjects.BaseLabel;
@@ -17,7 +16,7 @@ public class AnimalLife {
     static double[] y = {5, 6, 7, 9};
     static double[] hp, calo, sleep, water;
     static double[] maxHp, maxCalo, maxSleep, maxWater;
-    static double[] hours = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
+    static double[] hours = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
     static double[] eatAct, drinkAct, playAct, sleepAct;
 
     public static void main (String[] args) {
@@ -59,7 +58,8 @@ public class AnimalLife {
         plot3.addLinePlot("Max sleep", hours, maxSleep);
         plot4.addLinePlot("Water", hours, water);
         plot4.addLinePlot("Max Water", hours, maxWater);
-//        plot5.addBarPlot("Activity", hours);
+
+        plot4.setAlignmentY(1000);
 
         if (eatAct.length > 0)
             plot5.addHistogramPlot("Eat", Color.YELLOW, eatAct, 50);
@@ -83,9 +83,9 @@ public class AnimalLife {
         frame.add(plot4);
         frame.add(plot5);
 
-        frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280, 720);
+        frame.setVisible(true);
     }
 
     public static void setData() {
@@ -107,9 +107,29 @@ public class AnimalLife {
             List<Double> p = new ArrayList<>();
             List<Double> s = new ArrayList<>();
 
+            // day 1
+//            for (double h : hours) {
+//                int hour = (int) h;
+//                cat.life(0, hour, 0);
+//                cat.life(0, hour, 30);
+//            }
+//            // day 2
+//            for (double h : hours) {
+//                int hour = (int) h;
+//                cat.life(1, hour, 0);
+//                cat.life(1, hour, 30);
+//            }
+
+            e.add((double) -1);
+            d.add((double) -1);
+            p.add((double) -1);
+            s.add((double) -1);
+
             for (double h : hours) {
                 int hour = (int) h;
                 cat.life(0, hour, 0);
+                cat.life(0, hour, 30);
+
                 AnimalLife.hp[hour] = cat.getHP();
                 AnimalLife.sleep[hour] = cat.getSleep();
                 AnimalLife.calo[hour] = cat.getCalo();
@@ -130,6 +150,7 @@ public class AnimalLife {
                     s.add( h );
                 }
             }
+
             e.add((double) 25);
             d.add((double) 25);
             p.add((double) 25);
@@ -140,11 +161,11 @@ public class AnimalLife {
             playAct     = p.stream().mapToDouble(Double::doubleValue).toArray();
             sleepAct    = s.stream().mapToDouble(Double::doubleValue).toArray();
 
-            System.out.println("\neat: " + Arrays.toString(eatAct) + "\n drink: " + Arrays.toString(drinkAct) + "\n play: " + Arrays.toString(playAct) + "\n sleep: " + Arrays.toString(sleepAct));
-            System.out.println("water: " + Arrays.toString(water));
-            System.out.println("calo: " + Arrays.toString(calo));
-            System.out.println("sleep: " + Arrays.toString(sleep));
-            System.out.println("max water: " + Arrays.toString(maxWater));
+            System.out.println("\n eat: " + Arrays.toString(eatAct) + "\n drink: " + Arrays.toString(drinkAct) + "\n play: " + Arrays.toString(playAct) + "\n sleep: " + Arrays.toString(sleepAct));
+//            System.out.println("water: " + Arrays.toString(water));
+//            System.out.println("calo: " + Arrays.toString(calo));
+//            System.out.println("sleep: " + Arrays.toString(sleep));
+//            System.out.println("max water: " + Arrays.toString(maxWater));
         } catch (Exception e) {
             e.printStackTrace();
         }

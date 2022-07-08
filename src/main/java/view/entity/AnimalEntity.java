@@ -1,17 +1,12 @@
 package view.entity;
 
 import model.Animals.Animal;
-import model.Food;
 import states.PlayState;
-import view.ai.PathFinder;
 import view.effect.FocusableHandler;
 import view.effect.IFocusable;
 import view.main.GamePanel;
-import view.title.TileCollision;
-import view.utils.Direction;
 
 import java.awt.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class AnimalEntity extends Entity implements IFocusable {
 
@@ -62,7 +57,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
             int calo = animal.getCalo();
             int sleep = animal.getSleep();
             int water =  animal.getWater();
-            Food food = animal.getNeededFood().getFood();
 
             return (new String[] {
                     "Name: " + name,
@@ -71,7 +65,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
                     "Calo: " + calo,
                     "Sleep: " + sleep,
                     "Water: " + water,
-                    "Food: " + food.getName()
             });
         }
         return (new String[] {

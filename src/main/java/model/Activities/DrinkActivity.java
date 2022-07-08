@@ -1,5 +1,6 @@
 package model.Activities;
 
+import model.Animals.Animal;
 import model.FoodInventory;
 
 public class DrinkActivity extends Activity {
@@ -9,7 +10,7 @@ public class DrinkActivity extends Activity {
         return 16;
     }
     @Override
-    public int getDeltaCalo(FoodInventory foodInventory) {
+    public int getDeltaCalo(int maxCalo) {
         return -2;
     }
     @Override

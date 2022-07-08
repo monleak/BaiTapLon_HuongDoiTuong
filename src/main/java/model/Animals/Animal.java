@@ -1,8 +1,7 @@
 package model.Animals;
 
 import model.Activities.*;
-import model.Food;
-import model.FoodInventory;
+import model.Foods.Food;
 
 import java.util.Random;
 
@@ -36,7 +35,6 @@ public abstract class Animal {
     private boolean isDead = false;
     protected Activity activity;
     protected Schedule schedule;
-    protected FoodInventory neededFood;
 
     // Getter and protected setter
     public int getHP() {
@@ -66,6 +64,8 @@ public abstract class Animal {
         int min = Math.min(water, maxWater);
         if(min > 0) {
             this.water = min;
+        } else if (min < 0) {
+            this.setHP(this.getMaxHP() - 2);
         } else {
             this.water = 0;
         }
@@ -80,7 +80,9 @@ public abstract class Animal {
         int min = Math.min(calo, maxCalo);
         if (min > 0) {
             this.calo = min;
-        } else {
+        } else if (min < 0) {
+            this.setHP(this.getMaxHP() - 2);
+        }else {
             this.calo = 0;
         }
     }
@@ -103,6 +105,8 @@ public abstract class Animal {
         int min = Math.min(sleep, maxSleep);
         if ( min > 0 ) {
             this.sleep = min;
+        } else if (min < 0) {
+            this.setHP(this.getMaxHP() - 2);
         } else {
             this.sleep = 0;
             this.activity = new SleepActivity();
@@ -117,9 +121,6 @@ public abstract class Animal {
         isDead = dead;
     }
 
-    public FoodInventory getNeededFood () {
-        return new FoodInventory(neededFood.getFood(), neededFood.getAmount() - calo);
-    }
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
@@ -135,27 +136,11 @@ public abstract class Animal {
         return HP < 0.2*maxHP;
     }
 
-    // handle specific activity
-    public void drink (int ml) {
-        this.setSleep(this.getSleep() + ml);
-    }
-    public int eat (Food food, int amount) {
-        if(food.equals(neededFood.getFood())) {
-            if(this.calo + amount * food.getCalo() <= neededFood.getTotalCalo()) {
-                this.setCalo(this.getCalo() + amount * food.getCalo());
-                return amount;
-            } else {
-                int eatAmount = neededFood.getAmount() - this.calo / food.getCalo();
-                this.setCalo(this.getCalo() + neededFood.getTotalCalo());
-                return eatAmount;
-            }
-        }
-        return 0;
-    }
-
     public Activity getActivity() {
         return activity;
     }
+
+    public abstract void eat (Food food);
 
     /**
      * Method: updateState
@@ -167,23 +152,15 @@ public abstract class Animal {
         if (this.activity != null) {
             // update animal state
             this.setHP(this.getHP() + this.activity.getDeltaHP(this.maxHP));
-            this.setCalo (this.getCalo() + this.activity.getDeltaCalo(this.neededFood));
+            this.setCalo(this.getCalo() + this.activity.getDeltaCalo(this.maxCalo));
             this.setWater(this.getWater() + this.activity.getDeltaWater(this.maxWater));;
             this.setSleep(this.getSleep() + this.activity.getDeltaSleep(this.maxSleep));
             System.out.println(
                     "Hp: " + this.activity.getDeltaHP(this.maxHP) +
-                    "Calo: " + this.activity.getDeltaCalo(this.neededFood) +
+                    "Calo: " + this.activity.getDeltaCalo(this.maxCalo) +
                     "Water: " + this.activity.getDeltaWater(this.maxWater) +
                     "Sleep: " + this.activity.getDeltaSleep(this.maxSleep)
             );
-
-            // if specific activity
-            if(this.activity instanceof EatActivity) {
-                this.eat(this.neededFood.getFood(), 10);
-            } else if (this.activity instanceof DrinkActivity) {
-                this.drink(10);
-            }
-
         }
     }
 
@@ -256,7 +233,6 @@ public abstract class Animal {
                 ", maxSleep=" + maxSleep +
                 ", activity=" + activity +
                 ", schedule=" + schedule +
-                ", neededFood=" + neededFood +
                 '}';
     }
 }

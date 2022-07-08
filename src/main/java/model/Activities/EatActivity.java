@@ -1,7 +1,7 @@
 package model.Activities;
 
-import model.Food;
-import model.FoodInventory;
+import model.Animals.Animal;
+import model.IInteractable;
 
 public class EatActivity extends Activity {
 
@@ -10,8 +10,8 @@ public class EatActivity extends Activity {
         return 4;
     }
     @Override
-    public int getDeltaCalo(FoodInventory foodInventory) {
-        return foodInventory.getTotalCalo() / 10;
+    public int getDeltaCalo(int maxCalo) {
+        return 0;
     }
     @Override
     public int getDeltaSleep(int maxSleep) {

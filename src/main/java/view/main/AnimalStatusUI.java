@@ -31,7 +31,6 @@ public class AnimalStatusUI {
         messages[2] = "Calo:  " + animal.getCalo();
         messages[3] = "Water: " + animal.getWater();
         messages[4] = "Sleep: " + animal.getSleep();
-        messages[5] = "Food:  " + animal.getNeededFood().getFood().getName();
     }
 
     public boolean isShown() {

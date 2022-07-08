@@ -2,7 +2,7 @@ package model;
 
 import model.Activities.*;
 import model.Animals.Animal;
-import model.Animals.Cat;
+import model.Foods.Food;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,6 @@ public class ModelState {
     private int simulationSpeed;
     private List<Animal> animalList;
     private List<Schedule> defaultScheduleList;
-    private final List<Food> foodList;
     protected FoodManager foodManager;
 
 //    , List<Schedule> defaultSchedule, List<Food> foodList
@@ -50,11 +49,7 @@ public class ModelState {
         this.simulationSpeed = simulationSpeed;
         this.animalList = new ArrayList<Animal>(10);
         this.defaultScheduleList = new ArrayList<>(10);
-        this.foodList = new ArrayList<Food>(10);
 
-        foodList.add(new Food("egg"));
-        foodList.add(new Food("meat"));
-        foodList.add(new Food("cookie"));
 
         Activity sleepActivity  = new SleepActivity();
         Activity eatActivity    = new EatActivity();
@@ -84,17 +79,11 @@ public class ModelState {
         return defaultScheduleList;
     }
 
-    public List<Food> getFoodList() {
-        return foodList;
+    public Food[] getFoodList() {
+        return foodManager.getFoodList();
     }
 
     public void run (int day, int hour, int minute) {
-
-        // Tính lượng thức ăn khi bắt đầu ngày mới.
-        if (minute == 0 && hour == 0) {
-            foodManager.calcFoodDay(animalList);
-        }
-
         // Cập nhật trạng thái của các con vật theo thời gian.
         for (Animal a : animalList) {
             a.life(day, hour, minute);

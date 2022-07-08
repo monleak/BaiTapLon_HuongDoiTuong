@@ -1,8 +1,6 @@
 package view.entity;
 
 import model.Animals.Animal;
-import model.Food;
-import model.ModelState;
 import states.PlayState;
 import view.graphics.SpriteSheet;
 import view.main.GamePanel;

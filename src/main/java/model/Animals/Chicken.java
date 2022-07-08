@@ -2,6 +2,7 @@ package model.Animals;
 
 import model.*;
 import model.Activities.Schedule;
+import model.Foods.Food;
 
 public class Chicken extends Animal {
 
@@ -18,12 +19,11 @@ public class Chicken extends Animal {
         this.setSleep(100);
         this.setAge(0);
 
-        this.neededFood = new FoodInventory(new Food("Fish", 10), 100);
         this.activity = null;
         this.schedule = new Schedule();
     }
 
-    public Chicken (Schedule s, Food f, int foodAmount) {
+    public Chicken (Schedule s) {
         this.maxCalo    = 100;
         this.maxHP      = 100;
         this.maxSleep   = 100;
@@ -35,14 +35,12 @@ public class Chicken extends Animal {
         this.setSleep(100);
         this.setAge(0);
 
-        this.neededFood = new FoodInventory(f, foodAmount);
         this.activity = null;
         this.schedule = s;
     }
 
     @Override
     public void growUp() {
-        getNeededFood().setAmount(getNeededFood().getAmount() + 10);
 
         this.maxCalo    += 20;
         this.maxHP      += 20;
@@ -50,5 +48,10 @@ public class Chicken extends Animal {
         this.maxWater   += 20;
 
         this.setAge(this.getAge() + 1);
+    }
+
+    @Override
+    public void eat(Food food) {
+        food.eatBy(this);
     }
 }

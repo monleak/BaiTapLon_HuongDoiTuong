@@ -1,5 +1,8 @@
 package model;
 
+import model.Animals.Animal;
+import model.Foods.Food;
+
 public class FoodInventory {
     private final Food food;
     private int amount;
@@ -19,5 +22,6 @@ public class FoodInventory {
     public int getTotalCalo() {
         return this.food.getCalo() * this.amount;
     }
+
 }
 
