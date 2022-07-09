@@ -32,7 +32,8 @@ public class ModelState {
     private List<Schedule> defaultScheduleList;
     private final List<Food> foodList;
     private final List<FoodInventory> foodInventoryList;
-    protected FoodManager foodManager;
+    private FoodManager foodManager;
+    private TimeManager timeManager;
 
     public ModelState(int simulationSpeed) {
         // init arr
@@ -41,6 +42,7 @@ public class ModelState {
         this.defaultScheduleList = new ArrayList<>(10);
         this.foodList = new ArrayList<>(10);
         this.foodInventoryList = new ArrayList<>(10);
+        timeManager = new TimeManager();
 
         // them thuc an
         foodList.add(new Food("egg"));
@@ -88,7 +90,11 @@ public class ModelState {
         return foodInventoryList;
     }
 
-    public void run(int day, int hour, int minute) {
+    public void run() {
+        timeManager.update();
+        int day = timeManager.getDays();
+        int hour = timeManager.getHours();
+        int minute = timeManager.getMinutes();
 
         // Tính lượng thức ăn khi bắt đầu ngày mới.
         if (minute == 0 && hour == 0) {

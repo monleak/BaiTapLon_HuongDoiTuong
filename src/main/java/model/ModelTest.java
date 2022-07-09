@@ -28,7 +28,7 @@ public class ModelTest {
                 // the code you want to be executed
 
                 // Ham update
-                modelState.run(dayCounter, hourCounter, minuteCounter);
+                modelState.run();
 
                 System.out.println("day: " + dayCounter + ", hour: " + hourCounter + ", minute: " + minuteCounter);
                 // logic cap nhat ngay thang nam

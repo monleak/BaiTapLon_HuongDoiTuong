@@ -101,7 +101,7 @@ public class FocusableHandler implements IFocusable {
         AABB bounds = animalEntity.getBounds();
         int barScreenX = (int) pos.getWorldVar().x;
         int barWidth = (int) bounds.getWidth();
-        int barHeight = 9;
+        int barHeight = 14;
         int barScreenY = (int) pos.getWorldVar().y - barHeight;
         g2.setColor(Color.WHITE);
         g2.fillRect(
@@ -110,26 +110,38 @@ public class FocusableHandler implements IFocusable {
                 barWidth + 2,
                 barHeight + 2
         );
+        g2.setColor(Color.BLACK);
+        g2.drawRect(
+                barScreenX - 1,
+                barScreenY - 1,
+                barWidth + 2,
+                barHeight + 2
+        );
 
-        System.out.println(animalEntity.getAnimal().getHP() / animalEntity.getAnimal().getMaxHP());
         if (animalEntity.getAnimal() != null) {
             g2.setColor(Color.RED);
             // remove calculate
-            g2.fillRect(barScreenX, barScreenY,
-                    barWidth * (animalEntity.getAnimal().getHP() / animalEntity.getAnimal().getMaxHP()),
-                    barHeight / 3
+            g2.fillRect(barScreenX, barScreenY + 1,
+                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getHP() / animalEntity.getAnimal().getMaxHP())),
+                    4
             );
             g2.setColor(Color.GREEN);
             g2.fillRect(barScreenX,
-                    barScreenY + barHeight / 3,
-                    barWidth * (animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo()),
-                    barHeight / 3
+                    barScreenY + 5,
+                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo())),
+                    2
             );
             g2.setColor(Color.BLUE);
             g2.fillRect(barScreenX,
-                    barScreenY + 2 * barHeight / 3,
-                    barWidth * (animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo()),
-                    barHeight / 3
+                    barScreenY + 5 + 3,
+                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo())),
+                    2
+            );
+            g2.setColor(Color.YELLOW);
+            g2.fillRect(barScreenX,
+                    barScreenY + 5+3+3,
+                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getSleep() / animalEntity.getAnimal().getMaxSleep())),
+                    2
             );
         }
         g2.setColor(Color.WHITE);

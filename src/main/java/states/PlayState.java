@@ -26,6 +26,7 @@ public class PlayState extends GameState {
     public GameObject[] obj = new GameObject[100];    // Danh sach
 
     public Player player;
+    private int modelStateCounter;
 
     public PlayState (Camera camera) {
         // init
@@ -88,6 +89,13 @@ public class PlayState extends GameState {
         if(!gsm.isStateActive(GameStateManager.PAUSE)) {
             player.update();
             ui.update();
+
+            if (GameStateManager.modelState != null && modelStateCounter == 10 / GameStateManager.modelState.getSimulationSpeed()) {
+                GameStateManager.modelState.run();
+                modelStateCounter = 0;
+            } else {
+                modelStateCounter++;
+            }
 
             for (int i = 0; i < obj.length; i++) {
                 if(obj[i] instanceof Entity ) {

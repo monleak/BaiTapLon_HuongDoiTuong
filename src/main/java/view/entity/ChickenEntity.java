@@ -110,12 +110,12 @@ public class ChickenEntity extends AnimalEntity {
             if (lifeCounter == 15 * 24 * 60) {
                 lifeCounter = 0;
             }
-            if (this.animal != null)
-                this.animal.life(
-                    lifeCounter / (24 * 60),
-                    lifeCounter / (60) % 24,
-                    lifeCounter % 60
-                );
+//            if (this.animal != null)
+//                this.animal.life(
+//                    lifeCounter / (24 * 60),
+//                    lifeCounter / (60) % 24,
+//                    lifeCounter % 60
+//                );
             // NOTE: De counter xuat phat tu 0
             lifeCounter++;
         }

@@ -79,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
                 input(mouseH, keyH);
                 update(currentTime);
                 repaint();
+
                 delta--;
                 drawCount++;
             }

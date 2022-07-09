@@ -61,13 +61,13 @@ public class AnimalLife {
         plot4.addLinePlot("Max Water", hours, maxWater);
 //        plot5.addBarPlot("Activity", hours);
 
-        if (eatAct.length > 0)
+        if (eatAct.length > 1)
             plot5.addHistogramPlot("Eat", Color.YELLOW, eatAct, 50);
-        if (drinkAct.length > 0)
+        if (drinkAct.length > 1)
             plot5.addHistogramPlot("Drink", Color.BLUE, drinkAct, 50);
-        if (playAct.length > 0)
+        if (playAct.length > 1)
             plot5.addHistogramPlot("Play", Color.RED, playAct, 50);
-        if (sleepAct.length > 0)
+        if (sleepAct.length > 1)
             plot5.addHistogramPlot("Sleep", Color.GRAY, sleepAct, 50);
 
         plot5.addLegend("SOUTH");
@@ -110,6 +110,9 @@ public class AnimalLife {
             for (double h : hours) {
                 int hour = (int) h;
                 cat.life(0, hour, 0);
+                cat.life(0, hour, 15);
+                cat.life(0, hour, 30);
+                cat.life(0, hour, 45);
                 AnimalLife.hp[hour] = cat.getHP();
                 AnimalLife.sleep[hour] = cat.getSleep();
                 AnimalLife.calo[hour] = cat.getCalo();

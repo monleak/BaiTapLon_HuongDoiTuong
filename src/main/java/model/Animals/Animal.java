@@ -165,7 +165,6 @@ public abstract class Animal {
      * NOTE: Có thể override, và goi super.updateState()
      */
     protected void updateState () {
-        System.out.println(this.activity);
         if (this.getHP() < this.getMaxHP()) {
             this.setHP(this.getHP() + 1);
         }
