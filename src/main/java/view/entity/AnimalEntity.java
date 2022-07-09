@@ -2,6 +2,7 @@ package view.entity;
 
 import model.Animals.Animal;
 import model.Food;
+import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.ai.PathFinder;
 import view.effect.FocusableHandler;
@@ -18,7 +19,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     // Kết tập animal
     protected Animal animal;
     public FocusableHandler fch;
-
 
     public AnimalEntity(GamePanel gp, PlayState ps) {
         super(gp, ps);
@@ -96,7 +96,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     public void update() {
         super.update();
         setAction();
-
     }
 
     /**
@@ -110,8 +109,9 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
      * </ul>
      */
     @Override
-    public void draw(Graphics2D g2) {
+    public void draw(@NotNull Graphics2D g2) {
         super.draw(g2);
         fch.draw(g2, this);
+        pathFinder.draw(g2);
     }
 }

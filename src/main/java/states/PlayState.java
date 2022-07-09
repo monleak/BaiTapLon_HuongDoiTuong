@@ -58,15 +58,15 @@ public class PlayState extends GameState {
             List<Animal> animals = GameStateManager.modelState.getAnimalList();
             for (int i = 0; i < animals.size(); i++) {
                 if (animals.get(i) instanceof Chicken) {
-                    obj[i] = new ChickenEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                    obj[i].collision = false;
+                    ChickenEntity chicken = new ChickenEntity(gp, ps, animals.get(i));
+                    obj[i] = chicken;
+                    obj[i].getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getPos().y = ((int)((10f + i) * gp.titleSize));
+                    chicken.goTo(ps.player);
                 } else {
                     obj[i] = new FoxEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                    obj[i].collision = false;
+                    obj[i].getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getPos().y = ((int)((10f + i) * gp.titleSize));
                 }
             }
             obj[10] = new OBJ_Key(gp, ps);

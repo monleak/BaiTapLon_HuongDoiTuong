@@ -68,6 +68,7 @@ public abstract class Animal {
             this.water = min;
         } else {
             this.water = 0;
+            this.setHP(this.getHP() - 4);
         }
     }
     public int getCalo() {
@@ -82,6 +83,7 @@ public abstract class Animal {
             this.calo = min;
         } else {
             this.calo = 0;
+            this.setHP(this.getHP() - 4);
         }
     }
     public int getAge() {
@@ -105,7 +107,7 @@ public abstract class Animal {
             this.sleep = min;
         } else {
             this.sleep = 0;
-            this.activity = new SleepActivity();
+            this.setHP(this.getHP() - 4);
         }
     }
 
@@ -164,6 +166,9 @@ public abstract class Animal {
      */
     protected void updateState () {
         System.out.println(this.activity);
+        if (this.getHP() < this.getMaxHP()) {
+            this.setHP(this.getHP() + 1);
+        }
         if (this.activity != null) {
             // update animal state
             this.setHP(this.getHP() + this.activity.getDeltaHP(this.maxHP));

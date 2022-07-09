@@ -14,10 +14,7 @@ public class GameObject {
     protected Vector2f pos;
 
     public String name;
-    // colision
-    public boolean collision = false;
 
-    // aabb
     protected AABB bounds;
 
     public GameObject(GamePanel gp, PlayState ps) {

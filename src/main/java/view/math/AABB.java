@@ -91,6 +91,14 @@ public class AABB {
     public float getXOffset() { return xOffset; }
     public float getYOffset() { return yOffset; }
 
+    public float getCenterX () {
+        return pos.x + xOffset + w / 2;
+    }
+
+    public float getCenterY () {
+        return pos.y + yOffset + h / 2;
+    }
+
     /**
      * collides: Trả về true nếu 2 hình chạm nhau.
      *

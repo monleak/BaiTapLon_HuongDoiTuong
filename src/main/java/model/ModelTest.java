@@ -29,6 +29,7 @@ public class ModelTest {
 
                 // Ham update
                 modelState.run(dayCounter, hourCounter, minuteCounter);
+
                 System.out.println("day: " + dayCounter + ", hour: " + hourCounter + ", minute: " + minuteCounter);
                 // logic cap nhat ngay thang nam
                 minuteCounter++;

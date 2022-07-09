@@ -3,6 +3,7 @@ package view.entity;
 import model.Animals.Animal;
 import model.Food;
 import model.ModelState;
+import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.graphics.SpriteSheet;
 import view.main.GamePanel;
@@ -123,20 +124,20 @@ public class ChickenEntity extends AnimalEntity {
         if(actionLockCounter > 120) {
             Random random = new Random();
             int i = random.nextInt(4);
-            switch (i) {
-                case 1:
-                    direction = Direction.UP;
-                    break;
-                case 2:
-                    direction = Direction.DOWN;
-                    break;
-                case 3:
-                    direction = Direction.RIGHT;
-                    break;
-                case 0:
-                    direction = Direction.LEFT;
-                    break;
-            }
+//            switch (i) {
+//                case 1:
+//                    direction = Direction.UP;
+//                    break;
+//                case 2:
+//                    direction = Direction.DOWN;
+//                    break;
+//                case 3:
+//                    direction = Direction.RIGHT;
+//                    break;
+//                case 0:
+//                    direction = Direction.LEFT;
+//                    break;
+//            }
             actionLockCounter = 0;
         }
 
@@ -190,17 +191,21 @@ public class ChickenEntity extends AnimalEntity {
         }
     }
 
-    public void update (double time) {
-        checkCollisionAndMove(this.direction, this.getSpeed());
+    @Override
+    public void update () {
+
+
+
+//        checkCollisionAndMove(this.direction, this.getSpeed());
         animate(true);
         image = ani.getImage().image;
+        super.update();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void draw (Graphics2D g2) {
-        update (0);
+    public void draw (@NotNull Graphics2D g2) {
         super.draw(g2);
     }
 }

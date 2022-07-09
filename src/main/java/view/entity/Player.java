@@ -1,5 +1,6 @@
 package view.entity;
 
+import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.graphics.SpriteSheet;
 import view.ai.Node;
@@ -150,11 +151,10 @@ public class Player extends Entity {
 
         if (mouseH.getButton() != -1 && pathFinder.getPathList().size() == 0) {
             pathFinder.setNodes(
-                    (int) this.pos.x + (int) this.getBounds().getXOffset() + (int) this.getBounds().getWidth() / 2,
-                    (int) this.pos.y + (int) this.getBounds().getYOffset() + (int) this.getBounds().getHeight() / 2,
+                    (int) this.getBounds().getCenterX(),
+                    (int) this.getBounds().getCenterY(),
                     (int) - Vector2f.getWorldVarX(0) + mouseH.getX(),
-                    (int) - Vector2f.getWorldVarY(0) + mouseH.getY(),
-                    this
+                    (int) - Vector2f.getWorldVarY(0) + mouseH.getY()
             );
             pathFinder.search();
             mousePos = new Vector2f(
@@ -167,24 +167,15 @@ public class Player extends Entity {
         if (!isGoingToMousePosition) {
             pathFinder.getPathList().clear();
         }
-        // run to goal
+
+        // run or
         if (pathFinder.getPathList().size() > 0 ) {
             this.isRunning = true;
             Node node = pathFinder.getPathList().get(0);
-            if (this.getPos().x > node.column * gp.titleSize) {
-                this.getPos().x -= getSpeed();
-                direction = Direction.LEFT;
-            } else if (this.getPos().x < node.column * gp.titleSize) {
-                this.getPos().x += getSpeed();
-                direction = Direction.RIGHT;
-            } else if (this.getPos().y > node.row * gp.titleSize) {
-                this.getPos().y -= getSpeed();
-                direction = Direction.UP;
-            } else if (this.getPos().y < node.row * gp.titleSize) {
-                this.getPos().y += getSpeed();
-                direction = Direction.DOWN;
-            }
-            else {
+            if (
+                    this.getPos().x == node.column * gp.titleSize
+                    && this.getPos().y == node.row * gp.titleSize
+            ) {
                 pathFinder.getPathList().remove(0);
                 if (pathFinder.getPathList().size() == 0) {
                     if (isGoingToMousePosition) {
@@ -253,7 +244,7 @@ public class Player extends Entity {
     /**
      * {@inheritDoc}
      */
-    public void draw (Graphics2D g2) {
+    public void draw (@NotNull Graphics2D g2) {
 
         // draw player
         g2.drawImage(ani.getImage().image, (int) pos.getWorldVar().x, (int) pos.getWorldVar().y, gp.titleSize, gp.titleSize, null);
@@ -267,15 +258,8 @@ public class Player extends Entity {
 
          if (pathFinder.getPathList().size() > 0) {
              g2.drawRect( (int) mousePos.getWorldVar().x - gp.titleSize / 2, (int) mousePos.getWorldVar().y - gp.titleSize / 2, gp.titleSize, gp.titleSize);
-             for (Node step : pathFinder.getPathList() ) {
-                 g2.setColor(Color.red);
-                 g2.drawRect(
-                         (int) Vector2f.getWorldVarX(step.column * gp.titleSize),
-                         (int) Vector2f.getWorldVarY(step.row * gp.titleSize),
-                         gp.titleSize,
-                         gp.titleSize
-                         );
-             }
+
+             pathFinder.draw(g2);
          }
 
     }

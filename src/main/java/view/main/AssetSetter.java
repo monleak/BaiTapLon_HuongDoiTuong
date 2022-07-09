@@ -1,8 +1,11 @@
 package view.main;
 
+import model.Animals.Chicken;
 import states.PlayState;
 import view.entity.ChickenEntity;
+import view.entity.Entity;
 import view.entity.FoxEntity;
+import view.entity.GameObject;
 import view.object.OBJ_Key;
 
 /**
@@ -29,19 +32,19 @@ public class AssetSetter
         ps.obj[1] = new FoxEntity(gp, ps);
         ps.obj[1].getBounds().getPos().x = ((int)(38f * gp.titleSize));
         ps.obj[1].getBounds().getPos().y = ((int)(14f * gp.titleSize));
-        ps.obj[1].collision = false;
         FoxEntity f = (FoxEntity) ps.obj[1];
-        f.follow(ps.player);
+//        f.follow(ps.player);
 
-        ps.obj[2] = new ChickenEntity(gp, ps);
-        ps.obj[2].getBounds().getPos().x = ((int)(38f * gp.titleSize));
-        ps.obj[2].getBounds().getPos().y = ((int)(10f * gp.titleSize));
-        ps.obj[2].collision = false;
+//        ps.obj[2] = new ChickenEntity(gp, ps);
+//        ps.obj[2].getBounds().getPos().x = ((int)(38f * gp.titleSize));
+//        ps.obj[2].getBounds().getPos().y = ((int)(10f * gp.titleSize));
+//        ps.obj[2].collision = false;
 
-        ps.obj[3] = new ChickenEntity(gp, ps);
-        ps.obj[3].getBounds().getPos().x = ((int)(38f * gp.titleSize));
-        ps.obj[3].getBounds().getPos().y = ((int)(10f * gp.titleSize));
-        ps.obj[3].collision = false;
-
+//        ChickenEntity chickenEntity = new ChickenEntity(gp, ps);
+//        ps.obj[3] = chickenEntity;
+//        ps.obj[3].getBounds().getPos().x = ((int)(38f * gp.titleSize));
+//        ps.obj[3].getBounds().getPos().y = ((int)(10f * gp.titleSize));
+//        ps.obj[3].collision = false;
+//        chickenEntity.follow(ps.player);
     }
 }

@@ -12,8 +12,6 @@ import java.util.Objects;
 
 public class OBJ_Key extends SuperObject {
 
-
-
     public OBJ_Key (GamePanel gp, PlayState ps) {
         super (gp, ps);
 
@@ -24,16 +22,11 @@ public class OBJ_Key extends SuperObject {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        collision = true;
-    }
-
-    @Override
-    public void draw(Graphics2D g2, boolean isFloatingEnabled) {
-        super.draw(g2, isFloatingEnabled);
     }
 
     @Override
     public void draw(Graphics2D g2) {
         this.draw(g2, true);
     }
+
 }
