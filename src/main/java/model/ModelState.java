@@ -8,60 +8,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class chính sử dụng các class trong package model để mô phỏng nông trại ( con vật, lịch trình, thức ăn ... )
+ * Class chính sử dụng các class trong package model để mô phỏng nông trại ( con vật, lịch trình,
+ * thức ăn ... )
+ *
  * <ul>
- * <li>
- *     Danh sách con vật
- * </li>
- * <li>
- *     Hoạt động
- * </li>
- * <li>
- *     Lịch trình
- * </li>
- * <li>
- *     Quản lý thức ăn
- * </li>
- * <li>
- *     TTin ng chơi (nếu có)
- * </li>
+ *   <li>Danh sách con vật
+ *   <li>Hoạt động
+ *   <li>Lịch trình
+ *   <li>Quản lý thức ăn
+ *   <li>TTin ng chơi (nếu có)
  * </ul>
- * <b>
- * NOTE:
- * </b>
+ *
+ * <b> NOTE: </b>
+ *
  * <ul>
- * <li>
- * Chỉ xử lý các thuộc tính, logic của con vật.
- * </li>
- * <li>
- * Các vấn đề khác được xử lý ở phần giao diện.
- * </li>
+ *   <li>Chỉ xử lý các thuộc tính, logic của con vật.
+ *   <li>Các vấn đề khác được xử lý ở phần giao diện.
  * </ul>
  */
 public class ModelState {
     private int simulationSpeed;
     private List<Animal> animalList;
     private List<Schedule> defaultScheduleList;
-    private Player player;
     private final List<Food> foodList;
-    protected FoodManager foodManager;
+    private final List<FoodInventory> foodInventoryList;
+    private FoodManager foodManager;
+    private TimeManager timeManager;
 
-//    , List<Schedule> defaultSchedule, List<Food> foodList
     public ModelState(int simulationSpeed) {
+        // init arr
         this.simulationSpeed = simulationSpeed;
-        this.animalList = new ArrayList<Animal>(10);
+        this.animalList = new ArrayList<>(10);
         this.defaultScheduleList = new ArrayList<>(10);
-        this.player = new Player();
-        this.foodList = new ArrayList<Food>(10);
+        this.foodList = new ArrayList<>(10);
+        this.foodInventoryList = new ArrayList<>(10);
+        timeManager = new TimeManager();
 
+        // them thuc an
         foodList.add(new Food("egg"));
         foodList.add(new Food("meat"));
         foodList.add(new Food("cookie"));
 
-        Activity sleepActivity  = new SleepActivity();
-        Activity eatActivity    = new EatActivity();
-        Activity playActivity   = new PlayActivity();
-        Activity drinkActivity  = new DrinkActivity();
+        // them luong thuc an
+        foodList.forEach(food -> {
+            this.foodInventoryList.add(new FoodInventory(food, 100));
+        });
+
+        Activity sleepActivity = new SleepActivity();
+        Activity eatActivity = new EatActivity();
+        Activity playActivity = new PlayActivity();
+        Activity drinkActivity = new DrinkActivity();
 
         Schedule catSchedule = new Schedule();
 
@@ -90,11 +86,15 @@ public class ModelState {
         return foodList;
     }
 
-    public Player getPlayer() {
-        return player;
+    public List<FoodInventory> getFoodInventoryList() {
+        return foodInventoryList;
     }
 
-    public void run (int day, int hour, int minute) {
+    public void run() {
+        timeManager.update();
+        int day = timeManager.getDays();
+        int hour = timeManager.getHours();
+        int minute = timeManager.getMinutes();
 
         // Tính lượng thức ăn khi bắt đầu ngày mới.
         if (minute == 0 && hour == 0) {
@@ -107,5 +107,4 @@ public class ModelState {
         }
 
     }
-
 }

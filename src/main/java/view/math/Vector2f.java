@@ -9,9 +9,11 @@ package view.math;
  *
  */
 public class Vector2f {
+
     // Tọa độ trên map
     public float x;
     public float y;
+
     // Tọa đô của camera (static)
     public static float worldX;
     public static float worldY;
@@ -51,21 +53,31 @@ public class Vector2f {
         worldY = y;
     }
 
-    public static float getWorldVarX(float x) {
+    public static float getStaticScreenX(float x) {
         return x - worldX;
     }
 
-    public static float getWorldVarY(float y) {
+    public static float getStaticScreenY(float y) {
         return y - worldY;
     }
 
     /**
      * Trả về vị trí của điểm trên màn hình.
      *
+     * @deprecated Create too much instance
+     *
      * @return
      */
     public Vector2f getWorldVar() {
         return new Vector2f(x - worldX, y - worldY);
+    }
+
+    public float getScreenX () {
+        return x - worldX;
+    }
+
+    public float getScreenY () {
+        return y - worldY;
     }
 
     @Override

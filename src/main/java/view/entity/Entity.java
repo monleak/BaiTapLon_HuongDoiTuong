@@ -1,26 +1,32 @@
 package view.entity;
 
+import org.jetbrains.annotations.NotNull;
 import states.PlayState;
+import view.ai.Node;
+import view.ai.PathFinder;
 import view.graphics.Sprite;
 import view.graphics.SpriteAnimation;
 import view.graphics.SpriteSheet;
-import view.effect.IMoveable;
 import view.main.GamePanel;
-import view.math.Vector2f;
+import view.title.TileCollision;
 import view.utils.Direction;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Entity extends GameObject implements IMoveable {
+public abstract class Entity extends GameObject {
     private int speed;
     BufferedImage image;
 
     public Direction direction;
-    public boolean collisionOn = false;
     protected int currentAnimation;
     protected SpriteSheet sprite;
     protected SpriteAnimation ani;
+    protected PathFinder pathFinder;
+    protected TileCollision tc;
+
+    protected Entity followedEntity;
+    protected boolean searchedMark = false;
 
     /**
      * WARNING: DO NOT USE THIS
@@ -32,20 +38,20 @@ public abstract class Entity extends GameObject implements IMoveable {
      */
     public Entity (GamePanel gp, PlayState ps) {
         super(gp, ps);
+
         ani = new SpriteAnimation();
+        pathFinder = new PathFinder(gp, ps);
+        tc = new TileCollision(this);
     }
 
-    @Override
     public int getSpeed() {
         return speed;
     }
 
-    @Override
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
-    @Override
     public Direction getDirection() {
         return direction;
     }
@@ -71,10 +77,6 @@ public abstract class Entity extends GameObject implements IMoveable {
      */
     public void setAction() {}
 
-    public Vector2f getPos() {
-        return pos;
-    }
-
     // entity
     public void setAnimation(int i, Sprite[] frames, int delay) {
         currentAnimation = i;
@@ -99,6 +101,88 @@ public abstract class Entity extends GameObject implements IMoveable {
      */
     public abstract void animate(boolean isRunning);
 
+    /**
+     * AnimalEntity.checkCollisionAndMove:
+     * <p>
+     * Check va chạm, nếu ko va vòa tường thì di chuyển theo thược tính dierection.
+     * </p>
+     */
+    public void checkCollisionAndMove(Direction direction, int speed) {
+        if (speed > 0)
+            if (direction == Direction.UP) {
+                if (!tc.collisionTile(0, - speed)) {
+                    pos.addY(-speed);
+                }
+            }
+            else if (direction == Direction.DOWN) {
+                if (!tc.collisionTile(0, speed)) {
+                    pos.addY(speed);
+                }
+            }
+            else if (direction == Direction.RIGHT) {
+                if (!tc.collisionTile(speed, 0)) {
+                    pos.addX(speed);
+                }
+            }
+            else if (direction == Direction.LEFT) {
+                if (!tc.collisionTile(-speed, 0)) {
+                    pos.addX(-speed);
+                }
+            }
+    }
+
+    public void moveByPath () {
+        // run to goal
+        if(pathFinder.getPathList().size() > 0) {
+            Node next = pathFinder.getPathList().get(0);
+            if (this.getPos().x > next.column * gp.titleSize) {
+                this.getPos().x -= getSpeed();
+                direction = Direction.LEFT;
+            } else
+            if (this.getPos().x < next.column * gp.titleSize) {
+                this.getPos().x += getSpeed();
+                direction = Direction.RIGHT;
+            } else
+            if (this.getPos().y > next.row * gp.titleSize) {
+                this.getPos().y -= getSpeed();
+                direction = Direction.UP;
+            } else
+            if (this.getPos().y < next.row * gp.titleSize) {
+                this.getPos().y += getSpeed();
+                direction = Direction.DOWN;
+            } else {
+                // remove node
+                pathFinder.getPathList().remove(0);
+            }
+        }
+    }
+
+    public void follow (Entity entity) {
+        this.followedEntity = entity;
+        this.searchedMark = false;
+        pathFinder.setNodes(
+                this, entity
+        );
+    }
+
+    public void unfollow () {
+        this.followedEntity = null;
+        this.searchedMark = true;
+        this.pathFinder.getPathList().removeAll(this.pathFinder.getPathList());
+    }
+
+    public void goTo (@NotNull GameObject gameObject) {
+        this.followedEntity = null;
+        this.searchedMark = false;
+        pathFinder.setNodes(
+                (int) this.pos.x,
+                (int) this.pos.y,
+                (int) gameObject.getPos().x,
+                (int) gameObject.getPos().y
+        );
+    }
+
+
 //    public abstract void input(MouseHandler mouseH, KeyHandler keyH);
 
     /**
@@ -107,11 +191,27 @@ public abstract class Entity extends GameObject implements IMoveable {
      *     <li>
      *         update animation.
      *     </li>
+     *     <li>
+     *         Follow or goTo
+     *     </li>
      * </ul>
      */
     public void update() {
         ani.update();
+
+        if (!searchedMark) {
+            if (followedEntity != null) {   // follow
+                follow(ps.player);
+                pathFinder.search();
+            } else {                        // goto
+                pathFinder.search();
+                searchedMark = true;
+            }
+        }
+
+        this.moveByPath();
     };
+
     /**
      * Entity.draw:
      * <ul>
@@ -123,8 +223,9 @@ public abstract class Entity extends GameObject implements IMoveable {
      *   </li>
      * </ul>
      */
-    public void draw (Graphics2D g2) {
+    @Override
+    public void draw (@NotNull Graphics2D g2) {
         // draw this.image
-        g2.drawImage(image, (int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, gp.titleSize, gp.titleSize, null);
+        g2.drawImage(image, (int) this.pos.getScreenX(), (int) this.pos.getScreenY(), gp.titleSize, gp.titleSize, null);
     }
 }

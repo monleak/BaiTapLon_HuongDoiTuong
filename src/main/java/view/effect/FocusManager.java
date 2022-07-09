@@ -1,17 +1,19 @@
 package view.effect;
 
+import states.GameStateManager;
 import states.PlayState;
 import view.main.GamePanel;
+import view.math.Vector2f;
+
+import java.awt.*;
 
 public class FocusManager {
-    private GamePanel gp;
-    private PlayState ps;
+    private final PlayState ps;
     private int hoveredObjId, focusedObjId;
     private boolean isNewHovered = false, isNewFocused = false;
 
 
     public FocusManager(GamePanel gp, PlayState ps) {
-        this.gp = gp;
         this.ps = ps;
         this.focusedObjId = 999;
         this.hoveredObjId = 999;

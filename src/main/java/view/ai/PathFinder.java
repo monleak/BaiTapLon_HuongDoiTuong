@@ -1,9 +1,14 @@
 package view.ai;
 
+import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.entity.Entity;
+import view.entity.GameObject;
 import view.main.GamePanel;
+import view.math.Vector2f;
 import view.title.TileMapObj;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -43,6 +48,8 @@ public class PathFinder {
     boolean goalReached = false;
     int step = 0;
     int startX, startY, goalX, goalY;
+    int goalRow = 0, goalCol = 0;
+    int prevGoalRow = -1, prevGoalCol = -1;
     boolean isInit;
 
     public PathFinder(GamePanel gp, PlayState ps) {
@@ -91,7 +98,7 @@ public class PathFinder {
         step = 0;
     }
 
-    private void getCost(Node node) {
+    private void getCost(@NotNull Node node) {
         int xDistance = Math.abs(node.column * gp.titleSize - startNode.column * gp.titleSize);
         int yDistance = Math.abs(node.row * gp.titleSize - - startNode.row * gp.titleSize);
         node.gCost = xDistance + yDistance;
@@ -127,7 +134,7 @@ public class PathFinder {
      * @param startX, startY: tọa độ hiện tại
      * @param goalX, goalY: đích
      */
-    public void setNodes (int startX, int startY, int goalX, int goalY, Entity entity) {
+    public void setNodes (int startX, int startY, int goalX, int goalY) {
         isInit = true;
         resetNodes();
 
@@ -136,11 +143,11 @@ public class PathFinder {
         this.goalX = goalX;
         this.goalY = goalY;
 
-        int startRow = startX / gp.titleSize;
-        int startCol = startY / gp.titleSize;
+        int startRow = (startX) / gp.titleSize;
+        int startCol = (startY) / gp.titleSize;
 
-        int goalRow = goalX / gp.titleSize;
-        int goalCol = goalY / gp.titleSize;
+        this.goalRow = goalX / gp.titleSize;
+        this.goalCol = goalY / gp.titleSize;
 
         startNode = node[startRow][startCol];
         currentNode = startNode;
@@ -166,6 +173,24 @@ public class PathFinder {
         }
     }
 
+    public void setNodes (Entity entity, GameObject gameObject) {
+        this.setNodes(
+                (int) entity.getBounds().getCenterX(),
+                (int) entity.getBounds().getCenterY(),
+                (int) gameObject.getBounds().getCenterX(),
+                (int) gameObject.getBounds().getCenterY()
+        );
+    }
+
+    public void setNode (Vector2f start, Vector2f goal) {
+        this.setNodes(
+                (int) start.x,
+                (int) start.y,
+                (int) goal.x,
+                (int) goal.y
+        );
+    }
+
     /**
      * Tìm đường đi ngắn nhất từ startNode đến goalNode.
      * Thuật toán: A* ( khá giống dijkstra nhưng ưu tiên tìm những nút có h(x) thấp hơn )
@@ -178,7 +203,7 @@ public class PathFinder {
      * @return
      */
     public boolean search () {
-        if (isInit)
+        if (isInit && (prevGoalCol != goalCol || prevGoalRow == goalRow))
             while (!goalReached && step < 1000) {
                 int col = currentNode.column;
                 int row = currentNode.row;
@@ -186,10 +211,15 @@ public class PathFinder {
                 currentNode.checked = true;
                 openList.remove(currentNode);
 
+                int deltaX = Math.abs(goalCol - col);
+                int deltaY = Math.abs(goalRow - row);
+
+                // open x
                 if (col - 1 >= 0 )
                     openNode(node[col-1][row]);
                 if (col + 1 < gp.maxWorldCol)
                     openNode(node[col+1][row]);
+                // open y
                 if (row + 1 < gp.maxWorldRow)
                     openNode(node[col][row+1]);
                 if (row - 1 >= 0 )
@@ -231,4 +261,20 @@ public class PathFinder {
     public ArrayList<Node> getPathList() {
         return pathList;
     }
+
+    // debug
+    public void draw (Graphics2D g2) {
+        if (this.getPathList().size() > 0) {
+            for (Node step : this.getPathList() ) {
+                g2.setColor(Color.red);
+                g2.drawRect(
+                        (int) Vector2f.getStaticScreenX(step.column * gp.titleSize),
+                        (int) Vector2f.getStaticScreenY(step.row * gp.titleSize),
+                        gp.titleSize,
+                        gp.titleSize
+                );
+            }
+        }
+    }
+
 }

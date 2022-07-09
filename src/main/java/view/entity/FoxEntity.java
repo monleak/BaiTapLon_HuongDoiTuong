@@ -1,10 +1,10 @@
 package view.entity;
 
 import model.Animals.Animal;
+import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.graphics.SpriteSheet;
 import view.ai.Node;
-import view.ai.PathFinder;
 import view.main.GamePanel;
 import view.math.AABB;
 import view.utils.ImageSplitter;
@@ -13,12 +13,6 @@ import view.utils.Direction;
 import java.awt.*;
 
 public class FoxEntity extends AnimalEntity {
-    protected PathFinder pathFinder;
-    protected int currentRow;
-    protected int currentColumn;
-    protected int entityRow;
-    protected int entityColumn;
-    protected Entity entity;
 
     protected AABB followRange;
     protected AABB unFollowRange;
@@ -27,20 +21,16 @@ public class FoxEntity extends AnimalEntity {
         super(gp, ps);
         this.name = "Fox";
 
-        this.collision = false;
         this.direction = Direction.DOWN;
 
-        this.currentRow = 0;
-        this.currentColumn = 0;
-        pathFinder = new PathFinder(gp, ps);
         this.setSpeed(2);
 
         this.followRange = new AABB(this.pos, 5*gp.titleSize);
-        this.followRange.setXOffset( (int) -2 * gp.titleSize);
-        this.followRange.setYOffset((int) -2 * gp.titleSize);
+        this.followRange.setXOffset( -2 * gp.titleSize);
+        this.followRange.setYOffset( -2 * gp.titleSize);
         this.unFollowRange = new AABB(this.pos, 11*gp.titleSize);
-        this.unFollowRange.setXOffset( (int) -5 * gp.titleSize);
-        this.unFollowRange.setYOffset((int) -5 * gp.titleSize);
+        this.unFollowRange.setXOffset( -5 * gp.titleSize);
+        this.unFollowRange.setYOffset( -5 * gp.titleSize);
 
         setImage();
     }
@@ -94,19 +84,15 @@ public class FoxEntity extends AnimalEntity {
      * - Đi theo, đến vị trí của 1 entity ( 1 con vật khác, người chơi, vật thể khác ) trên bản đò.
      */
     public void follow (Entity entity) {
+        super.follow(entity);
+
         if (currentAnimation != 4)
             setAnimation(4, sprite.getSpriteArray(4), 10);
-        this.entity = entity;
-        pathFinder.setNodes(
-                (int) this.pos.x,
-                (int) this.pos.y,
-                (int) entity.getBounds().getPos().x,
-                (int) entity.getBounds().getPos().y,
-                null
-        );
     }
+
     public void unfollow () {
-        entity = null;
+        super.unfollow();
+
         if (sprite != null) // if setImage not error
             setAnimation(3, sprite.getSpriteArray(3), 10);
     }
@@ -130,51 +116,23 @@ public class FoxEntity extends AnimalEntity {
      */
     @Override
     public void update () {
-        super.update();
 
         image = ani.getImage().image;
 
-        if (entity == null && this.followRange.colCircleBox(ps.player.getBounds()) ) {
+        // follow player if in range
+        if (followedEntity == null && this.followRange.colCircleBox(ps.player.getBounds()) ) {
             follow(ps.player);
         } else if (!this.unFollowRange.colCircleBox(ps.player.getBounds())) {
             unfollow();
-        } else if (entity != null) {
+        } else if (followedEntity != null) {
             follow(ps.player);
         }
 
-        int currentRow = (int) this.getBounds().getPos().x / gp.titleSize;
-        int currentColumn = (int) this.getBounds().getPos().y / gp.titleSize;
-        if (entity != null) {
-            int entityRow = (int) entity.getBounds().getPos().x / gp.titleSize;
-            int entityCol = (int) entity.getBounds().getPos().y / gp.titleSize;
+//        if (followedEntity == null && this.followRange.colCircleBox(ps.obj[1].getBounds()) ) {
+//            goTo(ps.obj[1]);
+//        }
 
-            if ((currentColumn != this.currentColumn || currentRow != this.currentRow) ||
-                    (this.entityRow != entityRow || this.entityColumn != entityCol) ) {
-                this.currentColumn = currentColumn;
-                this.currentRow = currentRow;
-                this.entityColumn = entityCol;
-                this.entityRow = entityRow;
-                follow(ps.player);
-            }
-            pathFinder.search();
-        }
-
-        // run to goal
-        if(pathFinder.getPathList().size() > 0) {
-            Node next = pathFinder.getPathList().get(0);
-            if (this.getPos().x > next.column * gp.titleSize) {
-                this.getPos().x -= getSpeed();
-            } else
-            if (this.getPos().x < next.column * gp.titleSize) {
-                this.getPos().x += getSpeed();
-            } else
-            if (this.getPos().y > next.row * gp.titleSize) {
-                this.getPos().y -= getSpeed();
-            } else
-            if (this.getPos().y < next.row * gp.titleSize) {
-                this.getPos().y += getSpeed();
-            }
-        }
+        super.update();
     }
 
     /**
@@ -188,23 +146,23 @@ public class FoxEntity extends AnimalEntity {
      * </ul>
      */
     @Override
-    public void draw(Graphics2D g2) {
+    public void draw(@NotNull Graphics2D g2) {
         super.draw(g2);
 
         // Vẽ vòng tròn follow range và unfollow range.
-        if (entity == null) {
+        if (followedEntity == null) {
             g2.setColor(Color.RED);
             g2.drawOval(
-                    (int) this.followRange.getPos().getWorldVar().x + (int) this.followRange.getXOffset(),
-                    (int) this.followRange.getPos().getWorldVar().y + (int)  this.followRange.getXOffset(),
+                    (int) this.followRange.getPos().getScreenX() + (int) this.followRange.getXOffset(),
+                    (int) this.followRange.getPos().getScreenY() + (int)  this.followRange.getXOffset(),
                     (int) this.followRange.getRadius(),
                     (int) this.followRange.getRadius()
                     );
             g2.setColor(Color.WHITE);
         } else {
             g2.drawOval(
-                    (int) this.unFollowRange.getPos().getWorldVar().x + (int) this.unFollowRange.getXOffset(),
-                    (int) this.unFollowRange.getPos().getWorldVar().y + (int)  this.unFollowRange.getXOffset(),
+                    (int) this.unFollowRange.getPos().getScreenX() + (int) this.unFollowRange.getXOffset(),
+                    (int) this.unFollowRange.getPos().getScreenY() + (int)  this.unFollowRange.getXOffset(),
                     (int) this.unFollowRange.getRadius(),
                     (int) this.unFollowRange.getRadius()
             );

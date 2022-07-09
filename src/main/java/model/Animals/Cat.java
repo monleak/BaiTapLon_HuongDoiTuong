@@ -20,7 +20,7 @@ public class Cat extends Animal {
 
         this.neededFood = new FoodInventory(new Food("Fish", 10), 100);
         this.activity = null;
-//        this.schedule = new Schedule();
+        this.schedule = new Schedule();
     }
 
     public Cat (Schedule s, Food f, int foodAmount) {

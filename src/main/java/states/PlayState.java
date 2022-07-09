@@ -1,7 +1,7 @@
 package states;
 
 import model.Animals.Animal;
-import model.Animals.*;
+import model.Animals.Chicken;
 import view.entity.*;
 import view.main.*;
 import view.title.TileManager;
@@ -57,28 +57,7 @@ public class PlayState extends GameState {
                     obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
                     obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
                     obj[i].collision = false;
-                } else if(animals.get(i) instanceof Dog){
-                    obj[i] = new DogEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                    obj[i].collision = false;
-                }else if(animals.get(i) instanceof Cat){
-                    obj[i] = new CatEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                    obj[i].collision = false;
-                }else if(animals.get(i) instanceof Manatee){
-                    obj[i] = new ManateeEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                    obj[i].collision = false;
-                }else if(animals.get(i) instanceof Kangaroo){
-                    obj[i] = new KangarooEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                    obj[i].collision = false;
-                }
-                else{
+                } else {
                     obj[i] = new FoxEntity(gp, ps, animals.get(i));
                     obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
                     obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));

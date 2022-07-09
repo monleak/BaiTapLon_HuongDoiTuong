@@ -1,6 +1,6 @@
 package model.Activities;
 
-import model.Activities.ActivityType;
+import model.FoodInventory;
 
 /**
  * Hoạt động:
@@ -15,22 +15,17 @@ import model.Activities.ActivityType;
  *      + vd: play.getDeltaCalo() return -4
  */
 public abstract class Activity {
-    public abstract ActivityType getActivityType();
-    public int getDeltaHP() {
-        return 0;
-    }
-    public int getDeltaWater() {
-        return 0;
-    }
-    public int getDeltaCalo() {
-        return 0;
-    }
-    public int getDeltaSleep() {
+
+    public int getDeltaHP(int maxHP) {
         return 0;
     }
 
+    public abstract int getDeltaWater(int maxWater);
+    public abstract int getDeltaCalo(FoodInventory foodInventory);
+    public abstract int getDeltaSleep(int maxSleep);
+
     @Override
     public String toString() {
-        return "Activity{ type=" + getActivityType() + " }";
+        return "Activity{ type=" + this.getClass().getName() + " }";
     }
 }

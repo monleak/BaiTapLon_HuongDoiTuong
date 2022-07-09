@@ -1,29 +1,19 @@
 package model.Activities;
 
+import model.FoodInventory;
+
 public class SleepActivity extends Activity {
-    @Override
-    public ActivityType getActivityType() {
-        return ActivityType.sleep;
-    }
 
     @Override
-    public int getDeltaHP() {
-        return 5;
+    public int getDeltaWater(int maxWater) {
+        return -2;
     }
-
     @Override
-    public int getDeltaWater() {
-        return -1;
+    public int getDeltaCalo(FoodInventory foodInventory) {
+        return -2;
     }
-
     @Override
-    public int getDeltaCalo() {
-        return -1;
+    public int getDeltaSleep(int maxSleep) {
+        return 16;
     }
-
-    @Override
-    public int getDeltaSleep() {
-        return +12;
-    }
-
 }

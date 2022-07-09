@@ -16,7 +16,7 @@ public class FoodInventory {
     public Food getFood() {
         return food;
     }
-    public int getCalo () {
+    public int getTotalCalo() {
         return this.food.getCalo() * this.amount;
     }
 }

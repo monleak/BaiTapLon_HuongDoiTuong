@@ -11,6 +11,11 @@ import java.util.Random;
 public class Schedule implements Cloneable {
     public ArrayList<Activity> activityList;
 
+    public static final int DRINK   = 0,
+                            EAT     = 1,
+                            PLAY    = 2,
+                            SLEEP   = 3;
+
     public Schedule () {
         this.activityList = new ArrayList<Activity>();
 
@@ -21,38 +26,20 @@ public class Schedule implements Cloneable {
         // todo: add set list method and remove above lines
     }
 
-//    public void addActivity (Activity activity) {
-//        for (int i=0;i<activityList.size();i++){
-//            if(activityList.get(i).getActivityType() == activity.getActivityType()){
-//                return;
-//            }
-//        }
-//        this.activityList.add(activity);
-//    }
-
-//    public FoodAmount getFoodConsumeInOneDay (Animal a) {
-//        int amount = 0;
-//        for (Activity act : activityList) {
-//            if(act.getActivityType() != ActivityType.eat)
-//                amount += act.getDeltaCalo();
-//        }
-//        return new FoodAmount(a.getNeededFood().getFood(), amount);
-//    }
-
     public ArrayList<Activity> getActivityList() {
         return activityList;
     }
 
     public Activity getRandomActivity(Animal a){
         if(a.isHungry()){
-            return this.activityList.get(1);
+            return this.activityList.get(EAT);
         }
         if(a.isThirsty()){
-            return this.activityList.get(0);
+            return this.activityList.get(DRINK);
         }
         if(a.getSleep() < 0.1*a.getMaxSleep()){
             //Buồn ngủ
-            return this.activityList.get(3);
+            return this.activityList.get(SLEEP);
         }
         int scoreEat=0,scoreDrink=0,scoreSleep=0,scorePlay=0;
         scoreEat += 10*(1-a.getCalo()/a.getMaxCalo())/0.02;
@@ -68,10 +55,10 @@ public class Schedule implements Cloneable {
         }
         double sumScore = scoreDrink+scoreEat+scorePlay+scoreSleep;
         double[] P = new double[4];
-        P[0] = scoreDrink/sumScore;
-        P[1] = P[0] + scoreEat/sumScore;
-        P[2] = P[1] + scorePlay/sumScore;
-        P[3] = P[2] + scoreSleep/sumScore;
+        P[DRINK] = scoreDrink/sumScore;
+        P[EAT] = P[DRINK] + scoreEat/sumScore;
+        P[PLAY] = P[EAT] + scorePlay/sumScore;
+        P[SLEEP] = P[SLEEP] + scoreSleep/sumScore;
         double r = (new Random()).nextDouble();
         for (int i=0;i<4;i++){
             if(i==0){

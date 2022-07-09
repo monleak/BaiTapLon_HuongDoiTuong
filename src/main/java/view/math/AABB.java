@@ -91,6 +91,14 @@ public class AABB {
     public float getXOffset() { return xOffset; }
     public float getYOffset() { return yOffset; }
 
+    public float getCenterX () {
+        return pos.x + xOffset + w / 2;
+    }
+
+    public float getCenterY () {
+        return pos.y + yOffset + h / 2;
+    }
+
     /**
      * collides: Trả về true nếu 2 hình chạm nhau.
      *
@@ -235,10 +243,9 @@ public class AABB {
 		return "{" + x + ", " + y + " : " + w + ", " + h + "}";
 	}
 
-
     public void render(Graphics2D g2) {
         g2.drawRect(
-                (int)(pos.x - xOffset),
+                (int) (pos.x - xOffset),
                 (int) (pos.y - yOffset),
                 (int) w,
                 (int) h

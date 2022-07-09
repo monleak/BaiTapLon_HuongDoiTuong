@@ -25,8 +25,6 @@ public class SpriteSheet {
     private Sprite spritesArray[][];
     private int spritesIndexCounter[];
     private int arrLen;
-//    private int w;
-//    private int h;
     private String file;
 
     public SpriteSheet (int sttNum, int len) {
@@ -46,20 +44,6 @@ public class SpriteSheet {
             }
         }
     }
-
-//    public BufferedImage loadSprite (String file) {
-//        BufferedImage sprite = null;
-//        try {
-//            sprite = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(file)));
-//        } catch (Exception e) {
-//            System.out.println("ERROR: could not load file: " + file);
-//        }
-//        return sprite;
-//    }
-//
-//    private void loadSpriteArray () {
-//
-//    }
 
     public SpriteSheet addSprite(int sttNum, BufferedImage image) {
         try {
