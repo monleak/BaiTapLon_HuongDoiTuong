@@ -1,12 +1,6 @@
 package view.entity;
-import model.Activities.Activity;
-import model.Activities.ActivityType;
-import model.Activities.EatActivity;
-import model.Activities.PlayActivity;
+import model.Activities.*;
 import model.Animals.Animal;
-import model.Food;
-import model.ModelState;
-import states.PauseState;
 import states.PlayState;
 import view.ai.Node;
 import view.ai.PathFinder;
@@ -132,39 +126,26 @@ public class ManateeEntity extends AnimalEntity{
             lifeCounter++;
         }
         actionLockCounter++;
-        if(actionLockCounter > 60*60*15 && !animal.isHungry() && !animal.isThirsty() && !animal.isSick()){
-            switch (animal.getSchedule().getRandomActivity(animal).getActivityType()){
-                case eat:
+        if(actionLockCounter > 60*60*15 || !animal.isHungry() || !animal.isThirsty() && !animal.isSick()){
+            Activity randomAct = animal.getSchedule().getRandomActivity(animal);
+            if (randomAct instanceof EatActivity)
                     activity = EAT;
-                    break;
-                case drink:
+            else if (randomAct instanceof DrinkActivity)
                     activity = EAT;
-                    break;
-                case play:
+            else if (randomAct instanceof PlayActivity)
                     activity = STAND;
-                    break;
-                case sleep:
+            else if (randomAct instanceof SleepActivity)
                     activity = SIT;
-                    break;
-            }
         }
-        directionLockCounter++;
+        directionLockCounter ++;
         if(directionLockCounter > 120) {
             Random random = new Random();
             int i = random.nextInt(4);
             switch (i) {
-                case 1:
-                    direction = Direction.UP;
-                    break;
-                case 2:
-                    direction = Direction.DOWN;
-                    break;
-                case 3:
-                    direction = Direction.RIGHT;
-                    break;
-                case 0:
-                    direction = Direction.LEFT;
-                    break;
+                case 1 -> direction = Direction.UP;
+                case 2 -> direction = Direction.DOWN;
+                case 3 -> direction = Direction.RIGHT;
+                case 0 -> direction = Direction.LEFT;
             }
             directionLockCounter = 0;
         }
@@ -194,13 +175,6 @@ public class ManateeEntity extends AnimalEntity{
                 setSpeed(1);
             }
         }
-        pathFinder.setNodes(
-                (int) this.pos.x,
-                (int) this.pos.y,
-                (int) (10f * gp.titleSize),
-                (int) (10f * gp.titleSize),
-                null
-        );
     }
     /**
      * {@inheritDoc}
@@ -232,8 +206,9 @@ public class ManateeEntity extends AnimalEntity{
         }
     }
 
-    public void update (double time) {
-        setAction();
+    public void update () {
+        super.update();
+
         if(activity != EAT){
             checkCollisionAndMove(this.direction, this.getSpeed());
         }
@@ -261,7 +236,6 @@ public class ManateeEntity extends AnimalEntity{
      * {@inheritDoc}
      */
     public void draw (Graphics2D g2) {
-        update (0);
         super.draw(g2);
 
         pathFinder.getPathList().forEach(node -> {

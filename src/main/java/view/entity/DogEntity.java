@@ -1,8 +1,5 @@
 package view.entity;
-import model.Activities.Activity;
-import model.Activities.ActivityType;
-import model.Activities.EatActivity;
-import model.Activities.PlayActivity;
+import model.Activities.*;
 import model.Animals.Animal;
 import model.Food;
 import model.ModelState;
@@ -134,20 +131,15 @@ public class DogEntity extends AnimalEntity{
         }
         actionLockCounter++;
         if(actionLockCounter > 60*60*15 && !animal.isHungry() && !animal.isThirsty() && !animal.isSick()){
-            switch (animal.getSchedule().getRandomActivity(animal).getActivityType()){
-                case eat:
-                    activity = EAT;
-                    break;
-                case drink:
-                    activity = EAT;
-                    break;
-                case play:
-                    activity = STAND;
-                    break;
-                case sleep:
-                    activity = SIT;
-                    break;
-            }
+            Activity randomAct = animal.getSchedule().getRandomActivity(animal);
+            if (randomAct instanceof EatActivity)
+                activity = EAT;
+            else if (randomAct instanceof DrinkActivity)
+                activity = EAT;
+            else if (randomAct instanceof PlayActivity)
+                activity = STAND;
+            else if (randomAct instanceof SleepActivity)
+                activity = SIT;
         }
         directionLockCounter++;
         if(directionLockCounter > 120) {
@@ -195,13 +187,7 @@ public class DogEntity extends AnimalEntity{
                 setSpeed(1);
             }
         }
-        pathFinder.setNodes(
-                (int) this.pos.x,
-                (int) this.pos.y,
-                (int) (10f * gp.titleSize),
-                (int) (10f * gp.titleSize),
-                null
-        );
+
     }
     /**
      * {@inheritDoc}

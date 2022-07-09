@@ -1,9 +1,10 @@
 package states;
 
 import model.Animals.Animal;
-import model.Animals.Chicken;
+import model.Animals.*;
 import view.entity.*;
 import view.main.*;
+import view.object.OBJ_Key;
 import view.title.TileManager;
 
 import java.awt.*;
@@ -25,6 +26,7 @@ public class PlayState extends GameState {
     public GameObject[] obj = new GameObject[100];    // Danh sach
 
     public Player player;
+    private int modelStateCounter;
 
     public PlayState (Camera camera) {
         // init
@@ -42,6 +44,10 @@ public class PlayState extends GameState {
 
     /**
      * {@inheritDoc}
+     * <ul>
+     *     <li>Nếu truyền thêm modelState vào constructor GameState thì tạo con vật dựa trên ModelState </li>
+     *     <li>Ngược lại, tạo con vật dựa trên AssetsSetter</li>
+     * </ul>
      */
     @Override
     public void setup () {
@@ -56,16 +62,35 @@ public class PlayState extends GameState {
                     obj[i] = new ChickenEntity(gp, ps, animals.get(i));
                     obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
                     obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                    obj[i].collision = false;
-                } else {
-                    obj[i] = new FoxEntity(gp, ps, animals.get(i));
+                } else if(animals.get(i) instanceof Dog){
+                    obj[i] = new DogEntity(gp, ps, animals.get(i));
                     obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
                     obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                    obj[i].collision = false;
+                }else if(animals.get(i) instanceof Cat){
+                    obj[i] = new CatEntity(gp, ps, animals.get(i));
+                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                }else if(animals.get(i) instanceof Manatee){
+                    obj[i] = new ManateeEntity(gp, ps, animals.get(i));
+                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                }else if(animals.get(i) instanceof Kangaroo){
+                    obj[i] = new KangarooEntity(gp, ps, animals.get(i));
+                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                }
+                else{
+                    obj[i] = new FoxEntity(gp, ps, animals.get(i));
+                    obj[i].getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getPos().y = ((int)((10f + i) * gp.titleSize));
                 }
             }
+            obj[10] = new OBJ_Key(gp, ps);
+            obj[10].getBounds().getPos().x = 20 * gp.titleSize;
+            obj[10].getBounds().getPos().y = 20 * gp.titleSize;
         }
         playMusic(0);
+//        camera.target(obj[1]);
     }
 
     /**
@@ -76,6 +101,14 @@ public class PlayState extends GameState {
 
         if(!gsm.isStateActive(GameStateManager.PAUSE)) {
             player.update();
+            ui.update();
+
+            if (GameStateManager.modelState != null && modelStateCounter == 10 / GameStateManager.modelState.getSimulationSpeed()) {
+                GameStateManager.modelState.run();
+                modelStateCounter = 0;
+            } else {
+                modelStateCounter++;
+            }
 
             for (int i = 0; i < obj.length; i++) {
                 if(obj[i] instanceof Entity ) {
@@ -110,8 +143,6 @@ public class PlayState extends GameState {
         for (GameObject superObject : obj) {
             if (superObject != null) {
                 superObject.draw(g2);
-            } else {
-                break;
             }
         }
 
