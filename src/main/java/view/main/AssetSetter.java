@@ -2,6 +2,7 @@ package view.main;
 
 import states.PlayState;
 import view.entity.ChickenEntity;
+import view.entity.DogEntity;
 import view.entity.FoxEntity;
 import view.object.OBJ_Key;
 
@@ -24,8 +25,8 @@ public class AssetSetter
 
     public void setObject() {
         ps.obj[0] = new OBJ_Key(gp, ps);
-        ps.obj[0].getBounds().getPos().x = (23 * gp.titleSize);
-        ps.obj[0].getBounds().getPos().y = (7 * gp.titleSize);
+        ps.obj[0].getBounds().getPos().x = ((int)(38f * gp.titleSize));
+        ps.obj[0].getBounds().getPos().y = ((int)(14f * gp.titleSize));
 
         ps.obj[1] = new FoxEntity(gp, ps);
         ps.obj[1].getBounds().getPos().x = ((int)(38f * gp.titleSize));
@@ -39,15 +40,15 @@ public class AssetSetter
         ps.obj[2].getBounds().getPos().y = ((int)(10f * gp.titleSize));
         ps.obj[2].collision = false;
 //
-//        ps.obj[3] = new ChickenEntity(gp, ps);
-//        ps.obj[3].getBounds().getPos().x = ((int)(39f * gp.titleSize));
-//        ps.obj[3].getBounds().getPos().y = ((int)(10f * gp.titleSize));
-//        ps.obj[3].collision = false;
+        ps.obj[3] = new ChickenEntity(gp, ps);
+        ps.obj[3].getBounds().getPos().x = ((int)(38f * gp.titleSize));
+        ps.obj[3].getBounds().getPos().y = ((int)(10f * gp.titleSize));
+        ps.obj[3].collision = false;
 //
-//        ps.obj[4] = new ChickenEntity(gp, ps);
-//        ps.obj[4].getBounds().getPos().x = ((int)(38f * gp.titleSize));
-//        ps.obj[4].getBounds().getPos().y = ((int)(9f * gp.titleSize));
-//        ps.obj[4].collision = false;
+        ps.obj[4] = new DogEntity(gp, ps);
+        ps.obj[4].getBounds().getPos().x = ((int)(38f * gp.titleSize));
+        ps.obj[4].getBounds().getPos().y = ((int)(14f * gp.titleSize));
+        ps.obj[4].collision = false;
 //
 //        ps.obj[5] = new ChickenEntity(gp, ps);
 //        ps.obj[5].getBounds().getPos().x = ((int)(38f * gp.titleSize));

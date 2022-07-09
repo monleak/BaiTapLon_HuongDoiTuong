@@ -1,9 +1,15 @@
 package view.entity;
 
+import model.Activities.Activity;
+import model.Activities.ActivityType;
+import model.Activities.EatActivity;
+import model.Activities.PlayActivity;
 import model.Animals.Animal;
 import model.Food;
 import model.ModelState;
 import states.PlayState;
+import view.ai.Node;
+import view.ai.PathFinder;
 import view.graphics.SpriteSheet;
 import view.main.GamePanel;
 import view.utils.ImageSplitter;
@@ -17,6 +23,7 @@ public class ChickenEntity extends AnimalEntity {
     private int counter;
     private int lifeCounter;
     private int actionLockCounter;
+    private int directionLockCounter;
     // Có flip ảnh hay không
     public static final int NOFLIP = 0;
     public static final int FLIP = 4;
@@ -29,6 +36,8 @@ public class ChickenEntity extends AnimalEntity {
     public Direction prevDirection;
     public int posture;
 
+    private static int activity;
+    private PathFinder pathFinder;
 
     /**
      * DOWN + STAND
@@ -47,6 +56,7 @@ public class ChickenEntity extends AnimalEntity {
                 sprite.getSpriteArray(FLIP + posture),
                 12
         );
+        pathFinder = new PathFinder(gp, ps);
     }
 
     public ChickenEntity (GamePanel gp, PlayState ps, Animal animal) {
@@ -114,33 +124,35 @@ public class ChickenEntity extends AnimalEntity {
             }
             if (this.animal != null)
                 this.animal.life(
-                    lifeCounter / (24 * 60),
-                    lifeCounter / (60) % 24,
-                    lifeCounter % 60
+                        lifeCounter / (24 * 60),
+                        lifeCounter / (60) % 24,
+                        lifeCounter % 60
                 );
             // NOTE: De counter xuat phat tu 0
             lifeCounter++;
         }
-
         actionLockCounter++;
-        if(actionLockCounter > 120) {
+        if(actionLockCounter > 60 * 60 * 15) {
+            assert animal != null;
+            if (!animal.isHungry() && !animal.isThirsty() && !animal.isSick()) {
+                switch (animal.getSchedule().getRandomActivity(animal).getActivityType()) {
+                    case eat, drink -> activity = EAT;
+                    case play -> activity = STAND;
+                    case sleep -> activity = SIT;
+                }
+            }
+        }
+        directionLockCounter++;
+        if(directionLockCounter > 120) {
             Random random = new Random();
             int i = random.nextInt(4);
             switch (i) {
-                case 1:
-                    direction = Direction.UP;
-                    break;
-                case 2:
-                    direction = Direction.DOWN;
-                    break;
-                case 3:
-                    direction = Direction.RIGHT;
-                    break;
-                case 0:
-                    direction = Direction.LEFT;
-                    break;
+                case 1 -> direction = Direction.UP;
+                case 2 -> direction = Direction.DOWN;
+                case 3 -> direction = Direction.RIGHT;
+                case 0 -> direction = Direction.LEFT;
             }
-            actionLockCounter = 0;
+            directionLockCounter = 0;
         }
 
         // random tu the
@@ -150,18 +162,31 @@ public class ChickenEntity extends AnimalEntity {
         if(counter >= (circle * nState)) {
             counter = 0;
             Random random = new Random();
-            int r = random.nextInt(4);
-            if (r == 0) posture = EAT;
-            else if (r == 1) posture = LEAP;
-            else if (r == 2) posture = SIT;
-            else posture = STAND;
 
-            if(posture == EAT || posture == SIT) {
+            if (activity == EAT) posture = EAT;
+            else if (activity == SIT) posture = SIT;
+            else if (activity == STAND){
+                //hoạt động play
+                if(random.nextDouble()<0.5){
+                    posture = STAND;
+                }else {
+                    posture = LEAP;
+                }
+            }
+
+            if(posture == SIT) {
                 setSpeed(0);
             } else {
                 setSpeed(1);
             }
         }
+        pathFinder.setNodes(
+                (int) this.pos.x,
+                (int) this.pos.y,
+                (int) (10f * gp.titleSize),
+                (int) (10f * gp.titleSize),
+                null
+        );
     }
     /**
      * {@inheritDoc}
@@ -174,29 +199,42 @@ public class ChickenEntity extends AnimalEntity {
         prevDirection = direction;
 
         switch (direction) {
-            case UP:
-            case LEFT:
-                setAnimation(
-                        FLIP,
-                        sprite.getSpriteArray(FLIP + posture),
-                        12
-                );
-                break;
-            case DOWN:
-            case RIGHT:
-                setAnimation(
-                        NOFLIP,
-                        sprite.getSpriteArray(NOFLIP + posture),
-                        12
-                );
-                break;
+            case UP, LEFT -> setAnimation(
+                    FLIP,
+                    sprite.getSpriteArray(FLIP + posture),
+                    12
+            );
+            case DOWN, RIGHT -> setAnimation(
+                    NOFLIP,
+                    sprite.getSpriteArray(NOFLIP + posture),
+                    12
+            );
         }
     }
 
     public void update (double time) {
-        checkCollisionAndMove(this.direction, this.getSpeed());
+        setAction();
+        if(activity != EAT){
+            checkCollisionAndMove(this.direction, this.getSpeed());
+        }
         animate(true);
         image = ani.getImage().image;
+        pathFinder.search();
+        if(pathFinder.getPathList().size() > 0 && activity == EAT) {
+            Node next = pathFinder.getPathList().get(0);
+            if (this.getPos().x > next.column * gp.titleSize) {
+                this.getPos().x -= getSpeed();
+            } else
+            if (this.getPos().x < next.column * gp.titleSize) {
+                this.getPos().x += getSpeed();
+            } else
+            if (this.getPos().y > next.row * gp.titleSize) {
+                this.getPos().y -= getSpeed();
+            } else
+            if (this.getPos().y < next.row * gp.titleSize) {
+                this.getPos().y += getSpeed();
+            }
+        }
     }
 
     /**
@@ -205,5 +243,9 @@ public class ChickenEntity extends AnimalEntity {
     public void draw (Graphics2D g2) {
         update (0);
         super.draw(g2);
+
+        pathFinder.getPathList().forEach(node -> {
+            g2.drawRect(node.column * gp.titleSize, node.row * gp.titleSize, gp.titleSize, gp.titleSize );
+        });
     }
 }

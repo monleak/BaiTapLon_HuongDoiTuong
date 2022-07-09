@@ -112,7 +112,9 @@ public abstract class Animal {
     public boolean isDead() {
         return isDead;
     }
-
+    public Schedule getSchedule(){
+        return schedule;
+    }
     public void setDead(boolean dead) {
         isDead = dead;
     }
