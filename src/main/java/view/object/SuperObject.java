@@ -51,8 +51,8 @@ public class SuperObject extends GameObject implements IFocusable {
     }
 
     private int[] calculatePosition () {
-        int screenX = (int) this.pos.getWorldVar().x;
-        int screenY = (int) this.pos.getWorldVar().y;
+        int screenX = (int) this.pos.getScreenX();
+        int screenY = (int) this.pos.getScreenY();
 
         return new int[]{screenX, screenY};
     }

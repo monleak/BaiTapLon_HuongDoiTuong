@@ -1,5 +1,6 @@
 package view.ai;
 
+import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.entity.Entity;
 import view.entity.GameObject;
@@ -97,7 +98,7 @@ public class PathFinder {
         step = 0;
     }
 
-    private void getCost(Node node) {
+    private void getCost(@NotNull Node node) {
         int xDistance = Math.abs(node.column * gp.titleSize - startNode.column * gp.titleSize);
         int yDistance = Math.abs(node.row * gp.titleSize - - startNode.row * gp.titleSize);
         node.gCost = xDistance + yDistance;
@@ -260,18 +261,20 @@ public class PathFinder {
     public ArrayList<Node> getPathList() {
         return pathList;
     }
+
     // debug
     public void draw (Graphics2D g2) {
         if (this.getPathList().size() > 0) {
             for (Node step : this.getPathList() ) {
                 g2.setColor(Color.red);
                 g2.drawRect(
-                        (int) Vector2f.getWorldVarX(step.column * gp.titleSize),
-                        (int) Vector2f.getWorldVarY(step.row * gp.titleSize),
+                        (int) Vector2f.getStaticScreenX(step.column * gp.titleSize),
+                        (int) Vector2f.getStaticScreenY(step.row * gp.titleSize),
                         gp.titleSize,
                         gp.titleSize
                 );
             }
         }
     }
+
 }

@@ -120,7 +120,7 @@ public abstract class Animal {
     }
 
     public FoodInventory getNeededFood () {
-        return new FoodInventory(neededFood.getFood(), neededFood.getAmount() - calo);
+        return neededFood;
     }
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;

@@ -1,6 +1,6 @@
 package view.effect;
 
-import model.Animals.Animal;
+import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.entity.AnimalEntity;
 import view.entity.GameObject;
@@ -54,14 +54,14 @@ public class FocusableHandler implements IFocusable {
      * @param g The Graphics instance.
      * @param text The String to draw.
      */
-    private void drawCenteredString(Graphics2D g, AABB bounds, String text, Font font) {
+    private void drawCenteredString(@NotNull Graphics2D g, AABB bounds, String text, Font font) {
         // Get the FontMetrics
         FontMetrics metrics = g.getFontMetrics(font);
         if (metrics != null) {
             // Determine the X coordinate for the text
-            int x = (int) bounds.getPos().getWorldVar().x + ( (int) bounds.getWidth() - metrics.stringWidth(text)) / 2;
+            int x = (int) bounds.getPos().getScreenX() + ( (int) bounds.getWidth() - metrics.stringWidth(text)) / 2;
             // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-            int y = (int) bounds.getPos().getWorldVar().y - metrics.getHeight() + metrics.getAscent() - 9;
+            int y = (int) bounds.getPos().getScreenY() - metrics.getHeight() + metrics.getAscent() - 9;
             // Set the font
             g.setFont(font);
             // Draw the String
@@ -73,10 +73,10 @@ public class FocusableHandler implements IFocusable {
      * FocusableHandler.draw:
      * Vẽ hình tam giác màu đỏ và tên object khi focus.
      */
-    public void draw(Graphics2D g2, AABB bounds, String name) {
+    public void draw(Graphics2D g2, @NotNull AABB bounds, String name) {
 
-        int screenX = (int) bounds.getPos().getWorldVar().x;
-        int screenY = (int) bounds.getPos().getWorldVar().y - 9;
+        int screenX = (int) bounds.getPos().getScreenX();
+        int screenY = (int) bounds.getPos().getScreenY() - 9;
 
         if(this.isHovered) {
             g2.drawRect( screenX, screenY, (int) bounds.getWidth(), (int) bounds.getWidth());
@@ -92,17 +92,17 @@ public class FocusableHandler implements IFocusable {
         }
     }
 
-    public void draw(Graphics2D g2, AnimalEntity animalEntity) {
+    public void draw(Graphics2D g2, @NotNull AnimalEntity animalEntity) {
 
         this.draw(g2, animalEntity.getBounds(), animalEntity.name);
 
         // draw thanh HP, food, water tren dau con vat!
         Vector2f pos = animalEntity.getBounds().getPos();
         AABB bounds = animalEntity.getBounds();
-        int barScreenX = (int) pos.getWorldVar().x;
+        int barScreenX = (int) pos.getScreenX();
         int barWidth = (int) bounds.getWidth();
         int barHeight = 14;
-        int barScreenY = (int) pos.getWorldVar().y - barHeight;
+        int barScreenY = (int) pos.getScreenY() - barHeight;
         g2.setColor(Color.WHITE);
         g2.fillRect(
                 barScreenX - 1,

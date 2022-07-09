@@ -226,6 +226,6 @@ public abstract class Entity extends GameObject {
     @Override
     public void draw (@NotNull Graphics2D g2) {
         // draw this.image
-        g2.drawImage(image, (int) this.pos.getWorldVar().x, (int) this.pos.getWorldVar().y, gp.titleSize, gp.titleSize, null);
+        g2.drawImage(image, (int) this.pos.getScreenX(), (int) this.pos.getScreenY(), gp.titleSize, gp.titleSize, null);
     }
 }

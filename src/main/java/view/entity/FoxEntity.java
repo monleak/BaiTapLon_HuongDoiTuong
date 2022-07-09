@@ -153,16 +153,16 @@ public class FoxEntity extends AnimalEntity {
         if (followedEntity == null) {
             g2.setColor(Color.RED);
             g2.drawOval(
-                    (int) this.followRange.getPos().getWorldVar().x + (int) this.followRange.getXOffset(),
-                    (int) this.followRange.getPos().getWorldVar().y + (int)  this.followRange.getXOffset(),
+                    (int) this.followRange.getPos().getScreenX() + (int) this.followRange.getXOffset(),
+                    (int) this.followRange.getPos().getScreenY() + (int)  this.followRange.getXOffset(),
                     (int) this.followRange.getRadius(),
                     (int) this.followRange.getRadius()
                     );
             g2.setColor(Color.WHITE);
         } else {
             g2.drawOval(
-                    (int) this.unFollowRange.getPos().getWorldVar().x + (int) this.unFollowRange.getXOffset(),
-                    (int) this.unFollowRange.getPos().getWorldVar().y + (int)  this.unFollowRange.getXOffset(),
+                    (int) this.unFollowRange.getPos().getScreenX() + (int) this.unFollowRange.getXOffset(),
+                    (int) this.unFollowRange.getPos().getScreenY() + (int)  this.unFollowRange.getXOffset(),
                     (int) this.unFollowRange.getRadius(),
                     (int) this.unFollowRange.getRadius()
             );

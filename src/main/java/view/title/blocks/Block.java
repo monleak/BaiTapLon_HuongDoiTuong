@@ -44,6 +44,6 @@ public abstract class Block {
     }
 
     public void render(Graphics2D g2) {
-        g2.drawImage(img.image, (int) pos.getWorldVar().x, (int) pos.getWorldVar().y, w, h, null);
+        g2.drawImage(img.image, (int) pos.getScreenX(), (int) pos.getScreenY(), w, h, null);
     }
 }

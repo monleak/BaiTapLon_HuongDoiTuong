@@ -44,7 +44,7 @@ public class TileManager {
         this.camera = camera;
         tm = new ArrayList<>(50);
         this.imgList = new ArrayList<>();
-        loadMapNew ("/map1.xml");
+        loadMapNew ("/map2.xml");
     }
 
     private void loadMapNew (String xmlPath) {

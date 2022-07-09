@@ -4,12 +4,10 @@ import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.graphics.SpriteSheet;
 import view.ai.Node;
-import view.ai.PathFinder;
 import view.effect.FocusManager;
 import view.main.*;
 import view.math.Vector2f;
 import view.object.SuperObject;
-import view.title.TileCollision;
 import view.utils.ImageSplitter;
 import view.utils.Direction;
 
@@ -153,13 +151,13 @@ public class Player extends Entity {
             pathFinder.setNodes(
                     (int) this.getBounds().getCenterX(),
                     (int) this.getBounds().getCenterY(),
-                    (int) - Vector2f.getWorldVarX(0) + mouseH.getX(),
-                    (int) - Vector2f.getWorldVarY(0) + mouseH.getY()
+                    (int) - Vector2f.getStaticScreenX(0) + mouseH.getX(),
+                    (int) - Vector2f.getStaticScreenY(0) + mouseH.getY()
             );
             pathFinder.search();
             mousePos = new Vector2f(
-                    (int) - Vector2f.getWorldVarX(0) + mouseH.getX(),
-                    (int) - Vector2f.getWorldVarY(0) + mouseH.getY()
+                    (int) - Vector2f.getStaticScreenX(0) + mouseH.getX(),
+                    (int) - Vector2f.getStaticScreenY(0) + mouseH.getY()
                     );
             isGoingToMousePosition = true;
         }
@@ -247,17 +245,17 @@ public class Player extends Entity {
     public void draw (@NotNull Graphics2D g2) {
 
         // draw player
-        g2.drawImage(ani.getImage().image, (int) pos.getWorldVar().x, (int) pos.getWorldVar().y, gp.titleSize, gp.titleSize, null);
+        g2.drawImage(ani.getImage().image, (int) pos.getScreenX(), (int) pos.getScreenY(), gp.titleSize, gp.titleSize, null);
 
         // TEST: draw character image frame
          g2.drawRect(
-                 (int) this.getBounds().getPos().getWorldVar().x + (int) this.bounds.getXOffset(),
-                 (int) this.getBounds().getPos().getWorldVar().y + (int) this.bounds.getYOffset(),
+                 (int) this.getBounds().getPos().getScreenX() + (int) this.bounds.getXOffset(),
+                 (int) this.getBounds().getPos().getScreenY() + (int) this.bounds.getYOffset(),
                  (int) this.getBounds().getWidth(),
                  (int) this.getBounds().getHeight());
 
          if (pathFinder.getPathList().size() > 0) {
-             g2.drawRect( (int) mousePos.getWorldVar().x - gp.titleSize / 2, (int) mousePos.getWorldVar().y - gp.titleSize / 2, gp.titleSize, gp.titleSize);
+             g2.drawRect( (int) mousePos.getScreenX() - gp.titleSize / 2, (int) mousePos.getScreenY() - gp.titleSize / 2, gp.titleSize, gp.titleSize);
 
              pathFinder.draw(g2);
          }
