@@ -1,5 +1,4 @@
-import model.Animals.Cat;
-import model.Animals.Chicken;
+import model.Animals.*;
 import model.Food;
 import model.ModelState;
 import view.main.GamePanel;
@@ -18,6 +17,27 @@ public class GameLauncher {
         // setup game model
         ModelState modelState = new ModelState(1);
         List<Food> foodList = modelState.getFoodList();
+//        modelState.getAnimalList().add(
+//                new Cat(
+//                        modelState.getDefaultSchedule().get(0),
+//                        modelState.getFoodList().get(0),
+//                        10
+//                )
+//        );
+        modelState.getAnimalList().add(
+                new Chicken(
+                        modelState.getDefaultSchedule().get(0),
+                        modelState.getFoodList().get(0),
+                        10
+                )
+        );
+        modelState.getAnimalList().add(
+                new Dog(
+                        modelState.getDefaultSchedule().get(0),
+                        modelState.getFoodList().get(0),
+                        10
+                )
+        );
         modelState.getAnimalList().add(
                 new Cat(
                         modelState.getDefaultSchedule().get(0),
@@ -26,12 +46,20 @@ public class GameLauncher {
                 )
         );
         modelState.getAnimalList().add(
-                new Chicken(
+                new Manatee(
                         modelState.getDefaultSchedule().get(0),
                         modelState.getFoodList().get(0),
                         10
                 )
         );
+        modelState.getAnimalList().add(
+                new Kangaroo(
+                        modelState.getDefaultSchedule().get(0),
+                        modelState.getFoodList().get(0),
+                        10
+                )
+        );
+
         // todo: connect model state and game panel
 
         // setup game panel

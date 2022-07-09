@@ -1,7 +1,7 @@
 package states;
 
 import model.Animals.Animal;
-import model.Animals.Chicken;
+import model.Animals.*;
 import view.entity.*;
 import view.main.*;
 import view.object.OBJ_Key;
@@ -59,12 +59,27 @@ public class PlayState extends GameState {
             List<Animal> animals = GameStateManager.modelState.getAnimalList();
             for (int i = 0; i < animals.size(); i++) {
                 if (animals.get(i) instanceof Chicken) {
-                    ChickenEntity chicken = new ChickenEntity(gp, ps, animals.get(i));
-                    obj[i] = chicken;
-                    obj[i].getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getPos().y = ((int)((10f + i) * gp.titleSize));
-                    chicken.goTo(ps.player);
-                } else {
+                    obj[i] = new ChickenEntity(gp, ps, animals.get(i));
+                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                } else if(animals.get(i) instanceof Dog){
+                    obj[i] = new DogEntity(gp, ps, animals.get(i));
+                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                }else if(animals.get(i) instanceof Cat){
+                    obj[i] = new CatEntity(gp, ps, animals.get(i));
+                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                }else if(animals.get(i) instanceof Manatee){
+                    obj[i] = new ManateeEntity(gp, ps, animals.get(i));
+                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                }else if(animals.get(i) instanceof Kangaroo){
+                    obj[i] = new KangarooEntity(gp, ps, animals.get(i));
+                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                }
+                else{
                     obj[i] = new FoxEntity(gp, ps, animals.get(i));
                     obj[i].getPos().x = ((int)(10f * gp.titleSize));
                     obj[i].getPos().y = ((int)((10f + i) * gp.titleSize));
@@ -73,10 +88,8 @@ public class PlayState extends GameState {
             obj[10] = new OBJ_Key(gp, ps);
             obj[10].getBounds().getPos().x = 20 * gp.titleSize;
             obj[10].getBounds().getPos().y = 20 * gp.titleSize;
-
         }
         playMusic(0);
-
 //        camera.target(obj[1]);
     }
 

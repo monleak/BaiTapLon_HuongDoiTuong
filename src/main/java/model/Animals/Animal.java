@@ -114,7 +114,9 @@ public abstract class Animal {
     public boolean isDead() {
         return isDead;
     }
-
+    public Schedule getSchedule(){
+        return schedule;
+    }
     public void setDead(boolean dead) {
         isDead = dead;
     }
@@ -204,15 +206,6 @@ public abstract class Animal {
             // FIXME: SET ACTIVITY
             this.activity = this.schedule.getRandomActivity(this);
             System.out.println( "[ hour: "  + hours + "]" +"Set next activity: ");
-            if (isHungry() && r.nextInt() < 2) {
-                this.activity = new SleepActivity();
-            }
-            if (isThirsty() && r.nextInt() < 3) {
-                this.activity = new SleepActivity();
-            }
-            if (isSick() && r.nextInt() < 4) {
-                this.activity = new SleepActivity();
-            }
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }

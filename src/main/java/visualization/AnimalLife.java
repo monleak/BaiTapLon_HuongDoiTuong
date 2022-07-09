@@ -1,8 +1,10 @@
 package visualization;
 
 import model.Activities.*;
+import model.Animals.Animal;
 import model.Animals.Cat;
 import model.Animals.Chicken;
+import model.Animals.Dog;
 import org.math.plot.Plot2DPanel;
 import org.math.plot.plotObjects.BaseLabel;
 
@@ -90,7 +92,7 @@ public class AnimalLife {
 
     public static void setData() {
 
-        Chicken cat = new Chicken();
+        Animal cat = new Chicken();
 
         try {
             hp      = new double[25];

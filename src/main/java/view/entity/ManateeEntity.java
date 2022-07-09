@@ -1,20 +1,18 @@
 package view.entity;
-
 import model.Activities.*;
 import model.Animals.Animal;
-import org.jetbrains.annotations.NotNull;
 import states.PlayState;
+import view.ai.Node;
 import view.ai.PathFinder;
 import view.graphics.SpriteSheet;
 import view.main.GamePanel;
-import view.utils.Direction;
 import view.utils.ImageSplitter;
+import view.utils.Direction;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-
-public class ChickenEntity extends AnimalEntity {
+public class ManateeEntity extends AnimalEntity{
     private int counter;
     private int lifeCounter;
     private int actionLockCounter;
@@ -32,13 +30,14 @@ public class ChickenEntity extends AnimalEntity {
     public int posture;
 
     private static int activity;
+
     private PathFinder pathFinder;
 
     /**
      * DOWN + STAND
      */
 
-    public ChickenEntity (GamePanel gp, PlayState ps) {
+    public ManateeEntity (GamePanel gp, PlayState ps) {
         super(gp, ps);
 
         this.setSpeed(1);
@@ -54,37 +53,40 @@ public class ChickenEntity extends AnimalEntity {
         pathFinder = new PathFinder(gp, ps);
     }
 
-    public ChickenEntity (GamePanel gp, PlayState ps, Animal animal) {
+    public ManateeEntity (GamePanel gp, PlayState ps, Animal animal) {
         this(gp, ps);
         this.animal = animal;
-        this.name = "Chicken";
     }
     /**
      * {@inheritDoc}
      */
     @Override
     public void setImage() {
-        System.out.println("Set Image: /chicken/chicken-sprite-sheet.png: " + sprite);
-        ImageSplitter ci = new ImageSplitter(gp, "/chicken/chicken-sprite-sheet.png", 32, 32, 0);
+        System.out.println("Set Image: /Manatee/manatee-african.png: " + sprite);
+        ImageSplitter ci = new ImageSplitter(gp, "/Manatee/manatee-african.png", 160/5, 32, 0);
         System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
 
-        BufferedImage[] imgs = new BufferedImage[16];
-        BufferedImage[] flipImgs = new BufferedImage[16];
+        BufferedImage[] imgs = new BufferedImage[36];
+        BufferedImage[] flipImgs = new BufferedImage[36];
 
 
-        for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < 4; j++) {
+        for(int i = 0; i <= 0; i++) {
+            for(int j = 0; j < 5; j++) {
                 imgs[i*4+j] = ci.getSubImage(i, j);
                 flipImgs[i*4+j] = ci.getFlipSubImage(i, j);
+//                this.sprite.addSprite(UP, ci.getSubImage(i, j)) ;
+//                this.sprite.addSprite(LEFT, ci.getSubImage(i, j)) ;
+//                this.sprite.addSprite(DOWN, ci.getFlipSubImage(i, j)) ;
+//                this.sprite.addSprite(RIGHT, ci.getFlipSubImage(i, j)) ;
             }
         }
 
         // Mảng gồm index của các ảnh trong 1 động tác.
         int[][] actIds = {
-                {1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4},   // STAND
-                {5, 6, 7, 8, 5, 6, 7, 8, 5, 6, 7, 8},   // EAT
-                {9, 10, 11, 12, 12, 12, 12, 12, 12, 11, 10, 9 },    // SIT
-                {13, 13, 14, 14, 15, 15, 16, 16, 15, 14, 13, 12, 13}    // LEAP
+                {1,2,3,4,5,1,2,3,4,5},   // STAND
+                {2,3,2,3,2,3,2,3,2,3},   // EAT
+                {1,1,1,1,1,1,1,1,1,1},    // SIT
+                {1,1,1,1,1,1,1,1,1,1}    // LEAP
         };
 
         // spritesheet
@@ -114,28 +116,28 @@ public class ChickenEntity extends AnimalEntity {
             if (lifeCounter == 15 * 24 * 60) {
                 lifeCounter = 0;
             }
-//            if (this.animal != null)
-//                this.animal.life(
-//                    lifeCounter / (24 * 60),
-//                    lifeCounter / (60) % 24,
-//                    lifeCounter % 60
-//                );
+            if (this.animal != null)
+                this.animal.life(
+                        lifeCounter / (24 * 60),
+                        lifeCounter / (60) % 24,
+                        lifeCounter % 60
+                );
             // NOTE: De counter xuat phat tu 0
             lifeCounter++;
         }
         actionLockCounter++;
-        if(actionLockCounter > 60*60*15 && !animal.isHungry() && !animal.isThirsty() && !animal.isSick()){
+        if(actionLockCounter > 60*60*15 || !animal.isHungry() || !animal.isThirsty() && !animal.isSick()){
             Activity randomAct = animal.getSchedule().getRandomActivity(animal);
             if (randomAct instanceof EatActivity)
-                activity = EAT;
+                    activity = EAT;
             else if (randomAct instanceof DrinkActivity)
-                activity = EAT;
+                    activity = EAT;
             else if (randomAct instanceof PlayActivity)
-                activity = STAND;
+                    activity = STAND;
             else if (randomAct instanceof SleepActivity)
-                activity = SIT;
+                    activity = SIT;
         }
-        directionLockCounter++;
+        directionLockCounter ++;
         if(directionLockCounter > 120) {
             Random random = new Random();
             int i = random.nextInt(4);
@@ -173,13 +175,6 @@ public class ChickenEntity extends AnimalEntity {
                 setSpeed(1);
             }
         }
-//        pathFinder.setNodes(
-//                (int) this.pos.x,
-//                (int) this.pos.y,
-//                (int) (10f * gp.titleSize),
-//                (int) (10f * gp.titleSize),
-//                null
-//        );
     }
     /**
      * {@inheritDoc}
@@ -192,33 +187,55 @@ public class ChickenEntity extends AnimalEntity {
         prevDirection = direction;
 
         switch (direction) {
-            case UP, LEFT -> setAnimation(
-                    FLIP,
-                    sprite.getSpriteArray(FLIP + posture),
-                    12
-            );
-            case DOWN, RIGHT -> setAnimation(
-                    NOFLIP,
-                    sprite.getSpriteArray(NOFLIP + posture),
-                    12
-            );
+            case UP:
+            case LEFT:
+                setAnimation(
+                        FLIP,
+                        sprite.getSpriteArray(FLIP + posture),
+                        12
+                );
+                break;
+            case DOWN:
+            case RIGHT:
+                setAnimation(
+                        NOFLIP,
+                        sprite.getSpriteArray(NOFLIP + posture),
+                        12
+                );
+                break;
         }
     }
 
-    @Override
     public void update () {
+        super.update();
+
         if(activity != EAT){
             checkCollisionAndMove(this.direction, this.getSpeed());
         }
         animate(true);
         image = ani.getImage().image;
-        super.update();
+        pathFinder.search();
+        if(pathFinder.getPathList().size() > 0 && activity == EAT) {
+            Node next = pathFinder.getPathList().get(0);
+            if (this.getPos().x > next.column * gp.titleSize) {
+                this.getPos().x -= getSpeed();
+            } else
+            if (this.getPos().x < next.column * gp.titleSize) {
+                this.getPos().x += getSpeed();
+            } else
+            if (this.getPos().y > next.row * gp.titleSize) {
+                this.getPos().y -= getSpeed();
+            } else
+            if (this.getPos().y < next.row * gp.titleSize) {
+                this.getPos().y += getSpeed();
+            }
+        }
     }
 
     /**
      * {@inheritDoc}
      */
-    public void draw (@NotNull Graphics2D g2) {
+    public void draw (Graphics2D g2) {
         super.draw(g2);
 
         pathFinder.getPathList().forEach(node -> {

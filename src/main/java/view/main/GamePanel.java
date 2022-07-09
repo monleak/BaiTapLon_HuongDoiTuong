@@ -46,7 +46,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel(ModelState modelState) {
         this();
-
         GameStateManager.modelState = modelState;
     }
 
