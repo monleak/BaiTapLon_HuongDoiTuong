@@ -231,7 +231,7 @@ public class DogEntity extends AnimalEntity{
         animate(true);
 
         // FIXME:
-        // image = ani.getImage().image;
+         image = ani.getImage().image;
         /**
          * Exception in thread "Thread-1" java.lang.NullPointerException at
          * view.entity.DogEntity.update(DogEntity.java:231) at
@@ -263,7 +263,6 @@ public class DogEntity extends AnimalEntity{
      * {@inheritDoc}
      */
     public void draw (Graphics2D g2) {
-        update ();
         super.draw(g2);
 
         pathFinder.draw(g2);

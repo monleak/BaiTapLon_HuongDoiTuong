@@ -224,7 +224,10 @@ public class KangarooEntity extends AnimalEntity{
 
         if(activity != EAT){
             checkCollisionAndMove(this.direction, this.getSpeed());
+        } else {
+            goToFoodTray();
         }
+
         animate(true);
         image = ani.getImage().image;
         pathFinder.search();
@@ -250,7 +253,5 @@ public class KangarooEntity extends AnimalEntity{
      */
     public void draw (Graphics2D g2) {
         super.draw(g2);
-
-        pathFinder.draw(g2);
     }
 }

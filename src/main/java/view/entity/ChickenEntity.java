@@ -223,8 +223,27 @@ public class ChickenEntity extends AnimalEntity {
 
     @Override
     public void update () {
+
+        // NOTE: Map Animal.activity -> AnimalEntity.Activity
+        if (animal.getActivity() instanceof EatActivity
+                || animal.getActivity() instanceof DrinkActivity) {
+            activity = EAT;
+        } else if (animal.getActivity() instanceof PlayActivity) {
+            activity = STAND;
+        } else {
+            activity = SIT;
+        }
+
+        // NOTE: Handle for each AnimalEntity.Activity
         if(activity != EAT){
             checkCollisionAndMove(this.direction, this.getSpeed());
+            unfollow();
+            if (activity == SIT) {
+                goTo(ps.obj[0]); // go to object key
+
+            }
+        } else {
+            goToFoodTray();
         }
         animate(true);
         image = ani.getImage().image;

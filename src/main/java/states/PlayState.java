@@ -4,10 +4,12 @@ import model.Animals.Animal;
 import model.Animals.*;
 import view.entity.*;
 import view.main.*;
+import view.object.OBJ_FoodTray;
 import view.object.OBJ_Key;
 import view.title.TileManager;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +26,7 @@ public class PlayState extends GameState {
     Sound music = new Sound();              // nhac nen
     Sound se = new Sound();                 // am thanh khi cham vao con vat
     public GameObject[] obj = new GameObject[100];    // Danh sach
+    public List<OBJ_FoodTray> foodTrays = new ArrayList<>();
 
     public Player player;
     private int modelStateCounter;
@@ -56,38 +59,56 @@ public class PlayState extends GameState {
         if (GameStateManager.modelState == null)
             assetSetter.setObject();
         else {
+            // create key
+            obj[0] = new OBJ_Key(gp, ps);
+            obj[0].getBounds().getPos().x = 20 * gp.titleSize;
+            obj[0].getBounds().getPos().y = 20 * gp.titleSize;
+            // create food tray
+            for (int j = 1; j <  GameStateManager.modelState.getFoodInventoryList().size() + 1; j++) {
+                int i = j - 1;
+                OBJ_FoodTray foodTray = new OBJ_FoodTray(gp, ps, GameStateManager.modelState.getFoodInventoryList().get(i));
+                obj[j] = foodTray;
+                obj[j].getPos().x = ((int)(30f * gp.titleSize));
+                obj[j].getPos().y = ((int)((10f + 4 * j) * gp.titleSize));
+                // foodTrays để con vật tìm loại thức ăn nó cần
+                foodTrays.add(foodTray);
+            }
+
+            // create animal entity
+            int len = foodTrays.size() + 1;;
             List<Animal> animals = GameStateManager.modelState.getAnimalList();
-            for (int i = 0; i < animals.size(); i++) {
+            for (int j = len; j < animals.size() + len; j++) {
+                int i = j - len;
                 if (animals.get(i) instanceof Chicken) {
-                    obj[i] = new ChickenEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[j] = new ChickenEntity(gp, ps, animals.get(i));
+                    obj[j].getBounds().getPos().x = ((int)(20f * gp.titleSize));
+                    obj[j].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    ChickenEntity chicken = (ChickenEntity) obj[j];
+//                    chicken.follow(player);
                 } else if(animals.get(i) instanceof Dog){
-                    obj[i] = new DogEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[j] = new DogEntity(gp, ps, animals.get(i));
+                    obj[j].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[j].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
                 }else if(animals.get(i) instanceof Cat){
-                    obj[i] = new CatEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[j] = new CatEntity(gp, ps, animals.get(i));
+                    obj[j].getBounds().getPos().x = ((int)(10f * gp.titleSize));
+                    obj[j].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
                 }else if(animals.get(i) instanceof Manatee){
-                    obj[i] = new ManateeEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(37f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((8f + i) * gp.titleSize));
+                    obj[j] = new ManateeEntity(gp, ps, animals.get(i));
+                    obj[j].getBounds().getPos().x = ((int)(37f * gp.titleSize));
+                    obj[j].getBounds().getPos().y = ((int)((8f + i) * gp.titleSize));
                 }else if(animals.get(i) instanceof Kangaroo){
-                    obj[i] = new KangarooEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[j] = new KangarooEntity(gp, ps, animals.get(i));
+                    obj[j].getBounds().getPos().x = ((int)(20f * gp.titleSize));
+                    obj[j].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
                 }
                 else{
-                    obj[i] = new FoxEntity(gp, ps, animals.get(i));
-                    obj[i].getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[j] = new FoxEntity(gp, ps, animals.get(i));
+                    obj[j].getPos().x = ((int)(10f * gp.titleSize));
+                    obj[j].getPos().y = ((int)((10f + i) * gp.titleSize));
                 }
             }
-            obj[10] = new OBJ_Key(gp, ps);
-            obj[10].getBounds().getPos().x = 20 * gp.titleSize;
-            obj[10].getBounds().getPos().y = 20 * gp.titleSize;
+
         }
         playMusic(0);
 //        camera.target(obj[1]);

@@ -61,7 +61,7 @@ public class UI {
                 int max = 3 * 60;
                 opacity = (int) ((1 - 1.0 * offset / max) * 99) + 1;
             } else if (timeManager.getHours() >= 17 && timeManager.getHours() < 21) {
-                int offset = (timeManager.getHours() - 5 ) * 60 + timeManager.getMinutes();
+                int offset = (timeManager.getHours() - 17 ) * 60 + timeManager.getMinutes();
                 int max = 3 * 60;
                 opacity = (int) (1.0 * offset / max * 99) + 1;
             }

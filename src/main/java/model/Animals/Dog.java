@@ -23,7 +23,7 @@ public class Dog extends Animal {
         this.schedule = new Schedule();
     }
 
-    public Dog (Schedule s, Food f, int foodAmount) {
+    public Dog (Schedule s, FoodInventory foodInventory) {
         this.maxCalo    = 300;
         this.maxHP      = 500;
         this.maxSleep   = 100;
@@ -35,7 +35,7 @@ public class Dog extends Animal {
         this.setSleep(100);
         this.setAge(0);
 
-        this.neededFood = new FoodInventory(f, foodAmount);
+        this.neededFood = foodInventory;
         this.activity = null;
         this.schedule = s;
     }

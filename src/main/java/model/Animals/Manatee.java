@@ -22,7 +22,7 @@ public class Manatee extends Animal{
 //        this.schedule = new Schedule();
     }
 
-    public Manatee (Schedule s, Food f, int foodAmount) {
+    public Manatee (Schedule s, FoodInventory foodInventory) {
         this.maxCalo    = 200;
         this.maxHP      = 400;
         this.maxSleep   = 100;
@@ -34,7 +34,7 @@ public class Manatee extends Animal{
         this.setSleep(100);
         this.setAge(0);
 
-        this.neededFood = new FoodInventory(f, foodAmount);
+        this.neededFood = foodInventory;
         this.activity = null;
         this.schedule = s;
     }

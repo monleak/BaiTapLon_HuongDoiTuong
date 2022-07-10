@@ -4,6 +4,7 @@ import states.GameStateManager;
 import states.PlayState;
 import view.main.GamePanel;
 import view.math.Vector2f;
+import view.object.OBJ_FoodTray;
 
 import java.awt.*;
 
@@ -66,15 +67,9 @@ public class FocusManager {
     }
 
     public void checkAndFocusObject () {
-//        if(hoveredObjId != 999) {
-//            System.out.println("instance of: " + (gp.obj[hoveredObjId] instanceof IFocusable) + " " + hoveredObjId + " " + focusedObjId);
-//        } else {
-//            System.out.println("instance of: " + hoveredObjId + " " + focusedObjId);
-//        }
         if(hoveredObjId != 999) {
             if(focusedObjId != hoveredObjId ) {
                 if(focusedObjId != 999) {
-//                    gp.obj[focusedObjId].fch.setFocused(false);
                     if(ps.obj[focusedObjId] instanceof IFocusable) {
                         IFocusable obj = (IFocusable) ps.obj[focusedObjId];
                         obj.setFocused(false);
@@ -83,18 +78,20 @@ public class FocusManager {
                 focusedObjId = hoveredObjId;
                 isNewFocused = true;
                 System.out.println("Hover" + focusedObjId);
-//                gp.obj[focusedObjId].fch.setFocused(true);
                 if(ps.obj[focusedObjId] instanceof IFocusable) {
                     IFocusable obj = (IFocusable) ps.obj[focusedObjId];
                     obj.setFocused(true);
-//                    System.out.println("set " + obj.getIsFocused());
+                    if (ps.obj[focusedObjId] instanceof OBJ_FoodTray) {
+                        OBJ_FoodTray foodTray = ((OBJ_FoodTray)ps.obj[focusedObjId]);
+                        foodTray.getFoodInventory().setAmount(foodTray.getMaxFood());
+                        System.out.println("Set max food");
+                    }
                     System.out.println("checkAndFocusObject: " + "hover=" + hoveredObjId +
                             "focus=" + focusedObjId);
                 }
             }
         }else {
             if(focusedObjId != 999) {
-//                gp.obj[focusedObjId].fch.setFocused(false);
                 if(ps.obj[focusedObjId] instanceof IFocusable) {
                     IFocusable obj = (IFocusable) ps.obj[focusedObjId];
                     obj.setFocused(false);
@@ -103,6 +100,5 @@ public class FocusManager {
             focusedObjId = 999;
             isNewFocused = false;
         }
-
     }
 }

@@ -143,15 +143,27 @@ public abstract class Animal {
     public void drink (int ml) {
         this.setSleep(this.getSleep() + ml);
     }
-    public int eat (Food food, int amount) {
-        if(food.equals(neededFood.getFood())) {
-            if(this.calo + amount * food.getCalo() <= neededFood.getTotalCalo()) {
-                this.setCalo(this.getCalo() + amount * food.getCalo());
-                return amount;
+    public int eat (FoodInventory foodInventory) {
+        if(foodInventory.getFood().equals(neededFood.getFood())) {
+            int maxEatAmount = (int) (Math.sqrt(this.age + 1));
+            int neededEatAmount = (int) Math.ceil( 1.0 * (this.maxCalo - this.calo) / this.neededFood.getFood().getCalo());
+            int inventoryHave = foodInventory.getAmount();
+            if (neededEatAmount < maxEatAmount) {
+                if (inventoryHave < neededEatAmount) {
+                    this.setCalo(this.calo + inventoryHave * foodInventory.getFood().getCalo());
+                    foodInventory.setAmount(0);
+                } else {
+                    this.setCalo(this.maxCalo);
+                    foodInventory.setAmount(foodInventory.getAmount() - neededEatAmount);
+                }
             } else {
-                int eatAmount = neededFood.getAmount() - this.calo / food.getCalo();
-                this.setCalo(this.getCalo() + neededFood.getTotalCalo());
-                return eatAmount;
+                if (inventoryHave < maxEatAmount) {
+                    this.setCalo(this.calo + inventoryHave * foodInventory.getFood().getCalo());
+                    foodInventory.setAmount(0);
+                } else {
+                    this.setCalo(this.maxCalo);
+                    foodInventory.setAmount(foodInventory.getAmount() - maxEatAmount);
+                }
             }
         }
         return 0;
@@ -185,7 +197,7 @@ public abstract class Animal {
 
             // if specific activity
             if(this.activity instanceof EatActivity) {
-                this.eat(this.neededFood.getFood(), 10);
+                this.eat(this.neededFood);
             } else if (this.activity instanceof DrinkActivity) {
                 this.drink(10);
             }

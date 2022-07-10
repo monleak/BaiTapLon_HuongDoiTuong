@@ -23,7 +23,7 @@ public class Chicken extends Animal {
         this.schedule = new Schedule();
     }
 
-    public Chicken (Schedule s, Food f, int foodAmount) {
+    public Chicken (Schedule s, FoodInventory foodInventory) {
         this.maxCalo    = 100;
         this.maxHP      = 100;
         this.maxSleep   = 100;
@@ -35,7 +35,7 @@ public class Chicken extends Animal {
         this.setSleep(100);
         this.setAge(0);
 
-        this.neededFood = new FoodInventory(f, foodAmount);
+        this.neededFood = foodInventory;
         this.activity = null;
         this.schedule = s;
     }

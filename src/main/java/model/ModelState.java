@@ -51,13 +51,8 @@ public class ModelState {
 
         // them luong thuc an
         foodList.forEach(food -> {
-            this.foodInventoryList.add(new FoodInventory(food, 100));
+            this.foodInventoryList.add(new FoodInventory(food, 10));
         });
-
-        Activity sleepActivity = new SleepActivity();
-        Activity eatActivity = new EatActivity();
-        Activity playActivity = new PlayActivity();
-        Activity drinkActivity = new DrinkActivity();
 
         Schedule catSchedule = new Schedule();
 

@@ -1,5 +1,6 @@
 package view.entity;
 
+import model.Activities.EatActivity;
 import model.Animals.Animal;
 import model.Food;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,7 @@ import view.ai.PathFinder;
 import view.effect.FocusableHandler;
 import view.effect.IFocusable;
 import view.main.GamePanel;
+import view.object.OBJ_FoodTray;
 import view.title.TileCollision;
 import view.utils.Direction;
 
@@ -50,33 +52,23 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
         return this.fch.getIsFocused();
     }
 
-    /**
-     * AnimalEntity.getAnimalStatus:
-     * Lấy thông tin của con vật để hiển thị ra màn hình.
-     */
-    public String[] getAnimalStatus () {
-        if (this.animal != null) {
-            String name = this.name;
-            int HP = animal.getHP();
-            int age = animal.getAge();
-            int calo = animal.getCalo();
-            int sleep = animal.getSleep();
-            int water =  animal.getWater();
-            Food food = animal.getNeededFood().getFood();
-
-            return (new String[] {
-                    "Name: " + name,
-                    "HP: " + HP,
-                    "Age: " + age,
-                    "Calo: " + calo,
-                    "Sleep: " + sleep,
-                    "Water: " + water,
-                    "Food: " + food.getName()
-            });
+    public void goToFoodTray () {
+        OBJ_FoodTray foodTray = null;
+        for (int i = 0; i < ps.foodTrays.size(); i++) {
+            if (
+                    ps.foodTrays.get(i).getFoodInventory().getFood().getName().
+                            equals(this.animal.getNeededFood().getFood().getName())
+            ) {
+                foodTray = ps.foodTrays.get(i);
+                break;
+            }
         }
-        return (new String[] {
-                "Warning: this.animal is null!"
-        });
+        
+        if (foodTray != null) {
+            goTo(foodTray);
+        } else {
+            throw new Error ("Not found foodTray!");
+        }
     }
 
     /**
@@ -96,6 +88,10 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     public void update() {
         super.update();
         setAction();
+
+//        if (this.animal.getActivity() instanceof EatActivity) {
+//
+//        }
     }
 
     /**
@@ -112,6 +108,7 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     public void draw(@NotNull Graphics2D g2) {
         super.draw(g2);
         fch.draw(g2, this);
+
         pathFinder.draw(g2);
     }
 }
