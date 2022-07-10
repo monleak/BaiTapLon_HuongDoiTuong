@@ -48,4 +48,11 @@ public class TimeManager {
         return minutes;
     }
 
+    @Override
+    public String toString() {
+        return " | " + days +
+                " / " + hours +
+                ":" + minutes +
+                ' ';
+    }
 }

@@ -72,8 +72,8 @@ public class PlayState extends GameState {
                     obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
                 }else if(animals.get(i) instanceof Manatee){
                     obj[i] = new ManateeEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[i].getBounds().getPos().x = ((int)(37f * gp.titleSize));
+                    obj[i].getBounds().getPos().y = ((int)((8f + i) * gp.titleSize));
                 }else if(animals.get(i) instanceof Kangaroo){
                     obj[i] = new KangarooEntity(gp, ps, animals.get(i));
                     obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
@@ -103,7 +103,7 @@ public class PlayState extends GameState {
             player.update();
             ui.update();
 
-            if (GameStateManager.modelState != null && modelStateCounter == 10 / GameStateManager.modelState.getSimulationSpeed()) {
+            if (GameStateManager.modelState != null && modelStateCounter == 100 / GameStateManager.modelState.getSimulationSpeed()) {
                 GameStateManager.modelState.run();
                 modelStateCounter = 0;
             } else {
@@ -148,6 +148,7 @@ public class PlayState extends GameState {
 
         player.draw(g2);
         ui.draw(g2);
+
     }
 
     /**

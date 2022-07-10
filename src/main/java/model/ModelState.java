@@ -86,6 +86,10 @@ public class ModelState {
         return foodList;
     }
 
+    public TimeManager getTimeManager() {
+        return timeManager;
+    }
+
     public List<FoodInventory> getFoodInventoryList() {
         return foodInventoryList;
     }

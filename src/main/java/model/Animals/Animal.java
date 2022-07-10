@@ -227,7 +227,7 @@ public abstract class Animal {
      */
     public final void life(int day ,int hours, int minutes) {
         if(!isDead) {
-            if(minutes == 0)
+            if(minutes == 0 || this.activity == null)
                 nextActivity(hours);    // Thay đổi hành động mỗi
             if (minutes % 15 == 0)
                 updateState();          // thực hiện hành động gây thay đổi trạng thái mỗi 15' 1 lần.

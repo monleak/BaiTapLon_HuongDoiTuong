@@ -1,5 +1,6 @@
 package view.main;
 
+import model.Activities.Activity;
 import model.Animals.Animal;
 import view.utils.Animation;
 
@@ -32,6 +33,12 @@ public class AnimalStatusUI {
         messages[3] = "Water: " + animal.getWater();
         messages[4] = "Sleep: " + animal.getSleep();
         messages[5] = "Food:  " + animal.getNeededFood().getFood().getName();
+        Activity activity = animal.getActivity();
+        if (activity != null) {
+            messages[6] = "Action: " + activity.getClass().getSimpleName();
+        } else {
+            messages[6] = "Action: None";
+        }
     }
 
     public boolean isShown() {

@@ -115,22 +115,22 @@ public class KangarooEntity extends AnimalEntity{
     @Override
     public void setAction () {
         // TODO: GENERIC
-        if(counter == 0) {
-            if (lifeCounter == 15 * 24 * 60) {
-                lifeCounter = 0;
-            }
-            if (this.animal != null)
-                this.animal.life(
-                        lifeCounter / (24 * 60),
-                        lifeCounter / (60) % 24,
-                        lifeCounter % 60
-                );
-            // NOTE: De counter xuat phat tu 0
-            lifeCounter++;
-        }
+//        if(counter == 0) {
+////            if (lifeCounter == 15 * 24 * 60) {
+////                lifeCounter = 0;
+////            }
+////            if (this.animal != null)
+////                this.animal.life(
+////                        lifeCounter / (24 * 60),
+////                        lifeCounter / (60) % 24,
+////                        lifeCounter % 60
+////                );
+////            // NOTE: De counter xuat phat tu 0
+////            lifeCounter++;
+//        }
         actionLockCounter++;
         if(actionLockCounter > 60*60*15 && !animal.isHungry() && !animal.isThirsty() && !animal.isSick()){
-            Activity randomAct = animal.getSchedule().getRandomActivity(animal);
+            Activity randomAct = animal.getActivity();
             if (randomAct instanceof EatActivity)
                 activity = EAT;
             else if (randomAct instanceof DrinkActivity)
@@ -139,6 +139,7 @@ public class KangarooEntity extends AnimalEntity{
                 activity = STAND;
             else if (randomAct instanceof SleepActivity)
                 activity = SIT;
+            else activity = SIT;
         }
         directionLockCounter++;
         if(directionLockCounter > 120) {

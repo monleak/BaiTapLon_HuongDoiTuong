@@ -172,13 +172,21 @@ public abstract class Entity extends GameObject {
     }
 
     public void goTo (@NotNull GameObject gameObject) {
+
+        this.goTo(
+                (int) gameObject.getPos().x,
+                (int) gameObject.getPos().y
+        );
+    }
+
+    public void goTo (int x, int y) {
         this.followedEntity = null;
         this.searchedMark = false;
         pathFinder.setNodes(
                 (int) this.pos.x,
                 (int) this.pos.y,
-                (int) gameObject.getPos().x,
-                (int) gameObject.getPos().y
+                x,
+                y
         );
     }
 

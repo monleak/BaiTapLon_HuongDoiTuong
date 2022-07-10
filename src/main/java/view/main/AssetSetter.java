@@ -1,6 +1,7 @@
 package view.main;
 
 import model.Animals.Chicken;
+import model.Animals.Dog;
 import states.PlayState;
 import view.entity.ChickenEntity;
 import view.entity.Entity;
@@ -47,6 +48,7 @@ public class AssetSetter
         ps.obj[4] = new DogEntity(gp, ps);
         ps.obj[4].getBounds().getPos().x = ((int)(38f * gp.titleSize));
         ps.obj[4].getBounds().getPos().y = ((int)(14f * gp.titleSize));
-
+        DogEntity dog = (DogEntity) ps.obj[4];
+        dog.goTo(ps.obj[0]);
     }
 }
