@@ -67,10 +67,11 @@ public class Player extends Entity {
      */
     @Override
     public void setImage() {
-        System.out.println("Set image: /sprout-lands-sprites/characters/basic-charakter-spritesheet.png" + sprite);
-        ImageSplitter ci = new ImageSplitter(gp,"/sprout-lands-sprites/characters/basic-charakter-spritesheet.png", 48, 48, 32);
-        System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
+        String image = "/sprout-lands-sprites/characters/basic-charakter-spritesheet.png";
         sprite = new SpriteSheet(8, 2);
+        System.out.println("Load image: " + image);
+        ImageSplitter ci = new ImageSplitter(gp, image, 48, 48, 32);
+        System.out.println( "\t>> col: " + ci.getColumns() + ", rows: " + ci.getRows());
 
         for(int i = 0; i < 2; i++) {
             sprite.addSprite(UP, ci.getSubImage(1, i))
@@ -147,7 +148,7 @@ public class Player extends Entity {
     public void input(MouseHandler mouseH, KeyHandler keyH) {
         animate((keyH.rightPressed || keyH.upPressed || keyH.downPressed || keyH.leftPressed));
 
-        if (mouseH.getButton() != -1 && pathFinder.getPathList().size() == 0) {
+        if (mouseH.getButton() != -1) {
             pathFinder.setNodes(
                     (int) this.getBounds().getCenterX(),
                     (int) this.getBounds().getCenterY(),

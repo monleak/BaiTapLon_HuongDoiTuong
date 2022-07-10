@@ -27,7 +27,7 @@ public class GameStateManager {
     public static final int MENU = 5;
     public static final int PLAY = 1;
     public static final int PAUSE = 2;
-    public static final int GAME_OVER = 3;
+    public static final int HELP = 3;
     public static final int EDIT = 4;
 
     // Custom font
@@ -112,10 +112,10 @@ public class GameStateManager {
             states[MENU] = new MenuState(camera);
         }
         else if (state == PAUSE) {
-            states[PAUSE] = new PauseState(camera);
+            states[PAUSE] = new PauseState(camera, this);
         }
-        else if (state == GAME_OVER) {
-            // TODO
+        else if (state == HELP) {
+            states[HELP] = new HelpState(camera, this);
         }
         else if (state == EDIT) {
             if(states[PLAY] != null) {

@@ -93,13 +93,16 @@ public class PlayState extends GameState {
 //        camera.target(obj[1]);
     }
 
+    public boolean isUpdatable(GameStateManager gsm) {
+        return !gsm.isStateActive(GameStateManager.PAUSE) && !gsm.isStateActive(GameStateManager.HELP);
+    }
     /**
      * {@inheritDoc}
      */
     @Override
     public void update(double time, GameStateManager gsm) {
 
-        if(!gsm.isStateActive(GameStateManager.PAUSE)) {
+        if(isUpdatable(gsm)) {
             player.update();
             ui.update();
 
@@ -123,12 +126,15 @@ public class PlayState extends GameState {
      */
     @Override
     public void input(MouseHandler mouse, KeyHandler key, GameStateManager gsm) {
-        if(!gsm.isStateActive(GameStateManager.PAUSE)){
+    if (isUpdatable(gsm)) {
             player.input(mouse, key);
 
             if (key.pPressed) {
                 gsm.addAndPop(GameStateManager.PAUSE);
             }
+
+            if (key.hPressed)
+                gsm.addAndPop(GameStateManager.HELP);
         }
     }
 
@@ -156,9 +162,9 @@ public class PlayState extends GameState {
      * @param i
      */
     public void playMusic (int i) {
-        music.setFile(i);
-        music.play();
-        music.loop();
+//        music.setFile(i);
+//        music.play();
+//        music.loop();
     }
     public void stopMusic () {
         music.stop();

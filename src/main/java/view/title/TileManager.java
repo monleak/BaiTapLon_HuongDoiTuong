@@ -35,8 +35,6 @@ public class TileManager {
     private final Camera camera;
     public ArrayList<TileMap> tm;
     private final ArrayList<BufferedImage> imgList;
-    private String file;
-    private int columns;
 
     public TileManager(GamePanel gp, PlayState ps, view.main.Camera camera) {
         this.gp = gp;
@@ -44,7 +42,7 @@ public class TileManager {
         this.camera = camera;
         tm = new ArrayList<>(50);
         this.imgList = new ArrayList<>();
-        loadMapNew ("/map1.xml");
+        loadMapNew ("/map3.xml");
     }
 
     private void loadMapNew (String xmlPath) {
@@ -74,8 +72,8 @@ public class TileManager {
             tileHeight = Integer.parseInt(eElement.getAttribute("tileheight"));
             tileColumns =  Integer.parseInt(eElement.getAttribute("columns"));
 
-            this.columns = tileColumns;
-            this.file = imagePath;
+            int columns = tileColumns;
+            String file = imagePath;
 
             for (int i = 0; i < list.getLength(); i++) {
                 Element e = (Element) list.item(i);

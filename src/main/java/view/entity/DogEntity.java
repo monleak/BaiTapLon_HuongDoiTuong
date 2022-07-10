@@ -66,9 +66,10 @@ public class DogEntity extends AnimalEntity{
      */
     @Override
     public void setImage() {
-        System.out.println("Set Image: /dog/Dog.png: " + sprite);
-        ImageSplitter ci = new ImageSplitter(gp, "/dog/Dog.png", 90, 58, 0);
-        System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
+        String image = "/dog/Dog.png";
+        System.out.println("Load Image: " + image);
+        ImageSplitter ci = new ImageSplitter(gp, image, 90, 58, 0);
+        System.out.println( "\t>> col: " + ci.getColumns() + ", rows: " + ci.getRows());
 
         BufferedImage[] imgs = new BufferedImage[36];
         BufferedImage[] flipImgs = new BufferedImage[36];
@@ -78,30 +79,28 @@ public class DogEntity extends AnimalEntity{
             for(int j = 0; j < 4; j++) {
                 imgs[i*4+j] = ci.getSubImage(i, j);
                 flipImgs[i*4+j] = ci.getFlipSubImage(i, j);
-//                this.sprite.addSprite(UP, ci.getSubImage(i, j)) ;
-//                this.sprite.addSprite(LEFT, ci.getSubImage(i, j)) ;
-//                this.sprite.addSprite(DOWN, ci.getFlipSubImage(i, j)) ;
-//                this.sprite.addSprite(RIGHT, ci.getFlipSubImage(i, j)) ;
             }
         }
 
         // Mảng gồm index của các ảnh trong 1 động tác.
         int[][] actIds = {
-                {5,6,7,8,9,10,5,6,7,8,9,10},   // STAND
-                {1,2,3,4,1,2,3,4,1,2,3,4},   // EAT
-                {20,21,22,16,17,18,19},    // SIT
-                {11,12,13,14,15,11,12,13,14,15}    // LEAP
+//                {5,6,7,8,9,10,5,6,7,8,9,10},   // STAND
+//                {1,2,3,4,1,2,3,4,1,2,3,4},   // EAT
+//                {20,21,22,16,17,18,19},    // SIT
+//                {11,12,13,14,15,11,12,13,14,15}    // LEAP
+                {4, 1},
+                {2, 3}
         };
 
+        sprite = new SpriteSheet(6, 6);
         // spritesheet
-        this.sprite = new SpriteSheet(8, 16);
         for (int i = 0; i < actIds.length; i++) {
             int[] ids = actIds[i];
             for (int j : ids) {
-                this.sprite.addSprite(
-                        NOFLIP + i,
-                        imgs[j-1]
-                );
+//                this.sprite.addSprite(
+//                        NOFLIP + i,
+//                        imgs[j-1]
+//                );
                 this.sprite.addSprite(
                         FLIP + i,
                         imgs[j-1]
@@ -203,30 +202,45 @@ public class DogEntity extends AnimalEntity{
         switch (direction) {
             case UP:
             case LEFT:
-                setAnimation(
-                        FLIP,
-                        sprite.getSpriteArray(FLIP + posture),
-                        12
-                );
+                // FIXME:
+//                setAnimation(
+//                        FLIP,
+//                        sprite.getSpriteArray(FLIP + posture),
+//                        12
+//                );
                 break;
             case DOWN:
             case RIGHT:
-                setAnimation(
-                        NOFLIP,
-                        sprite.getSpriteArray(NOFLIP + posture),
-                        12
-                );
+                // FIXME:
+//                setAnimation(
+//                        NOFLIP,
+//                        sprite.getSpriteArray(NOFLIP + posture),
+//                        12
+//                );
                 break;
         }
     }
 
-    public void update (double time) {
-        setAction();
-        if(activity != EAT){
+    public void update () {
+//        setAction();
+        super.update();
+
+        if(activity != EAT) {
             checkCollisionAndMove(this.direction, this.getSpeed());
         }
         animate(true);
-        image = ani.getImage().image;
+
+        // FIXME:
+        // image = ani.getImage().image;
+        /**
+         * Exception in thread "Thread-1" java.lang.NullPointerException at
+         * view.entity.DogEntity.update(DogEntity.java:231) at
+         * states.PlayState.update(PlayState.java:115) at
+         * states.GameStateManager.update(GameStateManager.java:143) at
+         * view.main.GamePanel.update(GamePanel.java:96) at view.main.GamePanel.run(GamePanel.java:79)
+         * at java.lang.Thread.run(Thread.java:748)
+         */
+
         pathFinder.search();
         if(pathFinder.getPathList().size() > 0 && activity == EAT) {
             Node next = pathFinder.getPathList().get(0);
@@ -249,11 +263,9 @@ public class DogEntity extends AnimalEntity{
      * {@inheritDoc}
      */
     public void draw (Graphics2D g2) {
-        update (0);
+        update ();
         super.draw(g2);
 
-        pathFinder.getPathList().forEach(node -> {
-            g2.drawRect(node.column * gp.titleSize, node.row * gp.titleSize, gp.titleSize, gp.titleSize );
-        });
+        pathFinder.draw(g2);
     }
 }

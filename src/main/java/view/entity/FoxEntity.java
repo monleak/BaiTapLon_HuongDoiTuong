@@ -60,12 +60,13 @@ public class FoxEntity extends AnimalEntity {
      */
     @Override
     public void setImage() {
-        System.out.println("Set image: /fox-sprite-sheet.png" + sprite);
+        String image = "/fox-sprite-sheet.png";
+        System.out.println("Load image: " + image + " >> " + sprite);
         ImageSplitter ci = new ImageSplitter(gp,
-                "/fox-sprite-sheet.png",
+                image,
                 32, 32, 12, 12, 6, 12
         );
-        System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
+        System.out.println( "/t>> col: " + ci.getColumns() + ", rows: " + ci.getRows());
 
         sprite = new SpriteSheet(7, 14);
         int[] framePerAction =  {5, 14, 8, 11, 5, 6, 7};
@@ -167,5 +168,7 @@ public class FoxEntity extends AnimalEntity {
                     (int) this.unFollowRange.getRadius()
             );
         }
+
+        pathFinder.draw(g2);
     }
 }

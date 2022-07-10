@@ -65,9 +65,10 @@ public class KangarooEntity extends AnimalEntity{
      */
     @Override
     public void setImage() {
-        System.out.println("Set Image: /Kangaroo/sitting dog anim.png: " + sprite);
-        ImageSplitter ci = new ImageSplitter(gp, "/Kangaroo/sitting dog anim.png", (int) 145/4, 35, 0);
-        System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
+        String image = "/Kangaroo/sitting dog anim.png";
+        System.out.println("Load Image: " + image);
+        ImageSplitter ci = new ImageSplitter(gp, image, (int) 145/4, 35, 0);
+        System.out.println( "\t>> col: " + ci.getColumns() + ", rows: " + ci.getRows());
 
         BufferedImage[] imgs = new BufferedImage[36];
         BufferedImage[] flipImgs = new BufferedImage[36];
@@ -250,8 +251,6 @@ public class KangarooEntity extends AnimalEntity{
     public void draw (Graphics2D g2) {
         super.draw(g2);
 
-        pathFinder.getPathList().forEach(node -> {
-            g2.drawRect(node.column * gp.titleSize, node.row * gp.titleSize, gp.titleSize, gp.titleSize );
-        });
+        pathFinder.draw(g2);
     }
 }

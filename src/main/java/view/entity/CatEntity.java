@@ -63,9 +63,10 @@ public class CatEntity extends AnimalEntity{
      */
     @Override
     public void setImage() {
-        System.out.println("Set Image: /cat/pngegg.png: " + sprite);
-        ImageSplitter ci = new ImageSplitter(gp, "/cat/cat.png", 256/8, 320/10, 0);
-        System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
+        String image = "/cat/cat.png";
+        System.out.println("Load Image: " + image + " >> " + sprite);
+        ImageSplitter ci = new ImageSplitter(gp, image, 256/8, 320/10, 0);
+        System.out.println( "\t>> col: " + ci.getColumns() + ", rows: " + ci.getRows());
 
         BufferedImage[] imgs = new BufferedImage[100];
         BufferedImage[] flipImgs = new BufferedImage[100];
@@ -244,8 +245,6 @@ public class CatEntity extends AnimalEntity{
         update (0);
         super.draw(g2);
 
-        pathFinder.getPathList().forEach(node -> {
-            g2.drawRect(node.column * gp.titleSize, node.row * gp.titleSize, gp.titleSize, gp.titleSize );
-        });
+        pathFinder.draw(g2);
     }
 }

@@ -62,9 +62,10 @@ public class ManateeEntity extends AnimalEntity{
      */
     @Override
     public void setImage() {
-        System.out.println("Set Image: /Manatee/manatee-african.png: " + sprite);
-        ImageSplitter ci = new ImageSplitter(gp, "/Manatee/manatee-african.png", 160/5, 32, 0);
-        System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
+        String image = "/Manatee/manatee-african.png";
+        System.out.println("Load Image: " + image);
+        ImageSplitter ci = new ImageSplitter(gp, image, 160/5, 32, 0);
+        System.out.println( "\t>> col: " + ci.getColumns() + ", rows: " + ci.getRows());
 
         BufferedImage[] imgs = new BufferedImage[36];
         BufferedImage[] flipImgs = new BufferedImage[36];
@@ -218,7 +219,7 @@ public class ManateeEntity extends AnimalEntity{
     public void update () {
         super.update();
 
-        if(activity != EAT){
+        if(activity != EAT) {
             checkCollisionAndMove(this.direction, this.getSpeed());
         }
         animate(true);
@@ -247,8 +248,6 @@ public class ManateeEntity extends AnimalEntity{
     public void draw (Graphics2D g2) {
         super.draw(g2);
 
-        pathFinder.getPathList().forEach(node -> {
-            g2.drawRect(node.column * gp.titleSize, node.row * gp.titleSize, gp.titleSize, gp.titleSize );
-        });
+        pathFinder.draw(g2);
     }
 }

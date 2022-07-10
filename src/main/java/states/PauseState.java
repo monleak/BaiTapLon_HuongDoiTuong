@@ -1,5 +1,6 @@
 package states;
 
+import view.graphics.Button;
 import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
@@ -7,6 +8,7 @@ import view.main.MouseHandler;
 import view.utils.Animation;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 /**
  * Pause screen
@@ -16,12 +18,14 @@ public class PauseState extends GameState{
     private final String[] options;
     private final int RESUME = 0;
     private final int EXIT = 1;
-    private boolean resumePressed;
-    private boolean exitPressed;
+//    private boolean resumePressed;
+//    private boolean exitPressed;
 
     private final Animation fadeAnim;
+    private Button resumeButton;
+    private Button exitButton;
 
-    public PauseState (Camera camera) {
+    public PauseState (Camera camera, GameStateManager gsm) {
         // todo
         super(camera);
 
@@ -29,7 +33,7 @@ public class PauseState extends GameState{
         options         = new String[2];
         options[RESUME] = "(Space) Resume";
         options[EXIT]   = "(X) Exit";
-        this.resumePressed = false;
+//        this.resumePressed = false;
 
         fadeAnim = new Animation()
                 .setDelay(0)
@@ -37,6 +41,35 @@ public class PauseState extends GameState{
                 .setTo(100)
                 .setNumFrames(30);
         fadeAnim.start();
+
+        Font btnFont = new Font(Font.MONOSPACED, Font.PLAIN, 20);
+        resumeButton = new Button(
+                GameStateManager.gp.screenWidth- 500,
+                GameStateManager.gp.screenHeight - 100,
+                options[RESUME],
+                KeyEvent.VK_SPACE,
+                btnFont,
+                10
+        ) {
+            @Override
+            public void exec () {
+                gsm.pop(GameStateManager.PAUSE);
+            }
+        };
+
+        exitButton = new Button(
+                GameStateManager.gp.screenWidth - 200,
+                GameStateManager.gp.screenHeight - 100,
+                options[EXIT],
+                KeyEvent.VK_X,
+                btnFont,
+                10
+        ) {
+            @Override
+            public void exec () {
+                System.exit(0);
+            }
+        };
     }
 
     /**
@@ -61,15 +94,15 @@ public class PauseState extends GameState{
      */
     @Override
     public void input(MouseHandler mouse, KeyHandler key, GameStateManager gsm) {
-        if (key.spacePressed) {
-            resumePressed = true;
-        } else if (key.xPressed) {
-            exitPressed = true;
-        } else if (resumePressed) {
-            gsm.pop(GameStateManager.PAUSE);
-        } else if (exitPressed) {
-            System.exit(0);
-        }
+//        if (key.spacePressed) {
+//            resumePressed = true;
+//        } else if (key.xPressed) {
+//            exitPressed = true;
+//        } else if (resumePressed) {
+//            gsm.pop(GameStateManager.PAUSE);
+//        } else if (exitPressed) {
+//            System.exit(0);
+//        }
     }
 
     @Override
@@ -85,27 +118,25 @@ public class PauseState extends GameState{
         g2.setFont(font);
         g2.drawString("Pause", 100, 100);
 
-        // Button:
-        g2.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 24));
-        for (int i = 0; i < options.length; i++) {
-            FontMetrics metrics = g2.getFontMetrics(font);
-            int x = gp.screenWidth - metrics.stringWidth(options[i]);
-            int y = gp.screenHeight - metrics.getHeight();
-            if(resumePressed && i == RESUME) {
-                g2.fillRect(x - 100, y - 30, metrics.stringWidth(options[i]) - 120, metrics.getHeight());
-                g2.setColor(Color.BLACK);
-            } else if (exitPressed && i == EXIT) {
-                g2.fillRect(x , y - 30, metrics.stringWidth(options[i]) - 20, metrics.getHeight());
-                g2.setColor(Color.BLACK);
-            } else {
-                g2.setColor(Color.WHITE);
-            }
-            g2.drawString(options[i], x - 100 + 100 * i, y);
-        }
+        resumeButton.draw(g2);
+        exitButton.draw(g2);
 
-        // test
-//        g2.setColor(Color.red);
-//        g2.drawRect(10, 5, 100, 20);
-//        g2.fillRect(10, 5, 50, 20);
+        // Button:
+//        g2.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 24));
+//        for (int i = 0; i < options.length; i++) {
+//            FontMetrics metrics = g2.getFontMetrics(font);
+//            int x = gp.screenWidth - metrics.stringWidth(options[i]);
+//            int y = gp.screenHeight - metrics.getHeight();
+//            if(resumePressed && i == RESUME) {
+//                g2.fillRect(x - 100, y - 30, metrics.stringWidth(options[i]) - 120, metrics.getHeight());
+//                g2.setColor(Color.BLACK);
+//            } else if (exitPressed && i == EXIT) {
+//                g2.fillRect(x , y - 30, metrics.stringWidth(options[i]) - 20, metrics.getHeight());
+//                g2.setColor(Color.BLACK);
+//            } else {
+//                g2.setColor(Color.WHITE);
+//            }
+//            g2.drawString(options[i], x - 100 + 100 * i, y);
+//        }
     }
 }

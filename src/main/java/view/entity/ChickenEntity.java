@@ -64,9 +64,11 @@ public class ChickenEntity extends AnimalEntity {
      */
     @Override
     public void setImage() {
-        System.out.println("Set Image: /chicken/chicken-sprite-sheet.png: " + sprite);
-        ImageSplitter ci = new ImageSplitter(gp, "/chicken/chicken-sprite-sheet.png", 32, 32, 0);
-        System.out.println( "col: " + ci.getColumns() + "rows: " + ci.getRows());
+        this.sprite = new SpriteSheet(8, 16);
+        String image = "/chicken/chicken-sprite-sheet.png";
+        System.out.println("Load Image: " + image);
+        ImageSplitter ci = new ImageSplitter(gp, image, 32, 32, 0);
+        System.out.println( "\t>> col: " + ci.getColumns() + ", rows: " + ci.getRows());
 
         BufferedImage[] imgs = new BufferedImage[16];
         BufferedImage[] flipImgs = new BufferedImage[16];
@@ -88,7 +90,6 @@ public class ChickenEntity extends AnimalEntity {
         };
 
         // spritesheet
-        this.sprite = new SpriteSheet(8, 16);
         for (int i = 0; i < actIds.length; i++) {
             int[] ids = actIds[i];
             for (int j : ids) {
@@ -236,8 +237,6 @@ public class ChickenEntity extends AnimalEntity {
     public void draw (@NotNull Graphics2D g2) {
         super.draw(g2);
 
-        pathFinder.getPathList().forEach(node -> {
-            g2.drawRect(node.column * gp.titleSize, node.row * gp.titleSize, gp.titleSize, gp.titleSize );
-        });
+        pathFinder.draw(g2);
     }
 }
