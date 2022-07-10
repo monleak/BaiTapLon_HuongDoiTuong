@@ -19,8 +19,8 @@ public class OBJ_FoodTray extends SuperObject{
     public OBJ_FoodTray(GamePanel gp, PlayState ps, FoodInventory foodInventory) {
         super(gp, ps);
 
-        this.font = new Font("Arial", Font.PLAIN, 12);
-        this.name = foodInventory.getFood().getName();
+        this.font = new Font("Arial", Font.BOLD, 12);
+        this.name = foodInventory.getFood().getName().toUpperCase();
         this.foodInventory = foodInventory;
 
         String imagePath = "/food/stardew-valley-food.png";
@@ -33,7 +33,7 @@ public class OBJ_FoodTray extends SuperObject{
         else
             image = is.getSubImage(0, 3);
 
-        // NOTE: * 2 for testign
+        // NOTE: * 2 for testing
         // TODO: * 1 in production
         maxFood = foodInventory.getAmount() * 2;
         super.name = "";
@@ -70,6 +70,6 @@ public class OBJ_FoodTray extends SuperObject{
         FontMetrics fontMetrics = g2.getFontMetrics();
         int width = fontMetrics.stringWidth(name);
         int padding = (gp.titleSize - width) / 2;
-        g2.drawString(name, (int) pos.getScreenX() + padding, (int) pos.getScreenY() - barHeight);
+        g2.drawString(name, (int) pos.getScreenX() + padding, (int) pos.getScreenY() - 4 - barHeight);
     }
 }

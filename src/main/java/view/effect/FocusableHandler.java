@@ -79,7 +79,7 @@ public class FocusableHandler implements IFocusable {
         int screenY = (int) bounds.getPos().getScreenY() - 9;
 
         if(this.isHovered) {
-            g2.drawRect( screenX, screenY, (int) bounds.getWidth(), (int) bounds.getWidth());
+            g2.drawRect( screenX, screenY + 9, (int) bounds.getWidth(), (int) bounds.getWidth());
         }
 
         if(isFocused) {

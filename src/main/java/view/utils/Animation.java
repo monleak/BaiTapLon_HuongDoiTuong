@@ -48,7 +48,7 @@ public class Animation {
     }
 
     // builder
-    public Animation setForm(int from) {
+    public Animation setFrom(int from) {
         this.from = from;
         this.value = from;
         this.updateStep = (to - from) * 1.0f / frames;
@@ -77,7 +77,7 @@ public class Animation {
         return (int) value;
     }
 
-    private void reset (boolean isStart, boolean isEnd) {
+    private void resetCycle(boolean isStart, boolean isEnd) {
         if (isLoopReverse) {
             if(isStart)
                 isReverse = false;
@@ -85,12 +85,18 @@ public class Animation {
                 isReverse = true;
         } else {
             this.value = this.from;
-//            this.isBack = !this.isBack;
         }
     }
 
-    public void reset () {
-        reset(true, false);
+    public void resetCycle() {
+        resetCycle(true, false);
+    }
+
+    public void resetDefault () {
+        this.value = this.from;
+        this.delayCounter = 0;
+        this.isActive = false;
+        this.isDone = false;
     }
 
     public void start() {
@@ -157,7 +163,7 @@ public class Animation {
         boolean isEnd = Math.round(this.value) == this.to;
         if (isStart || isEnd) {
             if (isLoop) {
-                reset(isStart, isEnd);
+                resetCycle(isStart, isEnd);
             } else {
                 done();
             }
@@ -200,7 +206,7 @@ public class Animation {
     // example
     public static void main (String[] args) {
         Animation a = new Animation()
-                .setForm(255)
+                .setFrom(255)
                 .setTo(0)
                 .addActionListener(new ActionListener() {
             @Override

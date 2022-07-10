@@ -7,8 +7,6 @@ import view.main.MouseHandler;
 import view.utils.Animation;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Menu screen
@@ -42,7 +40,7 @@ public class MenuState extends GameState{
 
         this.fadeAnim = new Animation()
                 .setNumFrames(72)
-                .setForm(255)
+                .setFrom(255)
                 .setTo(0)
                 .setDelay(12);
 //                .addActionListener(new ActionListener() {

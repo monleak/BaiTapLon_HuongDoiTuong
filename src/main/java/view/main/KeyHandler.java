@@ -1,6 +1,6 @@
 package view.main;
 
-import view.graphics.Button;
+import view.component.Button;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

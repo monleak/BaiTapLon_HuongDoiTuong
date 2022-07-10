@@ -1,4 +1,4 @@
-package view.graphics;
+package view.component;
 
 import states.GameStateManager;
 

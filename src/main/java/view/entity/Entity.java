@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.ai.Node;
 import view.ai.PathFinder;
+import view.component.FlyUpNumber;
 import view.graphics.Sprite;
 import view.graphics.SpriteAnimation;
 import view.graphics.SpriteSheet;
@@ -28,6 +29,9 @@ public abstract class Entity extends GameObject {
     protected Entity followedEntity;
     protected boolean searchedMark = false;
 
+    protected final FlyUpNumber flyUpNumber;
+
+
     /**
      * WARNING: DO NOT USE THIS
      * setImage();
@@ -42,6 +46,9 @@ public abstract class Entity extends GameObject {
         ani = new SpriteAnimation();
         pathFinder = new PathFinder(gp, ps);
         tc = new TileCollision(this);
+
+        this.flyUpNumber = new FlyUpNumber(99999, Color.BLUE, this.bounds);
+
     }
 
     public int getSpeed() {
@@ -205,7 +212,7 @@ public abstract class Entity extends GameObject {
      * </ul>
      */
     public void update() {
-        ani.update();
+        flyUpNumber.update();
 
         if (!searchedMark) {
             if (followedEntity != null) {   // follow
@@ -218,6 +225,7 @@ public abstract class Entity extends GameObject {
         }
 
         this.moveByPath();
+
     };
 
     /**
@@ -233,7 +241,12 @@ public abstract class Entity extends GameObject {
      */
     @Override
     public void draw (@NotNull Graphics2D g2) {
+        ani.update();
+
         // draw this.image
         g2.drawImage(image, (int) this.pos.getScreenX(), (int) this.pos.getScreenY(), gp.titleSize, gp.titleSize, null);
+
+        flyUpNumber.draw(g2);
+
     }
 }

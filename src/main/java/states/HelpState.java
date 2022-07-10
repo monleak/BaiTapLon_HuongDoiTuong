@@ -1,6 +1,6 @@
 package states;
 
-import view.graphics.Button;
+import view.component.Button;
 import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
@@ -38,7 +38,7 @@ public class HelpState extends GameState {
 
         fadeAnim = new Animation()
                 .setDelay(0)
-                .setForm(0)
+                .setFrom(0)
                 .setTo(100)
                 .setNumFrames(30);
         fadeAnim.start();

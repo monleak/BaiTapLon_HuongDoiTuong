@@ -37,6 +37,7 @@ public class Player extends Entity {
     private boolean isGoingToMousePosition;
     private Vector2f mousePos;
 
+
     public Player(GamePanel gp, PlayState ps, Camera camera) {
         super(gp, ps);
         setImage();
@@ -53,6 +54,7 @@ public class Player extends Entity {
         superObjects = new ArrayList<>();
 
         setDefaultValue();
+
     }
 
     public void setDefaultValue () {
@@ -146,6 +148,8 @@ public class Player extends Entity {
     }
 
     public void input(MouseHandler mouseH, KeyHandler keyH) {
+
+
         animate((keyH.rightPressed || keyH.upPressed || keyH.downPressed || keyH.leftPressed));
 
         if (mouseH.getButton() != -1) {

@@ -20,7 +20,7 @@ public class AnimalStatusUI {
         this.msgFont = new Font("Arial", Font.BOLD, 20);
         animation = new Animation()
                 .setDelay(10)
-                .setForm(0)
+                .setFrom(0)
                 .setTo(100)
                 .setNumFrames(30);
     }
