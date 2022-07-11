@@ -1,6 +1,7 @@
 package states;
 
 import model.ModelState;
+import model.TimeManager;
 import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
@@ -16,8 +17,7 @@ import java.awt.*;
  *
  */
 public class GameStateManager {
-    private final GameState[] states;
-    public static ModelState modelState = null;
+    protected final GameState[] states;
 
     /**
      * index của các màn hình
@@ -105,8 +105,7 @@ public class GameStateManager {
             return;
 
         if (state == PLAY) {
-            states[PLAY] = new PlayState(camera);
-            this.setup();
+            createAndSetupPlayState(camera);
         }
         else if (state == MENU) {
             states[MENU] = new MenuState(camera);
@@ -122,6 +121,11 @@ public class GameStateManager {
                 // TODO
             }
         }
+    }
+
+    public void createAndSetupPlayState(Camera camera) {
+        states[PLAY] = new PlayState(camera);
+        this.setup();
     }
 
     public void addAndPop(int state) {

@@ -20,6 +20,7 @@ public class ModelTest {
         int hourCounter = 0;
         int minuteCounter = 0;
 
+        //noinspection InfiniteLoopStatement
         while (true) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;

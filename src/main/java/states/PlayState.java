@@ -29,14 +29,18 @@ public class PlayState extends GameState {
     public List<OBJ_FoodTray> foodTrays = new ArrayList<>();
 
     public Player player;
-    private int modelStateCounter;
 
     public PlayState (Camera camera) {
         // init
+        this(camera, new UI(GameStateManager.gp));
+    }
+
+    public PlayState (Camera camera, UI ui) {
         super(camera);
 
+        this.ui = ui;
+
         tileM       = new TileManager(GameStateManager.gp, this, camera);
-        ui          = new UI(GameStateManager.gp);
         cChecker    = new CollisionChecker(GameStateManager.gp, this);
         assetSetter = new AssetSetter(GameStateManager.gp, this);
 
@@ -54,62 +58,10 @@ public class PlayState extends GameState {
      */
     @Override
     public void setup () {
-        GamePanel gp = GameStateManager.gp;
-        PlayState ps = this;
-        if (GameStateManager.modelState == null)
-            assetSetter.setObject();
-        else {
-            // create key
-            obj[0] = new OBJ_Key(gp, ps);
-            obj[0].getBounds().getPos().x = 20 * gp.titleSize;
-            obj[0].getBounds().getPos().y = 20 * gp.titleSize;
-            // create food tray
-            for (int j = 1; j <  GameStateManager.modelState.getFoodInventoryList().size() + 1; j++) {
-                int i = j - 1;
-                OBJ_FoodTray foodTray = new OBJ_FoodTray(gp, ps, GameStateManager.modelState.getFoodInventoryList().get(i));
-                obj[j] = foodTray;
-                obj[j].getPos().x = ((int)(30f * gp.titleSize));
-                obj[j].getPos().y = ((int)((10f + 4 * j) * gp.titleSize));
-                // foodTrays để con vật tìm loại thức ăn nó cần
-                foodTrays.add(foodTray);
-            }
+        // default is use asset setter
+        // but adapter us model state
+        assetSetter.setObject();
 
-            // create animal entity
-            int len = foodTrays.size() + 1;;
-            List<Animal> animals = GameStateManager.modelState.getAnimalList();
-            for (int j = len; j < animals.size() + len; j++) {
-                int i = j - len;
-                if (animals.get(i) instanceof Chicken) {
-                    obj[j] = new ChickenEntity(gp, ps, animals.get(i));
-                    obj[j].getBounds().getPos().x = ((int)(20f * gp.titleSize));
-                    obj[j].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                    ChickenEntity chicken = (ChickenEntity) obj[j];
-//                    chicken.follow(player);
-                } else if(animals.get(i) instanceof Dog){
-                    obj[j] = new DogEntity(gp, ps, animals.get(i));
-                    obj[j].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[j].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                }else if(animals.get(i) instanceof Cat){
-                    obj[j] = new CatEntity(gp, ps, animals.get(i));
-                    obj[j].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[j].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                }else if(animals.get(i) instanceof Manatee){
-                    obj[j] = new ManateeEntity(gp, ps, animals.get(i));
-                    obj[j].getBounds().getPos().x = ((int)(37f * gp.titleSize));
-                    obj[j].getBounds().getPos().y = ((int)((8f + i) * gp.titleSize));
-                }else if(animals.get(i) instanceof Kangaroo){
-                    obj[j] = new KangarooEntity(gp, ps, animals.get(i));
-                    obj[j].getBounds().getPos().x = ((int)(20f * gp.titleSize));
-                    obj[j].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
-                }
-                else{
-                    obj[j] = new FoxEntity(gp, ps, animals.get(i));
-                    obj[j].getPos().x = ((int)(10f * gp.titleSize));
-                    obj[j].getPos().y = ((int)((10f + i) * gp.titleSize));
-                }
-            }
-
-        }
         playMusic(0);
 //        camera.target(obj[1]);
     }
@@ -127,18 +79,12 @@ public class PlayState extends GameState {
             player.update();
             ui.update();
 
-            if (GameStateManager.modelState != null && modelStateCounter == 100 / GameStateManager.modelState.getSimulationSpeed()) {
-                GameStateManager.modelState.run();
-                modelStateCounter = 0;
-            } else {
-                modelStateCounter++;
-            }
-
-            for (int i = 0; i < obj.length; i++) {
-                if(obj[i] instanceof Entity ) {
-                    ((Entity) obj[i]).update();
+            for (GameObject gameObject : obj) {
+                if (gameObject instanceof Entity) {
+                    ((Entity) gameObject).update();
                 }
             }
+
         }
     }
 

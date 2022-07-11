@@ -35,6 +35,8 @@ public class Player extends Entity {
     private AnimalEntity animalEntity;
     private final ArrayList<SuperObject> superObjects;
     private boolean isGoingToMousePosition;
+    private int prevMouseBtn;
+    private int mouseBtn;
     private Vector2f mousePos;
 
 
@@ -102,6 +104,7 @@ public class Player extends Entity {
         } else {
             prevDirection = direction;
             this.isRunning = isRunning;
+            prevMouseBtn = mouseBtn;
         }
         if ( sprite != null) // if setImage not error
             if (!isRunning && !isGoingToMousePosition)
@@ -150,8 +153,9 @@ public class Player extends Entity {
     public void input(MouseHandler mouseH, KeyHandler keyH) {
 
 
-        animate((keyH.rightPressed || keyH.upPressed || keyH.downPressed || keyH.leftPressed));
+        animate((keyH.rightPressed || keyH.upPressed || keyH.downPressed || keyH.leftPressed || mouseH.getButton() != -1));
 
+        mouseBtn = mouseH.getButton();
         if (mouseH.getButton() != -1) {
             pathFinder.setNodes(
                     (int) this.getBounds().getCenterX(),

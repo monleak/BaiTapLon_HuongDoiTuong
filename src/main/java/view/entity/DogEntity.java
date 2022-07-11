@@ -31,6 +31,7 @@ public class DogEntity extends AnimalEntity{
     public static final int LEAP = 3;
 
     public Direction prevDirection;
+    public int prevPosture;
     public int posture;
 
     private static int activity;
@@ -84,10 +85,10 @@ public class DogEntity extends AnimalEntity{
 
         // Mảng gồm index của các ảnh trong 1 động tác.
         int[][] actIds = {
-//                {5,6,7,8,9,10,5,6,7,8,9,10},   // STAND
-//                {1,2,3,4,1,2,3,4,1,2,3,4},   // EAT
-//                {20,21,22,16,17,18,19},    // SIT
-//                {11,12,13,14,15,11,12,13,14,15}    // LEAP
+                {5,6,7,8,9,10,5,6,7,8,9,10},   // STAND
+                {1,2,3,4,1,2,3,4,1,2,3,4},   // EAT
+                {20,21,22,16,17,18,19},    // SIT
+                {11,12,13,14,15,11,12,13,14,15},    // LEAP
                 {4, 1},
                 {2, 3}
         };
@@ -115,7 +116,7 @@ public class DogEntity extends AnimalEntity{
     @Override
     public void setAction () {
         // TODO: GENERIC
-        if(counter == 0) {
+//        if(counter == 0) {
 //            if (lifeCounter == 15 * 24 * 60) {
 //                lifeCounter = 0;
 //            }
@@ -127,7 +128,7 @@ public class DogEntity extends AnimalEntity{
 //                );
 //            // NOTE: De counter xuat phat tu 0
 //            lifeCounter++;
-        }
+//        }
         actionLockCounter++;
         if(actionLockCounter > 60*60*15 && !animal.isHungry() && !animal.isThirsty() && !animal.isSick()){
             Activity randomAct = animal.getActivity();
@@ -195,9 +196,10 @@ public class DogEntity extends AnimalEntity{
     @Override
     public void animate(boolean isRunning) {
 
-        if (direction == prevDirection)
+        if (direction == prevDirection && prevPosture == posture)
             return;
         prevDirection = direction;
+        prevPosture = posture;
 
         switch (direction) {
             case UP:

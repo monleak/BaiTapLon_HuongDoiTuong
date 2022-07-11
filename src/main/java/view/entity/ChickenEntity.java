@@ -225,14 +225,15 @@ public class ChickenEntity extends AnimalEntity {
     public void update () {
 
         // NOTE: Map Animal.activity -> AnimalEntity.Activity
-        if (animal.getActivity() instanceof EatActivity
-                || animal.getActivity() instanceof DrinkActivity) {
-            activity = EAT;
-        } else if (animal.getActivity() instanceof PlayActivity) {
-            activity = STAND;
-        } else {
-            activity = SIT;
-        }
+        if (animal != null)
+            if (animal.getActivity() instanceof EatActivity
+                    || animal.getActivity() instanceof DrinkActivity) {
+                activity = EAT;
+            } else if (animal.getActivity() instanceof PlayActivity) {
+                activity = STAND;
+            } else {
+                activity = SIT;
+            }
 
         // NOTE: Handle for each AnimalEntity.Activity
         if(activity != EAT){

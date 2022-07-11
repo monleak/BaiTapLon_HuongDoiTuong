@@ -212,6 +212,7 @@ public abstract class Entity extends GameObject {
      * </ul>
      */
     public void update() {
+        ani.update();
         flyUpNumber.update();
 
         if (!searchedMark) {
@@ -241,7 +242,6 @@ public abstract class Entity extends GameObject {
      */
     @Override
     public void draw (@NotNull Graphics2D g2) {
-        ani.update();
 
         // draw this.image
         g2.drawImage(image, (int) this.pos.getScreenX(), (int) this.pos.getScreenY(), gp.titleSize, gp.titleSize, null);

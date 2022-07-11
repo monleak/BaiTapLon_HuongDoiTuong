@@ -1,5 +1,6 @@
 package view.main;
 
+import adapter.Model2GSMAdapter;
 import model.ModelState;
 import states.GameStateManager;
 
@@ -35,18 +36,23 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldRow = 50;
     public final int worldWidth = titleSize * maxWorldCol;
     public final int worldHeight = titleSize * maxWorldRow;
-    GameStateManager gsm = new GameStateManager((Graphics2D) this.getGraphics(), this);
+    GameStateManager gsm;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
+        this.gsm = new GameStateManager((Graphics2D) this.getGraphics(), this);
     }
 
     public GamePanel(ModelState modelState) {
-        this();
-        GameStateManager.modelState = modelState;
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setBackground(Color.BLACK);
+        this.setDoubleBuffered(true);
+        this.setFocusable(true);
+        this.gsm = new Model2GSMAdapter((Graphics2D) this.getGraphics(), this, modelState);
+//        GameStateManager.modelState = modelState;
     }
 
     // call in main
