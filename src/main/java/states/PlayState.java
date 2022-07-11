@@ -10,6 +10,8 @@ import view.title.TileManager;
 import java.awt.*;
 import java.util.List;
 
+import static basic.Params.*;
+
 /**
  * PlayState
  * @brief trạng thái của màn hình chơi game.
@@ -60,29 +62,32 @@ public class PlayState extends GameState {
             for (int i = 0; i < animals.size(); i++) {
                 if (animals.get(i) instanceof Chicken) {
                     obj[i] = new ChickenEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[i].getBounds().getPos().x = CHUONG_GA1[0];
+                    obj[i].getBounds().getPos().y = CHUONG_GA1[1];
                 } else if(animals.get(i) instanceof Dog){
                     obj[i] = new DogEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+//                    obj[i].getBounds().getPos().x = HOME[0];
+//                    obj[i].getBounds().getPos().y = HOME[1];
+
+                    obj[i].getBounds().getPos().x = CHUONG_KANGAROO[0];
+                    obj[i].getBounds().getPos().y = CHUONG_KANGAROO[1];
                 }else if(animals.get(i) instanceof Cat){
                     obj[i] = new CatEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[i].getBounds().getPos().x = HOME[0];
+                    obj[i].getBounds().getPos().y = HOME[1];
                 }else if(animals.get(i) instanceof Manatee){
                     obj[i] = new ManateeEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[i].getBounds().getPos().x = CHUONG_MANATEE[0];
+                    obj[i].getBounds().getPos().y = CHUONG_MANATEE[1];
                 }else if(animals.get(i) instanceof Kangaroo){
                     obj[i] = new KangarooEntity(gp, ps, animals.get(i));
-                    obj[i].getBounds().getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[i].getBounds().getPos().x = CHUONG_KANGAROO[0];
+                    obj[i].getBounds().getPos().y = CHUONG_KANGAROO[1];
                 }
                 else{
                     obj[i] = new FoxEntity(gp, ps, animals.get(i));
-                    obj[i].getPos().x = ((int)(10f * gp.titleSize));
-                    obj[i].getPos().y = ((int)((10f + i) * gp.titleSize));
+                    obj[i].getPos().x = HOME[0];
+                    obj[i].getPos().y = HOME[1];
                 }
             }
             obj[10] = new OBJ_Key(gp, ps);

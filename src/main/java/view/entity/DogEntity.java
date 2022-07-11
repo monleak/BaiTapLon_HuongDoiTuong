@@ -16,7 +16,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import static basic.Params.*;
+
 public class DogEntity extends AnimalEntity{
+    /*
+    Chó có hành động canh nhà, đi chơi
+    Khi đói nó sẽ đi ăn
+    Khi buồn ngủ nó sẽ đi ngủ
+     */
     private int counter;
     private int lifeCounter;
     private int actionLockCounter;
@@ -29,8 +36,13 @@ public class DogEntity extends AnimalEntity{
     public static final int EAT = 1;
     public static final int SIT = 2;
     public static final int LEAP = 3;
+    //Hành động
+    public static final int CanhNha = 0;
+    public static final int DiChoi = 1;
+    public static final int AnUong = 2;
+    public static final int Ngu = 3;
 
-    public Direction prevDirection;
+    public int prevPosture;
     public int posture;
 
     private static int activity;
@@ -47,6 +59,7 @@ public class DogEntity extends AnimalEntity{
         this.setSpeed(1);
         this.direction = Direction.DOWN;
         posture = STAND;
+        activity = DiChoi;
 
         setImage();
         setAnimation(
@@ -87,10 +100,10 @@ public class DogEntity extends AnimalEntity{
 
         // Mảng gồm index của các ảnh trong 1 động tác.
         int[][] actIds = {
-                {5,6,7,8,9,10,5,6,7,8,9,10},   // STAND
-                {1,2,3,4,1,2,3,4,1,2,3,4},   // EAT
-                {20,21,22,16,17,18,19},    // SIT
-                {11,12,13,14,15,11,12,13,14,15}    // LEAP
+                {5,6,7,8},   // STAND
+                {1,2,3,4},   // EAT
+                {13,14,15,16},    // SIT
+                {9,10,11,12}    // LEAP
         };
 
         // spritesheet
@@ -129,18 +142,32 @@ public class DogEntity extends AnimalEntity{
             // NOTE: De counter xuat phat tu 0
             lifeCounter++;
         }
+
         actionLockCounter++;
-        if(actionLockCounter > 60*60*15 && !animal.isHungry() && !animal.isThirsty() && !animal.isSick()){
+        if(actionLockCounter > ACTION_Lock || animal.isHungry() || animal.isThirsty() || animal.isSick()){
+
+            assert animal != null;
             Activity randomAct = animal.getSchedule().getRandomActivity(animal);
             if (randomAct instanceof EatActivity)
-                activity = EAT;
+            {
+                activity = AnUong;
+            }
             else if (randomAct instanceof DrinkActivity)
-                activity = EAT;
-            else if (randomAct instanceof PlayActivity)
-                activity = STAND;
+            {
+                activity = AnUong;
+            }
+            else if (randomAct instanceof PlayActivity){
+                if(rand.nextDouble()< 0.7){
+                    activity = CanhNha;
+                }else activity = DiChoi;
+            }
             else if (randomAct instanceof SleepActivity)
-                activity = SIT;
+            {
+                activity = Ngu;
+            }
+            actionLockCounter=0;
         }
+
         directionLockCounter++;
         if(directionLockCounter > 120) {
             Random random = new Random();
@@ -164,30 +191,27 @@ public class DogEntity extends AnimalEntity{
 
         // random tu the
         counter++;
-        int circle = 10;
-        int nState = 12;
-        if(counter >= (circle * nState)) {
+        if(counter>=120) {
             counter = 0;
-            Random random = new Random();
-
-            if (activity == EAT) posture = EAT;
-            else if (activity == SIT) posture = SIT;
-            else if (activity == STAND){
-                //hoạt động play
-                if(random.nextDouble()<0.5){
-                    posture = STAND;
-                }else {
-                    posture = LEAP;
-                }
-            }
-
-            if(posture == SIT) {
-                setSpeed(0);
-            } else {
-                setSpeed(1);
-            }
+//            Random random = new Random();
+//
+//            if (activity == EAT) posture = STAND;
+//            else if (activity == SIT) posture = SIT;
+//            else if (activity == STAND){
+//                //hoạt động play
+//                if(random.nextDouble()<0.5){
+//                    posture = STAND;
+//                }else {
+//                    posture = LEAP;
+//                }
+//            }
+//
+//            if(posture == SIT) {
+//                setSpeed(0);
+//            } else if(posture == LEAP) {
+//                setSpeed(2);
+//            }else setSpeed(1);
         }
-
     }
     /**
      * {@inheritDoc}
@@ -195,9 +219,9 @@ public class DogEntity extends AnimalEntity{
     @Override
     public void animate(boolean isRunning) {
 
-        if (direction == prevDirection)
+        if (posture == prevPosture)
             return;
-        prevDirection = direction;
+        prevPosture = posture;
 
         switch (direction) {
             case UP:
@@ -221,27 +245,81 @@ public class DogEntity extends AnimalEntity{
 
     public void update (double time) {
         setAction();
-        if(activity != EAT){
+        if(activity == CanhNha) {
+//                Canh cửa nhà
+            pathFinder.setNodes(
+                    (int) this.getBounds().getCenterX(),
+                    (int) this.getBounds().getCenterY(),
+                    HOME[0],
+                    HOME[1]
+            );
+            pathFinder.search();
+            if (pathFinder.getPathList().size() > 0) {
+                posture = LEAP;
+                setSpeed(2);
+                Node next = pathFinder.getPathList().get(0);
+                if (this.getPos().x > next.column * gp.titleSize) {
+                    this.getPos().x -= getSpeed();
+                } else if (this.getPos().x < next.column * gp.titleSize) {
+                    this.getPos().x += getSpeed();
+                } else if (this.getPos().y > next.row * gp.titleSize) {
+                    this.getPos().y -= getSpeed();
+                } else if (this.getPos().y < next.row * gp.titleSize) {
+                    this.getPos().y += getSpeed();
+                }else {
+                    // remove node
+                    pathFinder.getPathList().remove(0);
+                }
+            } else {
+                posture = SIT;
+                setSpeed(1);
+            }
+        }else if(activity == DiChoi){
+            posture = STAND;
+            setSpeed(1);
+            checkCollisionAndMove(this.direction, this.getSpeed());
+        }else if(activity == AnUong){
+            //đi ăn
+            pathFinder.setNodes(
+                    (int) this.getPos().x,
+                    (int) this.getPos().y,
+                    HOME[0],
+                    HOME[1]
+            );
+            pathFinder.search();
+            if(pathFinder.getPathList().size() > 0) {
+                posture = STAND;
+                setSpeed(1);
+                Node next = pathFinder.getPathList().get(0);
+                if (this.getPos().x > next.column * gp.titleSize) {
+                    this.getPos().x -= getSpeed();
+                } else
+                if (this.getPos().x < next.column * gp.titleSize) {
+                    this.getPos().x += getSpeed();
+                } else
+                if (this.getPos().y > next.row * gp.titleSize) {
+                    this.getPos().y -= getSpeed();
+                } else
+                if (this.getPos().y < next.row * gp.titleSize) {
+                    this.getPos().y += getSpeed();
+                }else {
+                    // remove node
+                    pathFinder.getPathList().remove(0);
+                }
+            }else {
+                posture = EAT;
+                setSpeed(0);
+            }
+        }else if(activity == Ngu){
+            posture = SIT;
+            setSpeed(0);
+        }else{
+            posture = STAND;
+            setSpeed(1);
             checkCollisionAndMove(this.direction, this.getSpeed());
         }
         animate(true);
         image = ani.getImage().image;
-        pathFinder.search();
-        if(pathFinder.getPathList().size() > 0 && activity == EAT) {
-            Node next = pathFinder.getPathList().get(0);
-            if (this.getPos().x > next.column * gp.titleSize) {
-                this.getPos().x -= getSpeed();
-            } else
-            if (this.getPos().x < next.column * gp.titleSize) {
-                this.getPos().x += getSpeed();
-            } else
-            if (this.getPos().y > next.row * gp.titleSize) {
-                this.getPos().y -= getSpeed();
-            } else
-            if (this.getPos().y < next.row * gp.titleSize) {
-                this.getPos().y += getSpeed();
-            }
-        }
     }
 
     /**
@@ -250,9 +328,5 @@ public class DogEntity extends AnimalEntity{
     public void draw (Graphics2D g2) {
         update (0);
         super.draw(g2);
-
-        pathFinder.getPathList().forEach(node -> {
-            g2.drawRect(node.column * gp.titleSize, node.row * gp.titleSize, gp.titleSize, gp.titleSize );
-        });
     }
 }

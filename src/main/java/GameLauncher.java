@@ -59,6 +59,13 @@ public class GameLauncher {
                         10
                 )
         );
+        modelState.getAnimalList().add(
+                new Duck(
+                        modelState.getDefaultSchedule().get(0),
+                        modelState.getFoodList().get(0),
+                        10
+                )
+        );
 
         // todo: connect model state and game panel
 
