@@ -1,6 +1,6 @@
 package view.main;
 
-import view.component.Button;
+import view.component.KeyPressedButton;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,12 +19,12 @@ public class KeyHandler implements KeyListener {
     public boolean xPressed, pPressed, hPressed;
 
     // obs
-    private List<Button> buttons = new ArrayList<>();
-    public void addObserver(Button button) {
+    private List<KeyPressedButton> buttons = new ArrayList<>();
+    public void addObserver(KeyPressedButton button) {
         this.buttons.add(button);
     }
 
-    public void removeObserver(Button button) {
+    public void removeObserver(KeyPressedButton button) {
         this.buttons.remove(button);
     }
 
@@ -68,7 +68,7 @@ public class KeyHandler implements KeyListener {
 
         markKey(code, true);
 
-        for (Button button: buttons) {
+        for (KeyPressedButton button: buttons) {
             button.handlePressed(code);
         }
     }
@@ -78,7 +78,7 @@ public class KeyHandler implements KeyListener {
 
         markKey(code, false);
 
-        for (Button button: buttons) {
+        for (KeyPressedButton button: buttons) {
             button.handleReleased(code);
         }
     }

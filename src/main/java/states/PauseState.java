@@ -1,6 +1,6 @@
 package states;
 
-import view.component.Button;
+import view.component.KeyPressedButton;
 import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
@@ -22,8 +22,8 @@ public class PauseState extends GameState{
 //    private boolean exitPressed;
 
     private final Animation fadeAnim;
-    private Button resumeButton;
-    private Button exitButton;
+    private KeyPressedButton resumeButton;
+    private KeyPressedButton exitButton;
 
     public PauseState (Camera camera, GameStateManager gsm) {
         // todo
@@ -43,7 +43,7 @@ public class PauseState extends GameState{
         fadeAnim.start();
 
         Font btnFont = new Font(Font.MONOSPACED, Font.PLAIN, 20);
-        resumeButton = new Button(
+        resumeButton = new KeyPressedButton(
                 GameStateManager.gp.screenWidth- 500,
                 GameStateManager.gp.screenHeight - 100,
                 options[RESUME],
@@ -57,7 +57,7 @@ public class PauseState extends GameState{
             }
         };
 
-        exitButton = new Button(
+        exitButton = new KeyPressedButton(
                 GameStateManager.gp.screenWidth - 200,
                 GameStateManager.gp.screenHeight - 100,
                 options[EXIT],

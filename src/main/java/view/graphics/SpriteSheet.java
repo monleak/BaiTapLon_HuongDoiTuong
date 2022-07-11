@@ -4,6 +4,8 @@ import states.GameStateManager;
 import view.utils.ImageSplitter;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 
 /**
  * 1 sheet các sprite
@@ -23,14 +25,18 @@ import java.awt.image.BufferedImage;
 public class SpriteSheet {
 
     private Sprite spritesArray[][];
+    private Sprite spritesGrayArray[][];
     private int spritesIndexCounter[];
     private int arrLen;
     private String file;
 
     public SpriteSheet (int sttNum, int len) {
         spritesArray = new Sprite[sttNum][len];
+        spritesGrayArray = new Sprite[sttNum][len];
+
         spritesIndexCounter = new int[sttNum];
         arrLen = len;
+
     }
 
     public SpriteSheet (String fileName, int w, int h) {
@@ -45,10 +51,19 @@ public class SpriteSheet {
         }
     }
 
+    static BufferedImage deepCopy(BufferedImage bi) {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    }
+
     public SpriteSheet addSprite(int sttNum, BufferedImage image) {
         try {
             int currentIdx = spritesIndexCounter[sttNum];
             spritesArray[sttNum][currentIdx] = new Sprite(image);
+            BufferedImage image1 = deepCopy(image);
+            spritesGrayArray[sttNum][currentIdx] = new Sprite(image1, true); // gray
             spritesIndexCounter[sttNum] += 1;
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,7 +74,12 @@ public class SpriteSheet {
     public Sprite[] getSpriteArray (int sttIdx) {
         return spritesArray[sttIdx];
     }
+    public Sprite[] getGraySpriteArray (int sttIdx) {
+        return spritesGrayArray[sttIdx];
+    }
     public Sprite getSprite (int sttIdx, int idx) {
         return spritesArray[sttIdx][idx];
     }
+
+
 }

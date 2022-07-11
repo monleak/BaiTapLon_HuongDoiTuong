@@ -17,10 +17,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.beans.EventHandler;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
 
 public abstract class Entity extends GameObject {
     private int speed;
@@ -175,7 +171,7 @@ public abstract class Entity extends GameObject {
             if (isGoingToGoal) {
                 isGoingToGoal = false;
                 if(this.toGoalListener != null)
-                    this.toGoalListener.actionPerformed(new ActionEvent(this, 0, "kaka"));
+                    this.toGoalListener.actionPerformed(null);
             }
         }
     }
@@ -207,7 +203,7 @@ public abstract class Entity extends GameObject {
         return this.goTo(
                 (int) gameObject.getPos().x,
                 (int) gameObject.getPos().y
-        ) || this.getBounds().collides(gameObject.getBounds());
+        ) || this.getBounds().distance(gameObject.getBounds().getPos()) < 60;
     }
 
     public boolean goTo (int x, int y) {

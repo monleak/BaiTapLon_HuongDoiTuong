@@ -22,11 +22,14 @@ public class ChickenEntity extends AnimalEntity {
     // Có flip ảnh hay không
     public static final int NOFLIP = 0;
     public static final int FLIP = 4;
+    // TODO: 2. tăng flip lên 1 ( 4 + 1 = 5)
+
     // Tư thế
     public static final int STAND = 0;
     public static final int EAT = 1;
     public static final int SIT = 2;
     public static final int LEAP = 3;
+    // TODO: 1. THÊM 1 TƯ THẾ Ở ĐÂY, CHO = 4
 
     public Direction prevDirection;
     public int posture;
@@ -73,7 +76,6 @@ public class ChickenEntity extends AnimalEntity {
         BufferedImage[] imgs = new BufferedImage[16];
         BufferedImage[] flipImgs = new BufferedImage[16];
 
-
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
                 imgs[i*4+j] = ci.getSubImage(i, j);
@@ -83,10 +85,11 @@ public class ChickenEntity extends AnimalEntity {
 
         // Mảng gồm index của các ảnh trong 1 động tác.
         int[][] actIds = {
-                {1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4},   // STAND
+                {1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4},   // STAND = 0
                 {5, 6, 7, 8, 5, 6, 7, 8, 5, 6, 7, 8},   // EAT
                 {9, 10, 11, 12, 12, 12, 12, 12, 12, 11, 10, 9 },    // SIT
                 {13, 13, 14, 14, 15, 15, 16, 16, 15, 14, 13, 12, 13}    // LEAP
+                // TODO: 3. Thêm index ảnh cho posture tương ứng ở đây
         };
 
         // spritesheet
@@ -183,19 +186,24 @@ public class ChickenEntity extends AnimalEntity {
                 setSpeed(1);
             }
         }
-//        pathFinder.setNodes(
-//                (int) this.pos.x,
-//                (int) this.pos.y,
-//                (int) (10f * gp.titleSize),
-//                (int) (10f * gp.titleSize),
-//                null
-//        );
     }
     /**
      * {@inheritDoc}
      */
     @Override
     public void animate(boolean isRunning) {
+
+        if (this.animal != null)
+            if (this.animal.isDead()) {
+                setAnimation(
+                        FLIP,
+                        sprite.getGraySpriteArray(
+                                FLIP + posture
+                        ),
+                        12
+                );
+            }
+
 
         if (direction == prevDirection)
             return;

@@ -93,7 +93,7 @@ public class DogEntity extends AnimalEntity{
                 {2, 3}
         };
 
-        sprite = new SpriteSheet(6, 6);
+        sprite = new SpriteSheet(9, 9);
         // spritesheet
         for (int i = 0; i < actIds.length; i++) {
             int[] ids = actIds[i];

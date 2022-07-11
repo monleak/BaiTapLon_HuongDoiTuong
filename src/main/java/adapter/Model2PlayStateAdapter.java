@@ -1,6 +1,5 @@
 package adapter;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import model.Animals.*;
 import model.ModelState;
 import states.GameStateManager;
@@ -84,13 +83,15 @@ public class Model2PlayStateAdapter extends PlayState {
     public void update (double time, GameStateManager gsm) {
 
         if (isUpdatable(gsm))
-            if (this.modelState != null && modelStateCounter == 100 / this.modelState.getSimulationSpeed()) {
+            if (this.modelState != null && modelStateCounter == (20 - this.modelState.getSimulationSpeed()) * 2) {
                 this.modelState.run();
                 modelStateCounter = 0;
             } else {
                 modelStateCounter++;
             }
         super.update(time, gsm);
+
+//        System.out.println(this.modelState.getSimulationSpeed());
     }
 
 }

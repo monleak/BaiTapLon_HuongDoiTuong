@@ -11,14 +11,14 @@ import java.awt.*;
 public class Model2UIAdapter extends UI {
 
     TimeManager timeManager;
-    int simulationSpeed;
+    ModelState modelState;
     Font font;
 
 
     public Model2UIAdapter(GamePanel gp, ModelState modelState) {
         super(gp);
         this.timeManager = modelState.getTimeManager();
-        this.simulationSpeed = modelState.getSimulationSpeed();
+        this.modelState = modelState;
         this.font = new Font(Font.MONOSPACED, Font.BOLD, 12);
     }
 
@@ -30,7 +30,7 @@ public class Model2UIAdapter extends UI {
         if (timeManager != null) {
             int screenHeight = GameStateManager.gp.screenHeight;
             int screenWidth = GameStateManager.gp.screenWidth;
-            int speed = this.simulationSpeed ;
+            int speed = modelState.getSimulationSpeed() ;
             // calc time
             String time = null;
             int opacity = 0;
@@ -47,7 +47,7 @@ public class Model2UIAdapter extends UI {
                 int offset = (timeManager.getHours() - 5 ) * 60 + timeManager.getMinutes();
                 int max = 3 * 60;
                 opacity = (int) ((1 - 1.0 * offset / max) * 99) + 1;
-            } else if (timeManager.getHours() >= 17 && timeManager.getHours() < 21) {
+            } else if (timeManager.getHours() >= 18 && timeManager.getHours() < 21) {
                 int offset = (timeManager.getHours() - 17 ) * 60 + timeManager.getMinutes();
                 int max = 3 * 60;
                 opacity = (int) (1.0 * offset / max * 99) + 1;
@@ -57,7 +57,7 @@ public class Model2UIAdapter extends UI {
             g2.setFont(this.font);
             g2.setColor(Color.WHITE);
             g2.drawString(
-                    time, screenWidth - 200,  screenHeight - 48
+                    time, screenWidth - 280,  screenHeight - 48
             );
 
             // mau toi khi troi dem

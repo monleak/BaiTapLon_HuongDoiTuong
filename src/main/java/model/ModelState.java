@@ -65,6 +65,11 @@ public class ModelState {
         return defaultScheduleList;
     }
 
+    public void setSimulationSpeed(int simulationSpeed) {
+        if (simulationSpeed > 0 && simulationSpeed <= 12)
+            this.simulationSpeed = simulationSpeed;
+    }
+
     public int getSimulationSpeed() {
         return simulationSpeed;
     }

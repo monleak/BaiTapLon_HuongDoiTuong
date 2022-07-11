@@ -1,10 +1,6 @@
 package model.Activities;
 
-import model.Animals.Animal;
-import model.Food;
 import model.FoodInventory;
-
-import java.util.Objects;
 
 public class EatActivity extends Activity implements IPrepareActivity {
 
@@ -41,8 +37,4 @@ public class EatActivity extends Activity implements IPrepareActivity {
         isReady = false;
     }
 
-    @Override
-    public void run(Animal animal, FoodInventory foodInventory) {
-        animal.eat(foodInventory);
-    }
 }

@@ -112,6 +112,8 @@ public class AnimalLife {
             for (double h : hours) {
                 int hour = (int) h;
                 cat.life(0, hour, 0);
+                if (cat.getActivity() instanceof IPrepareActivity)
+                    ((IPrepareActivity) cat.getActivity()).onPrepareDone(cat.getActivity());
                 cat.life(0, hour, 15);
                 cat.life(0, hour, 30);
                 cat.life(0, hour, 45);

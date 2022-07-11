@@ -1,6 +1,7 @@
 package states;
 
-import view.component.Button;
+import view.component.KeyPressedButton;
+import view.component.MouseButton;
 import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
@@ -18,8 +19,11 @@ public class HelpState extends GameState {
     private final Animation fadeAnim;
     private Font font;
     private Font textFont;
-    private Button button;
+    private KeyPressedButton button;
     private String[] keyTextList;
+
+    // test
+    private MouseButton mouseButton;
 
     public HelpState (Camera camera, GameStateManager gsm) {
         super(camera);
@@ -43,11 +47,19 @@ public class HelpState extends GameState {
                 .setNumFrames(30);
         fadeAnim.start();
 
-        button = new Button(gsm.gp.screenWidth - 300, gsm.gp.screenHeight - 100, "(SPACE) Exit", KeyEvent.VK_SPACE, 4) {
+        button = new KeyPressedButton(gsm.gp.screenWidth - 300, gsm.gp.screenHeight - 100, "(SPACE) Exit", KeyEvent.VK_SPACE, 4) {
             @Override
             public void exec () {
                 gsm.pop(GameStateManager.HELP);
             }
+        };
+
+    mouseButton =
+        new MouseButton(800, 200, "Ka ka ka") {
+          @Override
+          public void exec() {
+            System.out.println("Exec!");
+          }
         };
     }
 
@@ -97,5 +109,6 @@ public class HelpState extends GameState {
         }
 
         button.draw(g2);
+        mouseButton.draw(g2);
     }
 }

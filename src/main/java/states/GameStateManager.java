@@ -108,10 +108,10 @@ public class GameStateManager {
             createAndSetupPlayState(camera);
         }
         else if (state == MENU) {
-            states[MENU] = new MenuState(camera);
+            createMenuState(camera);
         }
         else if (state == PAUSE) {
-            states[PAUSE] = new PauseState(camera, this);
+            createPauseState(camera, this);
         }
         else if (state == HELP) {
             states[HELP] = new HelpState(camera, this);
@@ -126,6 +126,14 @@ public class GameStateManager {
     public void createAndSetupPlayState(Camera camera) {
         states[PLAY] = new PlayState(camera);
         this.setup();
+    }
+
+    public void createPauseState (Camera camera, GameStateManager gameStateManager) {
+        states[PAUSE] = new PauseState(camera, this);
+    }
+
+    public void createMenuState (Camera camera) {
+        states[MENU] = new MenuState(camera);
     }
 
     public void addAndPop(int state) {
