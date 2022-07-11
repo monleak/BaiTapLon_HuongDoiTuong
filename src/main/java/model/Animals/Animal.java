@@ -114,15 +114,13 @@ public abstract class Animal {
     public boolean isDead() {
         return isDead;
     }
-    public Schedule getSchedule(){
-        return schedule;
-    }
+
     public void setDead(boolean dead) {
         isDead = dead;
     }
 
     public FoodInventory getNeededFood () {
-        return neededFood;
+        return new FoodInventory(neededFood.getFood(), neededFood.getAmount() - calo);
     }
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
@@ -206,6 +204,15 @@ public abstract class Animal {
             // FIXME: SET ACTIVITY
             this.activity = this.schedule.getRandomActivity(this);
             System.out.println( "[ hour: "  + hours + "]" +"Set next activity: ");
+            if (isHungry() && r.nextInt() < 2) {
+                this.activity = new SleepActivity();
+            }
+            if (isThirsty() && r.nextInt() < 3) {
+                this.activity = new SleepActivity();
+            }
+            if (isSick() && r.nextInt() < 4) {
+                this.activity = new SleepActivity();
+            }
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
@@ -232,7 +239,7 @@ public abstract class Animal {
             if (minutes % 15 == 0)
                 updateState();          // thực hiện hành động gây thay đổi trạng thái mỗi 15' 1 lần.
             if(day == 30 && hours == 0 && minutes == 0)
-                growUp();               // Lớn lên mỗi 15 ngày.
+                growUp();               // Lớn lên mỗi 30 ngày.
             System.out.println("life: [" + day + "|" + hours + ":" + minutes + "] " + this);
         } else {
             System.out.println("dead");
