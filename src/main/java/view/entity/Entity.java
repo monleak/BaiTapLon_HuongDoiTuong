@@ -1,5 +1,6 @@
 package view.entity;
 
+import model.Activities.IPrepareActivity;
 import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.ai.Node;
@@ -13,7 +14,13 @@ import view.title.TileCollision;
 import view.utils.Direction;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.beans.EventHandler;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
 
 public abstract class Entity extends GameObject {
     private int speed;
@@ -31,6 +38,8 @@ public abstract class Entity extends GameObject {
 
     protected final FlyUpNumber flyUpNumber;
 
+    protected ActionListener toGoalListener = null;
+    private boolean isGoingToGoal = false;
 
     /**
      * WARNING: DO NOT USE THIS
@@ -141,6 +150,7 @@ public abstract class Entity extends GameObject {
     public void moveByPath () {
         // run to goal
         if(pathFinder.getPathList().size() > 0) {
+            isGoingToGoal = true;
             Node next = pathFinder.getPathList().get(0);
             if (this.getPos().x > next.column * gp.titleSize) {
                 this.getPos().x -= getSpeed();
@@ -161,7 +171,21 @@ public abstract class Entity extends GameObject {
                 // remove node
                 pathFinder.getPathList().remove(0);
             }
+        } else {
+            if (isGoingToGoal) {
+                isGoingToGoal = false;
+                if(this.toGoalListener != null)
+                    this.toGoalListener.actionPerformed(new ActionEvent(this, 0, "kaka"));
+            }
         }
+    }
+
+    public void setToGoalListener(ActionListener actionListener) {
+        this.toGoalListener = actionListener;
+    }
+
+    public void removeToGoalListener () {
+        this.toGoalListener = null;
     }
 
     public void follow (Entity entity) {
@@ -178,15 +202,15 @@ public abstract class Entity extends GameObject {
         this.pathFinder.getPathList().removeAll(this.pathFinder.getPathList());
     }
 
-    public void goTo (@NotNull GameObject gameObject) {
+    public boolean goTo (@NotNull GameObject gameObject) {
 
-        this.goTo(
+        return this.goTo(
                 (int) gameObject.getPos().x,
                 (int) gameObject.getPos().y
-        );
+        ) || this.getBounds().collides(gameObject.getBounds());
     }
 
-    public void goTo (int x, int y) {
+    public boolean goTo (int x, int y) {
         this.followedEntity = null;
         this.searchedMark = false;
         pathFinder.setNodes(
@@ -195,6 +219,9 @@ public abstract class Entity extends GameObject {
                 x,
                 y
         );
+        searchedMark = true;
+
+        return pathFinder.search();
     }
 
 
@@ -220,8 +247,7 @@ public abstract class Entity extends GameObject {
                 follow(ps.player);
                 pathFinder.search();
             } else {                        // goto
-                pathFinder.search();
-                searchedMark = true;
+                // search 1 time in goTo method
             }
         }
 

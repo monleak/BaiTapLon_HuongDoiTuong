@@ -197,7 +197,8 @@ public abstract class Animal {
 
             // if specific activity
             if(this.activity instanceof EatActivity) {
-                this.eat(this.neededFood);
+                if (((EatActivity) this.activity).isReady())
+                    this.eat(this.neededFood);      // ăn sau khi đi đến chỗ thớc ăn.
             } else if (this.activity instanceof DrinkActivity) {
                 this.drink(10);
             }
@@ -212,10 +213,11 @@ public abstract class Animal {
      * NOTE: Có thể override, và  super.updateState()
      */
     protected void nextActivity(int hours) {
-        // next activity
         try {
-            Random r = new Random(100);
             // FIXME: SET ACTIVITY
+            if (this.activity instanceof IPrepareActivity) {
+                ((IPrepareActivity) this.activity).onCancel();  // reset act when change to new activity
+            }
             this.activity = this.schedule.getRandomActivity(this);
             System.out.println( "[ hour: "  + hours + "]" +"Set next activity: ");
         } catch (IndexOutOfBoundsException e) {

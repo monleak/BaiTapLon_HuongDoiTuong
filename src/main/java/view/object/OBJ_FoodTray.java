@@ -58,8 +58,8 @@ public class OBJ_FoodTray extends SuperObject{
     @Override
     public void draw(Graphics2D g2) {
         super.draw(g2);
-        System.out.println("Food tray: " +  foodInventory.getAmount());
-
+//        System.out.println("Food tray: " +  foodInventory.getAmount());
+        String str = name + ":" + foodInventory.getAmount() + " / " + this.getMaxFood();
         g2.setFont(font);
         g2.setColor(Color.WHITE);
         g2.fillRoundRect((int) pos.getScreenX() , (int) pos.getScreenY() - barHeight, gp.titleSize, barHeight, 0, 300);
@@ -68,8 +68,10 @@ public class OBJ_FoodTray extends SuperObject{
         g2.fillRoundRect((int) pos.getScreenX() + 1, (int) pos.getScreenY() - barHeight + 1, fillRedLen, barHeight - 2, 30, 0);
         g2.setColor(Color.WHITE);
         FontMetrics fontMetrics = g2.getFontMetrics();
-        int width = fontMetrics.stringWidth(name);
+        int width = fontMetrics.stringWidth(str);
         int padding = (gp.titleSize - width) / 2;
-        g2.drawString(name, (int) pos.getScreenX() + padding, (int) pos.getScreenY() - 4 - barHeight);
+        g2.drawString(
+                str
+                , (int) pos.getScreenX() + padding, (int) pos.getScreenY() - 4 - barHeight);
     }
 }

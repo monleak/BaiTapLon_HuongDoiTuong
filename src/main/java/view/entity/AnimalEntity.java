@@ -1,6 +1,7 @@
 package view.entity;
 
 import model.Activities.EatActivity;
+import model.Activities.IPrepareActivity;
 import model.Animals.Animal;
 import model.Food;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,8 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     // Kết tập animal
     protected Animal animal;
     public FocusableHandler fch;
+
+    private boolean isGoingToFoodTray = false;
 
     public AnimalEntity(GamePanel gp, PlayState ps) {
         super(gp, ps);
@@ -53,6 +56,7 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     }
 
     public void goToFoodTray () {
+        // find food tray
         OBJ_FoodTray foodTray = null;
         for (int i = 0; i < ps.foodTrays.size(); i++) {
             if (
@@ -65,7 +69,20 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
         }
         
         if (foodTray != null) {
-            goTo(foodTray);
+            // if not null -> goto food tray
+            boolean found = goTo(foodTray);
+            // mark is going to food tray = true
+            if (found) {
+                this.setToGoalListener(actionEvent -> {
+                    if (this.animal.getActivity() instanceof IPrepareActivity) {
+                        IPrepareActivity activity = (IPrepareActivity) this.animal.getActivity();
+                        activity.onPrepareDone(this.animal.getActivity());
+                        this.removeToGoalListener();
+                    }
+                });
+            }
+                // add event listener
+
         } else {
             throw new Error ("Not found foodTray!");
         }
@@ -88,10 +105,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     public void update() {
         super.update();
         setAction();
-
-//        if (this.animal.getActivity() instanceof EatActivity) {
-//
-//        }
     }
 
     /**
