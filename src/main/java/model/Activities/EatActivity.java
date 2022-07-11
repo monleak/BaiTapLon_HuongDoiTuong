@@ -7,7 +7,7 @@ public class EatActivity extends Activity {
 
     @Override
     public int getDeltaWater(int maxWater) {
-        return 4;
+        return 5;
     }
     @Override
     public int getDeltaCalo(FoodInventory foodInventory) {
@@ -15,6 +15,6 @@ public class EatActivity extends Activity {
     }
     @Override
     public int getDeltaSleep(int maxSleep) {
-        return -2;
+        return -5;
     }
 }
