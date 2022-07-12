@@ -51,7 +51,7 @@ public class Model2PlayStateAdapter extends PlayState {
                 obj[j].getBounds().getPos().x = ((int)(20f * gp.titleSize));
                 obj[j].getBounds().getPos().y = ((int)((10f + i) * gp.titleSize));
                 ChickenEntity chicken = (ChickenEntity) obj[j];
-//                    chicken.follow(player);
+//                    chicken.goTo(player);
             } else if(animals.get(i) instanceof Dog){
                 obj[j] = new DogEntity(gp, ps, animals.get(i));
                 obj[j].getBounds().getPos().x = ((int)(10f * gp.titleSize));

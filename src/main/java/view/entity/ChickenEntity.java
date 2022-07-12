@@ -35,7 +35,6 @@ public class ChickenEntity extends AnimalEntity {
     public int posture;
 
     private static int activity;
-    private PathFinder pathFinder;
 
     /**
      * DOWN + STAND
@@ -114,19 +113,6 @@ public class ChickenEntity extends AnimalEntity {
     @Override
     public void setAction () {
         // TODO: GENERIC
-//        if(counter == 0) {
-//            if (lifeCounter == 15 * 24 * 60) {
-//                lifeCounter = 0;
-//            }
-////            if (this.animal != null)
-////                this.animal.life(
-////                    lifeCounter / (24 * 60),
-////                    lifeCounter / (60) % 24,
-////                    lifeCounter % 60
-////                );
-//            // NOTE: De counter xuat phat tu 0
-//            lifeCounter++;
-//        }
         actionLockCounter++;
         if(actionLockCounter > 60*60*15 && !animal.isHungry() && !animal.isThirsty() && !animal.isSick()){
             Activity randomAct = animal.getActivity();

@@ -23,8 +23,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     protected Animal animal;
     public FocusableHandler fch;
 
-    private boolean isGoingToFoodTray = false;
-
     public AnimalEntity(GamePanel gp, PlayState ps) {
         super(gp, ps);
 
@@ -55,6 +53,14 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
         return this.fch.getIsFocused();
     }
 
+    /**
+     * Activity: Eat
+     * <br/>
+     * Tìm loại foodTray mà con vật cần, sau đó tìm đường đi đến đó.
+     * <br/>
+     * Sau khi đến sử dụng actionListener để trigger việc con vật đã có thể ăn
+     * và tăng thuộc tính calo.
+     */
     public void goToFoodTray () {
         // find food tray
         OBJ_FoodTray foodTray = null;
@@ -73,6 +79,7 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
             boolean found = goTo(foodTray);
             // mark is going to food tray = true
             if (found) {
+                // add action event
                 this.setToGoalListener(actionEvent -> {
                     if (this.animal.getActivity() instanceof IPrepareActivity) {
                         IPrepareActivity activity = (IPrepareActivity) this.animal.getActivity();
@@ -81,8 +88,6 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
                     }
                 });
             }
-                // add event listener
-
         } else {
             throw new Error ("Not found foodTray!");
         }
