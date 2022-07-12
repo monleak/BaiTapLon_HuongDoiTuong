@@ -13,7 +13,7 @@ public class Model2UIAdapter extends UI {
     TimeManager timeManager;
     ModelState modelState;
     Font font;
-    private final int MAX_DARK_OPACITY = 200;
+    private final int MAX_DARK_OPACITY = 150;
 
 
     public Model2UIAdapter(GamePanel gp, ModelState modelState) {

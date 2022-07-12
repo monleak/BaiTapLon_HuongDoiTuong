@@ -16,7 +16,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import static basic.Params.*;
+
 public class DogEntity extends AnimalEntity{
+    /*
+    Chó có hành động canh nhà, đi chơi
+    Khi đói nó sẽ đi ăn
+    Khi buồn ngủ nó sẽ đi ngủ
+     */
     private int counter;
     private int lifeCounter;
     private int actionLockCounter;
@@ -29,6 +36,11 @@ public class DogEntity extends AnimalEntity{
     public static final int EAT = 1;
     public static final int SIT = 2;
     public static final int LEAP = 3;
+    //Hành động
+    public static final int CanhNha = 0;
+    public static final int DiChoi = 1;
+    public static final int AnUong = 2;
+    public static final int Ngu = 3;
 
     public Direction prevDirection;
     public int prevPosture;
@@ -48,6 +60,7 @@ public class DogEntity extends AnimalEntity{
         this.setSpeed(1);
         this.direction = Direction.DOWN;
         posture = STAND;
+        activity = DiChoi;
 
         setImage();
         setAnimation(
@@ -85,12 +98,18 @@ public class DogEntity extends AnimalEntity{
 
         // Mảng gồm index của các ảnh trong 1 động tác.
         int[][] actIds = {
-                {5,6,7,8,9,10,5,6,7,8,9,10},   // STAND
-                {1,2,3,4,1,2,3,4,1,2,3,4},   // EAT
-                {20,21,22,16,17,18,19},    // SIT
-                {11,12,13,14,15,11,12,13,14,15},    // LEAP
-                {4, 1},
-                {2, 3}
+//<<<<<<< HEAD
+//                {5,6,7,8,9,10,5,6,7,8,9,10},   // STAND
+//                {1,2,3,4,1,2,3,4,1,2,3,4},   // EAT
+//                {20,21,22,16,17,18,19},    // SIT
+//                {11,12,13,14,15,11,12,13,14,15},    // LEAP
+//                {4, 1},
+//                {2, 3}
+//=======
+                {5,6,7,8},   // STAND
+                {1,2,3,4},   // EAT
+                {13,14,15,16},    // SIT
+                {9,10,11,12}    // LEAP
         };
 
         sprite = new SpriteSheet(9, 9);
@@ -132,16 +151,27 @@ public class DogEntity extends AnimalEntity{
         actionLockCounter++;
         if(actionLockCounter > 60*60*15 && !animal.isHungry() && !animal.isThirsty() && !animal.isSick()){
             Activity randomAct = animal.getActivity();
+
             if (randomAct instanceof EatActivity)
-                activity = EAT;
+            {
+                activity = AnUong;
+            }
             else if (randomAct instanceof DrinkActivity)
-                activity = EAT;
-            else if (randomAct instanceof PlayActivity)
-                activity = STAND;
+            {
+                activity = AnUong;
+            }
+            else if (randomAct instanceof PlayActivity){
+                if(rand.nextDouble()< 0.7){
+                    activity = CanhNha;
+                }else activity = DiChoi;
+            }
             else if (randomAct instanceof SleepActivity)
-                activity = SIT;
-            else activity = SIT;
+            {
+                activity = Ngu;
+            }
+            actionLockCounter=0;
         }
+
         directionLockCounter++;
         if(directionLockCounter > 120) {
             Random random = new Random();
@@ -165,30 +195,27 @@ public class DogEntity extends AnimalEntity{
 
         // random tu the
         counter++;
-        int circle = 10;
-        int nState = 12;
-        if(counter >= (circle * nState)) {
+        if(counter>=120) {
             counter = 0;
-            Random random = new Random();
-
-            if (activity == EAT) posture = EAT;
-            else if (activity == SIT) posture = SIT;
-            else if (activity == STAND){
-                //hoạt động play
-                if(random.nextDouble()<0.5){
-                    posture = STAND;
-                }else {
-                    posture = LEAP;
-                }
-            }
-
-            if(posture == SIT) {
-                setSpeed(0);
-            } else {
-                setSpeed(1);
-            }
+//            Random random = new Random();
+//
+//            if (activity == EAT) posture = STAND;
+//            else if (activity == SIT) posture = SIT;
+//            else if (activity == STAND){
+//                //hoạt động play
+//                if(random.nextDouble()<0.5){
+//                    posture = STAND;
+//                }else {
+//                    posture = LEAP;
+//                }
+//            }
+//
+//            if(posture == SIT) {
+//                setSpeed(0);
+//            } else if(posture == LEAP) {
+//                setSpeed(2);
+//            }else setSpeed(1);
         }
-
     }
     /**
      * {@inheritDoc}
@@ -223,42 +250,87 @@ public class DogEntity extends AnimalEntity{
         }
     }
 
+
     public void update () {
-//        setAction();
         super.update();
 
-        if(activity != EAT) {
+        setAction();
+        if(activity == CanhNha) {
+//                Canh cửa nhà
+            pathFinder.setNodes(
+                    (int) this.getBounds().getCenterX(),
+                    (int) this.getBounds().getCenterY(),
+                    HOME[0],
+                    HOME[1]
+            );
+            pathFinder.search();
+            if (pathFinder.getPathList().size() > 0) {
+                posture = LEAP;
+                setSpeed(2);
+                Node next = pathFinder.getPathList().get(0);
+                if (this.getPos().x > next.column * gp.titleSize) {
+                    this.getPos().x -= getSpeed();
+                } else if (this.getPos().x < next.column * gp.titleSize) {
+                    this.getPos().x += getSpeed();
+                } else if (this.getPos().y > next.row * gp.titleSize) {
+                    this.getPos().y -= getSpeed();
+                } else if (this.getPos().y < next.row * gp.titleSize) {
+                    this.getPos().y += getSpeed();
+                }else {
+                    // remove node
+                    pathFinder.getPathList().remove(0);
+                }
+            } else {
+                posture = SIT;
+                setSpeed(1);
+            }
+        }else if(activity == DiChoi){
+            posture = STAND;
+            setSpeed(1);
+            checkCollisionAndMove(this.direction, this.getSpeed());
+        }else if(activity == AnUong){
+            //đi ăn
+            pathFinder.setNodes(
+                    (int) this.getPos().x,
+                    (int) this.getPos().y,
+                    HOME[0],
+                    HOME[1]
+            );
+            pathFinder.search();
+            if(pathFinder.getPathList().size() > 0) {
+                posture = STAND;
+                setSpeed(1);
+                Node next = pathFinder.getPathList().get(0);
+                if (this.getPos().x > next.column * gp.titleSize) {
+                    this.getPos().x -= getSpeed();
+                } else
+                if (this.getPos().x < next.column * gp.titleSize) {
+                    this.getPos().x += getSpeed();
+                } else
+                if (this.getPos().y > next.row * gp.titleSize) {
+                    this.getPos().y -= getSpeed();
+                } else
+                if (this.getPos().y < next.row * gp.titleSize) {
+                    this.getPos().y += getSpeed();
+                }else {
+                    // remove node
+                    pathFinder.getPathList().remove(0);
+                }
+            }else {
+                posture = EAT;
+                setSpeed(0);
+            }
+        }else if(activity == Ngu){
+            posture = SIT;
+            setSpeed(0);
+        }else{
+            posture = STAND;
+            setSpeed(1);
             checkCollisionAndMove(this.direction, this.getSpeed());
         }
         animate(true);
-
-        // FIXME:
-         image = ani.getImage().image;
-        /**
-         * Exception in thread "Thread-1" java.lang.NullPointerException at
-         * view.entity.DogEntity.update(DogEntity.java:231) at
-         * states.PlayState.update(PlayState.java:115) at
-         * states.GameStateManager.update(GameStateManager.java:143) at
-         * view.main.GamePanel.update(GamePanel.java:96) at view.main.GamePanel.run(GamePanel.java:79)
-         * at java.lang.Thread.run(Thread.java:748)
-         */
-
-        pathFinder.search();
-        if(pathFinder.getPathList().size() > 0 && activity == EAT) {
-            Node next = pathFinder.getPathList().get(0);
-            if (this.getPos().x > next.column * gp.titleSize) {
-                this.getPos().x -= getSpeed();
-            } else
-            if (this.getPos().x < next.column * gp.titleSize) {
-                this.getPos().x += getSpeed();
-            } else
-            if (this.getPos().y > next.row * gp.titleSize) {
-                this.getPos().y -= getSpeed();
-            } else
-            if (this.getPos().y < next.row * gp.titleSize) {
-                this.getPos().y += getSpeed();
-            }
-        }
+        image = ani.getImage().image;
+//>>>>>>> aa70c1823a720d27824f2b176f8656410207ff7f
     }
 
     /**

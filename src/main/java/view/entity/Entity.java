@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public abstract class Entity extends GameObject {
     private int speed;
@@ -124,21 +125,89 @@ public abstract class Entity extends GameObject {
             if (direction == Direction.UP) {
                 if (!tc.collisionTile(0, - speed)) {
                     pos.addY(-speed);
+                }else {
+                    Random random = new Random();
+                    int i = random.nextInt(4);
+                    switch (i) {
+                        case 1:
+                            this.direction = Direction.UP;
+                            break;
+                        case 2:
+                            this.direction = Direction.DOWN;
+                            break;
+                        case 3:
+                            this.direction = Direction.RIGHT;
+                            break;
+                        case 0:
+                            this.direction = Direction.LEFT;
+                            break;
+                    }
                 }
             }
             else if (direction == Direction.DOWN) {
                 if (!tc.collisionTile(0, speed)) {
                     pos.addY(speed);
+                }else {
+                    Random random = new Random();
+                    int i = random.nextInt(4);
+                    switch (i) {
+                        case 1:
+                            this.direction = Direction.UP;
+                            break;
+                        case 2:
+                            this.direction = Direction.DOWN;
+                            break;
+                        case 3:
+                            this.direction = Direction.RIGHT;
+                            break;
+                        case 0:
+                            this.direction = Direction.LEFT;
+                            break;
+                    }
                 }
             }
             else if (direction == Direction.RIGHT) {
                 if (!tc.collisionTile(speed, 0)) {
                     pos.addX(speed);
+                }else {
+                    Random random = new Random();
+                    int i = random.nextInt(4);
+                    switch (i) {
+                        case 1:
+                            this.direction = Direction.UP;
+                            break;
+                        case 2:
+                            this.direction = Direction.DOWN;
+                            break;
+                        case 3:
+                            this.direction = Direction.RIGHT;
+                            break;
+                        case 0:
+                            this.direction = Direction.LEFT;
+                            break;
+                    }
                 }
             }
             else if (direction == Direction.LEFT) {
                 if (!tc.collisionTile(-speed, 0)) {
                     pos.addX(-speed);
+                }else {
+                    Random random = new Random();
+                    int i = random.nextInt(4);
+                    switch (i) {
+                        case 1:
+                            this.direction = Direction.UP;
+                            break;
+                        case 2:
+                            this.direction = Direction.DOWN;
+                            break;
+                        case 3:
+                            this.direction = Direction.RIGHT;
+                            break;
+                        case 0:
+                            this.direction = Direction.LEFT;
+                            break;
+                    }
                 }
             }
     }

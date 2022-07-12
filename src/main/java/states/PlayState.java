@@ -12,6 +12,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static basic.Params.*;
+
 /**
  * PlayState
  * @brief trạng thái của màn hình chơi game.

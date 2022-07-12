@@ -109,7 +109,7 @@ public abstract class AnimalEntity extends Entity implements IFocusable {
     @Override
     public void update() {
         super.update();
-        setAction();
+//        setAction();
     }
 
     /**

@@ -41,13 +41,11 @@ public class Schedule implements Cloneable {
             //Buồn ngủ
             return this.activityList.get(SLEEP);
         }
-        int scoreEat=0,scoreDrink=0,scoreSleep=0,scorePlay=0;
-        scoreEat += 10*(1-a.getCalo()/a.getMaxCalo())/0.02;
-        scoreDrink += 10*(1-a.getWater()/a.getMaxWater())/0.03;
-        scoreSleep += 10*(1-a.getSleep()/a.getMaxSleep())/0.07;
-        scorePlay += 10*((a.getSleep()-0.3*a.getMaxSleep())/a.getMaxSleep()
-                            + (a.getCalo()-0.3*a.getMaxCalo())/a.getMaxCalo()
-                            + (a.getWater()-0.3*a.getMaxWater())/a.getMaxWater())/0.01;
+        int scoreEat,scoreDrink,scoreSleep,scorePlay;
+        scoreEat = 5;
+        scoreDrink = 5;
+        scoreSleep = 5;
+        scorePlay = 85;
         if(a.isSick()) {
             scoreDrink /= 3;
             scoreEat /= 3;
@@ -65,6 +63,6 @@ public class Schedule implements Cloneable {
                 if(r<P[i]) return this.activityList.get(i);
             }else if(r>=P[i-1] && r< P[i]) return this.activityList.get(i);
         }
-        return this.activityList.get((new Random()).nextInt(P.length));
+        return this.activityList.get(PLAY);
     }
 }

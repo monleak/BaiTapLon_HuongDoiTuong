@@ -83,7 +83,7 @@ public class Model2PlayStateAdapter extends PlayState {
     public void update (double time, GameStateManager gsm) {
 
         if (isUpdatable(gsm))
-            if (this.modelState != null && modelStateCounter == (20 - this.modelState.getSimulationSpeed()) * 2) {
+            if (this.modelState != null && modelStateCounter == 60 * 2 / this.modelState.getSimulationSpeed()) {
                 this.modelState.run();
                 modelStateCounter = 0;
             } else {

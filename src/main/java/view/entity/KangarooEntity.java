@@ -34,7 +34,6 @@ public class KangarooEntity extends AnimalEntity{
 
     private static int activity;
 
-    private PathFinder pathFinder;
 
     /**
      * DOWN + STAND
@@ -78,10 +77,6 @@ public class KangarooEntity extends AnimalEntity{
             for(int j = 0; j < 4; j++) {
                 imgs[i*4+j] = ci.getSubImage(i, j);
                 flipImgs[i*4+j] = ci.getFlipSubImage(i, j);
-//                this.sprite.addSprite(UP, ci.getSubImage(i, j)) ;
-//                this.sprite.addSprite(LEFT, ci.getSubImage(i, j)) ;
-//                this.sprite.addSprite(DOWN, ci.getFlipSubImage(i, j)) ;
-//                this.sprite.addSprite(RIGHT, ci.getFlipSubImage(i, j)) ;
             }
         }
 
@@ -115,22 +110,7 @@ public class KangarooEntity extends AnimalEntity{
      */
     @Override
     public void setAction () {
-        // TODO: GENERIC
-//        if(counter == 0) {
-////            if (lifeCounter == 15 * 24 * 60) {
-////                lifeCounter = 0;
-////            }
-////            if (this.animal != null)
-////                this.animal.life(
-////                        lifeCounter / (24 * 60),
-////                        lifeCounter / (60) % 24,
-////                        lifeCounter % 60
-////                );
-////            // NOTE: De counter xuat phat tu 0
-////            lifeCounter++;
-//        }
-        actionLockCounter++;
-        if(actionLockCounter > 60*60*15 && !animal.isHungry() && !animal.isThirsty() && !animal.isSick()){
+        if( !animal.isHungry() && !animal.isThirsty() && !animal.isSick()){
             Activity randomAct = animal.getActivity();
             if (randomAct instanceof EatActivity)
                 activity = EAT;
@@ -142,52 +122,52 @@ public class KangarooEntity extends AnimalEntity{
                 activity = SIT;
             else activity = SIT;
         }
-        directionLockCounter++;
-        if(directionLockCounter > 120) {
-            Random random = new Random();
-            int i = random.nextInt(4);
-            switch (i) {
-                case 1:
-                    direction = Direction.UP;
-                    break;
-                case 2:
-                    direction = Direction.DOWN;
-                    break;
-                case 3:
-                    direction = Direction.RIGHT;
-                    break;
-                case 0:
-                    direction = Direction.LEFT;
-                    break;
-            }
-            directionLockCounter = 0;
-        }
-
-        // random tu the
-        counter++;
-        int circle = 10;
-        int nState = 12;
-        if(counter >= (circle * nState)) {
-            counter = 0;
-            Random random = new Random();
-
-            if (activity == EAT) posture = EAT;
-            else if (activity == SIT) posture = SIT;
-            else if (activity == STAND){
-                //hoạt động play
-                if(random.nextDouble()<0.5){
-                    posture = STAND;
-                }else {
-                    posture = LEAP;
-                }
-            }
-
-            if(posture == SIT) {
-                setSpeed(0);
-            } else {
-                setSpeed(1);
-            }
-        }
+//        directionLockCounter++;
+//        if(directionLockCounter > 120) {
+//            Random random = new Random();
+//            int i = random.nextInt(4);
+//            switch (i) {
+//                case 1:
+//                    direction = Direction.UP;
+//                    break;
+//                case 2:
+//                    direction = Direction.DOWN;
+//                    break;
+//                case 3:
+//                    direction = Direction.RIGHT;
+//                    break;
+//                case 0:
+//                    direction = Direction.LEFT;
+//                    break;
+//            }
+//            directionLockCounter = 0;
+//        }
+//
+//        // random tu the
+//        counter++;
+//        int circle = 10;
+//        int nState = 12;
+//        if(counter >= (circle * nState)) {
+//            counter = 0;
+//            Random random = new Random();
+//
+//            if (activity == EAT) posture = EAT;
+//            else if (activity == SIT) posture = SIT;
+//            else if (activity == STAND){
+//                //hoạt động play
+//                if(random.nextDouble()<0.5){
+//                    posture = STAND;
+//                }else {
+//                    posture = LEAP;
+//                }
+//            }
+//
+//            if(posture == SIT) {
+//                setSpeed(0);
+//            } else {
+//                setSpeed(1);
+//            }
+//        }
     }
     /**
      * {@inheritDoc}
@@ -221,6 +201,7 @@ public class KangarooEntity extends AnimalEntity{
 
     public void update () {
         super.update();
+        this.setAction();
 
         if(activity != EAT){
             checkCollisionAndMove(this.direction, this.getSpeed());
@@ -230,22 +211,7 @@ public class KangarooEntity extends AnimalEntity{
 
         animate(true);
         image = ani.getImage().image;
-        pathFinder.search();
-        if(pathFinder.getPathList().size() > 0 && activity == EAT) {
-            Node next = pathFinder.getPathList().get(0);
-            if (this.getPos().x > next.column * gp.titleSize) {
-                this.getPos().x -= getSpeed();
-            } else
-            if (this.getPos().x < next.column * gp.titleSize) {
-                this.getPos().x += getSpeed();
-            } else
-            if (this.getPos().y > next.row * gp.titleSize) {
-                this.getPos().y -= getSpeed();
-            } else
-            if (this.getPos().y < next.row * gp.titleSize) {
-                this.getPos().y += getSpeed();
-            }
-        }
+
     }
 
     /**
