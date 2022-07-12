@@ -18,7 +18,7 @@ public class Dog extends Animal {
         this.setSleep(90);
         this.setAge(0);
 
-        this.neededFood = new FoodInventory(new Food("Dog", 40), 20);
+        this.neededFood = new FoodInventory(new Food("rice", 40), 20);
         this.activity = null;
         this.schedule = new Schedule();
     }

@@ -167,7 +167,7 @@ public class ChickenEntity extends AnimalEntity {
             }
 
             if(posture == SIT) {
-                setSpeed(0);
+//                setSpeed(0);
             } else {
                 setSpeed(1);
             }

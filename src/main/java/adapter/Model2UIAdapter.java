@@ -13,6 +13,7 @@ public class Model2UIAdapter extends UI {
     TimeManager timeManager;
     ModelState modelState;
     Font font;
+    private final int MAX_DARK_OPACITY = 200;
 
 
     public Model2UIAdapter(GamePanel gp, ModelState modelState) {
@@ -36,7 +37,7 @@ public class Model2UIAdapter extends UI {
             int opacity = 0;
             if (timeManager.getHours() >= 21 || timeManager.getHours() < 5) {
                 time = "[Night]: " + timeManager + " (" + speed + "x)";
-                opacity = 100;
+                opacity = MAX_DARK_OPACITY;
             } else if (timeManager.getHours() < 12) {
                 time = "[Morning]: " + timeManager + " (" + speed + "x)";
             } else {
@@ -46,11 +47,11 @@ public class Model2UIAdapter extends UI {
             if (timeManager.getHours() >= 5 && timeManager.getHours() < 8) {
                 int offset = (timeManager.getHours() - 5 ) * 60 + timeManager.getMinutes();
                 int max = 3 * 60;
-                opacity = (int) ((1 - 1.0 * offset / max) * 99) + 1;
+                opacity = (int) ((1 - 1.0 * offset / max) * MAX_DARK_OPACITY) + 1;
             } else if (timeManager.getHours() >= 18 && timeManager.getHours() < 21) {
                 int offset = (timeManager.getHours() - 17 ) * 60 + timeManager.getMinutes();
                 int max = 3 * 60;
-                opacity = (int) (1.0 * offset / max * 99) + 1;
+                opacity = (int) (1.0 * offset / max * MAX_DARK_OPACITY) + 1;
             }
 
             // draw string

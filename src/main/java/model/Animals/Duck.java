@@ -18,7 +18,7 @@ public class Duck extends Animal {
         this.setSleep(10);
         this.setAge(0);
 
-        this.neededFood = new FoodInventory(new Food("Duck", 20), 25);
+        this.neededFood = new FoodInventory(new Food("fish", 20), 25);
         this.activity = null;
         this.schedule = new Schedule();
     }

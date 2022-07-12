@@ -18,7 +18,7 @@ public class Pig extends Animal {
         this.setSleep(100);
         this.setAge(0);
 
-        this.neededFood = new FoodInventory(new Food("Pig", 100), 30);
+        this.neededFood = new FoodInventory(new Food("rice", 100), 30);
         this.activity = null;
         this.schedule = new Schedule();
     }

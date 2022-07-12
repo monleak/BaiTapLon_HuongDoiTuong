@@ -120,7 +120,7 @@ public abstract class Animal {
     }
 
     public FoodInventory getNeededFood () {
-        return new FoodInventory(neededFood.getFood(), neededFood.getAmount() - calo);
+        return this.neededFood;
     }
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
@@ -218,15 +218,7 @@ public abstract class Animal {
             }
             this.activity = this.schedule.getRandomActivity(this);
             System.out.println( "[ hour: "  + hours + "]" +"Set next activity: ");
-            if (isHungry() && r.nextInt() < 2) {
-                this.activity = new SleepActivity();
-            }
-            if (isThirsty() && r.nextInt() < 3) {
-                this.activity = new SleepActivity();
-            }
-            if (isSick() && r.nextInt() < 4) {
-                this.activity = new SleepActivity();
-            }
+
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }

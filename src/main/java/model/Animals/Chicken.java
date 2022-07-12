@@ -18,7 +18,7 @@ public class Chicken extends Animal {
         this.setSleep(60);
         this.setAge(0);
 
-        this.neededFood = new FoodInventory(new Food("Chicken", 20), 20);
+        this.neededFood = new FoodInventory(new Food("rice", 20), 20);
         this.activity = null;
         this.schedule = new Schedule();
     }
