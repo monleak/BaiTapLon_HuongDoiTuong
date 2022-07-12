@@ -25,7 +25,7 @@ public class CatEntity extends AnimalEntity{
     private int directionLockCounter;
     // Có flip ảnh hay không
     public static final int NOFLIP = 0;
-    public static final int FLIP = 4;
+    public static final int FLIP = 5;
     // Tư thế
     public static final int STAND = 0;
     public static final int EAT = 1;
@@ -34,8 +34,10 @@ public class CatEntity extends AnimalEntity{
     public static final int SLEEP = 4;
     //Hành động
     public static final int DiChoi = 1;
-    public static final int AnUong = 2;
-    public static final int Ngu = 3;
+    public static final int DiChoi2 = 2;
+    public static final int LiemLong = 3;
+    public static final int AnUong = 4;
+    public static final int Ngu = 5;
 
     public int prevPosture;
     public int posture;
@@ -153,7 +155,12 @@ public class CatEntity extends AnimalEntity{
                 activity = AnUong;
             }
             else if (randomAct instanceof PlayActivity){
-                activity = DiChoi;
+                double temp = rand.nextDouble();
+                if(temp >0 && temp < 0.3)
+                    activity = DiChoi;
+                else if(temp >=0.3 && temp < 0.6)
+                    activity = DiChoi2;
+                else activity = LiemLong;
             }
             else if (randomAct instanceof SleepActivity)
             {
@@ -238,11 +245,18 @@ public class CatEntity extends AnimalEntity{
     }
 
     public void update (double time) {
-//        setAction();
+        setAction();
         if(activity == DiChoi){
             posture = STAND;
             setSpeed(1);
             checkCollisionAndMove(this.direction, this.getSpeed());
+        }else if(activity == DiChoi2){
+            posture = LEAP;
+            setSpeed(2);
+            checkCollisionAndMove(this.direction, this.getSpeed());
+        }else if(activity == LiemLong){
+            posture = SIT;
+            setSpeed(0);
         }else if(activity == AnUong){
             //đi ăn
             pathFinder.setNodes(
@@ -276,15 +290,43 @@ public class CatEntity extends AnimalEntity{
                 setSpeed(0);
             }
         }else if(activity == Ngu){
-            posture = SLEEP;
-            setSpeed(0);
+            //Đi ngủ
+            pathFinder.setNodes(
+                    (int) this.getPos().x,
+                    (int) this.getPos().y,
+                    THAM_TRONG_NHA[0],
+                    THAM_TRONG_NHA[1]
+            );
+            pathFinder.search();
+            if(pathFinder.getPathList().size() > 0) {
+                posture = STAND;
+                setSpeed(1);
+                Node next = pathFinder.getPathList().get(0);
+                if (this.getPos().x > next.column * gp.titleSize) {
+                    this.getPos().x -= getSpeed();
+                } else
+                if (this.getPos().x < next.column * gp.titleSize) {
+                    this.getPos().x += getSpeed();
+                } else
+                if (this.getPos().y > next.row * gp.titleSize) {
+                    this.getPos().y -= getSpeed();
+                } else
+                if (this.getPos().y < next.row * gp.titleSize) {
+                    this.getPos().y += getSpeed();
+                }else {
+                    // remove node
+                    pathFinder.getPathList().remove(0);
+                }
+            }else {
+                posture = SLEEP;
+                setSpeed(0);
+            }
         }else{
             posture = SIT;
             setSpeed(0);
         }
         animate(true);
         image = ani.getImage().image;
-        System.out.println(posture+" "+activity);
     }
 
     /**

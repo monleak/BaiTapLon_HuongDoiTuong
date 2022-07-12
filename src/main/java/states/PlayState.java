@@ -66,11 +66,11 @@ public class PlayState extends GameState {
                     obj[i].getBounds().getPos().y = CHUONG_GA1[1];
                 } else if(animals.get(i) instanceof Dog){
                     obj[i] = new DogEntity(gp, ps, animals.get(i));
-//                    obj[i].getBounds().getPos().x = HOME[0];
-//                    obj[i].getBounds().getPos().y = HOME[1];
+                    obj[i].getBounds().getPos().x = HOME[0];
+                    obj[i].getBounds().getPos().y = HOME[1];
 
-                    obj[i].getBounds().getPos().x = CHUONG_KANGAROO[0];
-                    obj[i].getBounds().getPos().y = CHUONG_KANGAROO[1];
+//                    obj[i].getBounds().getPos().x = CHUONG_GA1[0];
+//                    obj[i].getBounds().getPos().y = CHUONG_GA1[1];
                 }else if(animals.get(i) instanceof Cat){
                     obj[i] = new CatEntity(gp, ps, animals.get(i));
                     obj[i].getBounds().getPos().x = HOME[0];
