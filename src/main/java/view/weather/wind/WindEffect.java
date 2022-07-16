@@ -63,7 +63,7 @@ public class WindEffect implements IDrawable {
     public void draw(Graphics2D g2) {
         Random rand = new Random();
         for (LeafFly r : leafFlyList) {
-            if (rand.nextInt(1000) < 1 && !r.isShown()) {
+            if (rand.nextInt(2000) < 1 && !r.isShown()) {
                 r.start();
             }
             r.update();

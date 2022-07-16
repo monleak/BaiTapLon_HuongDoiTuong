@@ -26,6 +26,7 @@ public class LeafFly extends WeatherAnimation {
         this.isShown = false;
     }
 
+    @Override
     public void start () {
         this.setup(this.start, this.circle);
         this.isShown = true;
@@ -45,15 +46,15 @@ public class LeafFly extends WeatherAnimation {
 
     @Override
     public void draw(Graphics2D g2) {
-        if (1f * cCounter / circle > 0.8) {
+        if (1f * cCounter / circle > 0.5) {
             // NOTE: transparent image
-            float alpha = 1f / 0.8f * (circle - cCounter) / circle ;
+            float alpha = 1f / 0.5f * (circle - cCounter) / circle ;
             AlphaComposite alcom = AlphaComposite.getInstance(
                     AlphaComposite.SRC_OVER, alpha);
             g2.setComposite(alcom);
-        } else if (1f * cCounter / circle < 0.2) {
+        } else if (1f * cCounter / circle <= 0.5) {
             // NOTE: transparent image
-            float alpha = 1f / 0.2f * (cCounter) / circle ;
+            float alpha = 1f / 0.5f * (cCounter) / circle ;
             AlphaComposite alcom = AlphaComposite.getInstance(
                     AlphaComposite.SRC_OVER, alpha);
             g2.setComposite(alcom);

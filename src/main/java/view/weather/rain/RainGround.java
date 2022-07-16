@@ -15,6 +15,7 @@ public class RainGround extends WeatherAnimation {
         this.circle = duration / spriteList.size();
     }
 
+    @Override
     public void start () {
         this.cCircle = 0;
         this.isShown = true;

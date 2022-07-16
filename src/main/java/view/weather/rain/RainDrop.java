@@ -28,6 +28,7 @@ public class RainDrop extends WeatherAnimation {
         this.isShown = false;
     }
 
+    @Override
     public void start () {
         this.setup(this.start, this.end, this.circle);
         this.isShown = true;

@@ -14,6 +14,7 @@ import view.main.GamePanel;
 import view.main.KeyHandler;
 import view.main.MouseHandler;
 import view.math.AABB;
+import view.weather.clould.CloudEffect;
 import view.weather.rain.RainEffect;
 import view.weather.wind.WindEffect;
 //import view.object.OBJ_FoodTray;
@@ -39,7 +40,7 @@ public class Model2PlayStateAdapter extends PlayState {
         this.fcm = new FocusManager(GameStateManager.gp, this);
         this.focusCheckList = new ArrayList<>();
 
-        this.rainEffect = new WindEffect(camera);
+        this.rainEffect = new CloudEffect(camera);
     }
 
 //    @Override

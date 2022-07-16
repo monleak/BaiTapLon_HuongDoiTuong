@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-public class WeatherAnimation {
+public abstract class WeatherAnimation {
     protected Vector2f pos;
     protected SpriteAnimation<Integer> ani;
     protected boolean isShown;
@@ -30,6 +30,8 @@ public class WeatherAnimation {
     public boolean isShown() {
         return isShown;
     }
+
+    public abstract void start ( );
     public void update () {
         ani.update();
         image = ani.getImage().image;
