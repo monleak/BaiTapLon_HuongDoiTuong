@@ -2,8 +2,6 @@ package view.ai;
 
 import org.jetbrains.annotations.NotNull;
 import states.PlayState;
-import view.entity.Entity;
-import view.entity.GameObject;
 import view.main.GamePanel;
 import view.math.Vector2f;
 import view.title.TileMapObj;
@@ -173,21 +171,21 @@ public class PathFinder {
         }
     }
 
-    public void setNodes (Entity entity, GameObject gameObject) {
-        this.setNodes(
-                (int) entity.getBounds().getCenterX(),
-                (int) entity.getBounds().getCenterY(),
-                (int) gameObject.getBounds().getCenterX(),
-                (int) gameObject.getBounds().getCenterY()
-        );
-    }
+//    public void setNodes (Entity entity, GameObject gameObject) {
+//        this.setNodes(
+//                (int) entity.getBounds().getCenterX(),
+//                (int) entity.getBounds().getCenterY(),
+//                (int) gameObject.getBounds().getCenterX(),
+//                (int) gameObject.getBounds().getCenterY()
+//        );
+//    }
 
-    public void setNode (Vector2f start, Vector2f goal) {
+    public void setNodes (Vector2f start, Vector2f goal) {
         this.setNodes(
-                (int) start.x,
-                (int) start.y,
-                (int) goal.x,
-                (int) goal.y
+                (int) start.getX(),
+                (int) start.getY(),
+                (int) goal.getX(),
+                (int) goal.getY()
         );
     }
 
@@ -268,8 +266,8 @@ public class PathFinder {
             for (Node step : this.getPathList() ) {
                 g2.setColor(Color.red);
                 g2.drawRect(
-                        (int) Vector2f.getStaticScreenX(step.column * gp.titleSize),
-                        (int) Vector2f.getStaticScreenY(step.row * gp.titleSize),
+                        (int) Vector2f.getStaticWorldX(step.column * gp.titleSize),
+                        (int) Vector2f.getStaticWorldY(step.row * gp.titleSize),
                         gp.titleSize,
                         gp.titleSize
                 );

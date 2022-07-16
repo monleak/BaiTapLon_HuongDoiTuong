@@ -66,8 +66,8 @@ public class FlyUpNumber {
             g2.setColor(color);
             g2.drawString(
                     this.value,
-                    (int) Vector2f.getStaticScreenX(bound.getCenterX()) - fontMetrics.stringWidth(this.value) / 2,
-                    (int) Vector2f.getStaticScreenY(bound.getCenterY()) - this.animation.getValue()
+                    (int) Vector2f.getStaticWorldX(bound.getCenterX()) - fontMetrics.stringWidth(this.value) / 2,
+                    (int) Vector2f.getStaticWorldY(bound.getCenterY()) - this.animation.getValue()
             );
         }
 

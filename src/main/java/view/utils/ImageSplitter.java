@@ -1,6 +1,6 @@
 package view.utils;
 
-import view.entity.ChickenEntity;
+//import view.entity.ChickenEntity;
 import view.main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -16,7 +16,7 @@ import java.util.Objects;
  * <code>ImageSplitter</code>Dùng để cắt ảnh lớn thành mảng 2 chiều các ảnh nhỏ
  *
  * <p>
- * Example: {@link ChickenEntity#setImage()}
+ * Example: {@@link ChickenEntity#setImage()}
  * </p>
  */
 public class ImageSplitter {
@@ -24,8 +24,15 @@ public class ImageSplitter {
     private BufferedImage[][] subImageList;
     int rows, columns;
     GamePanel gp;
+    Tool tool = new Tool();
 
-    private void constructor (GamePanel gp, String path, int subImageWidth, int subImageHeight, int pt, int pb, int pl, int pr) {
+
+    public ImageSplitter (
+            GamePanel gp, String path,
+            int subImageWidth, int subImageHeight,
+            int pt, int pb, int pl, int pr,
+            int scaleX, int scaleY
+    ) {
         try {
             this.gp = gp;
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
@@ -37,8 +44,6 @@ public class ImageSplitter {
         rows = image.getHeight() / subImageHeight;
         columns = image.getWidth() / subImageWidth;
 
-        Tool tool = new Tool();
-
         subImageList = new BufferedImage[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -49,18 +54,47 @@ public class ImageSplitter {
                         subImageHeight - pb);
                 subImageList[i][j] = tool.scaleImage(
                         subImage
-                        ,gp.titleSize , gp.titleSize
+                        ,scaleX , scaleY
                 );
             }
         }
     }
 
     public ImageSplitter(GamePanel gp, String path, int subImageWidth, int subImageHeight, int pt, int pb, int pl, int pr) {
-        constructor( gp, path, subImageWidth, subImageHeight, pt, pb, pl, pr);
+        this( gp, path, subImageWidth, subImageHeight, pt, pb, pl, pr, gp.titleSize, gp.titleSize);
     }
 
     public ImageSplitter(GamePanel gp, String path, int subImageWidth, int subImageHeight, int padding) {
-        constructor( gp, path, subImageWidth, subImageHeight, padding/2, padding, padding/2, padding);
+        this( gp, path, subImageWidth, subImageHeight, padding/2, padding, padding/2, padding, gp.titleSize, gp.titleSize);
+    }
+
+    // no scale
+    public ImageSplitter (
+        GamePanel gp, String path,
+        int subImageWidth, int subImageHeight
+    ) {
+        try {
+            this.gp = gp;
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+        } catch (NullPointerException | IOException e) {
+            System.err.println("[ERR] Cannot load image: " + (path));
+            e.printStackTrace();
+        }
+
+        rows = image.getHeight() / subImageHeight;
+        columns = image.getWidth() / subImageWidth;
+
+        subImageList = new BufferedImage[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                BufferedImage subImage = image.getSubimage(
+                        j * subImageWidth,
+                        i * subImageHeight,
+                        subImageWidth,
+                        subImageHeight);
+                subImageList[i][j] = subImage;
+            }
+        }
     }
 
     public BufferedImage scaleImage(BufferedImage img, int width, int height,
@@ -131,10 +165,9 @@ public class ImageSplitter {
 
     public BufferedImage getSubImage (int row, int column, int width, int height) {
         BufferedImage image = subImageList[row][column];
-//        gp.setOpaque(true);
-//        gp.setBackground(new Color(0,0,0,0,))
-        this.scaleImage(image, width, height, new Color(0, 0, 0, 0));
-        return image;
+        return tool.scaleImage(image, width, height);
+//        this.scaleImage(image, width, height, new Color(0, 0, 0, 0));
+//        return image;
     }
 
     public BufferedImage getFlipSubImage (int row, int column) {

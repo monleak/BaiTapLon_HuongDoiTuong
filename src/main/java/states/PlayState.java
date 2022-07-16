@@ -1,18 +1,16 @@
 package states;
 
-import model.Animals.Animal;
-import model.Animals.*;
-import view.entity.*;
+import view.component.GotoTarget;
+import view.component.MouseTarget;
+import view.entity.AnimalEntity;
+import view.entity.PlayerEntity;
+import view.entity.obj.FoodTray;
 import view.main.*;
-import view.object.OBJ_FoodTray;
-import view.object.OBJ_Key;
 import view.title.TileManager;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static basic.Params.*;
 
 /**
  * PlayState
@@ -27,10 +25,15 @@ public class PlayState extends GameState {
     public AssetSetter assetSetter;         // them cac con vat...
     Sound music = new Sound();              // nhac nen
     Sound se = new Sound();                 // am thanh khi cham vao con vat
-    public GameObject[] obj = new GameObject[100];    // Danh sach
-    public List<OBJ_FoodTray> foodTrays = new ArrayList<>();
+//    public GameObject[] obj = new GameObject[100];    // Danh sach
+//    public List<OBJ_FoodTray> foodTrays = new ArrayList<>();
 
-    public Player player;
+    public PlayerEntity player;
+    public List<AnimalEntity> animalEntityList;
+    public List<FoodTray> foodTrayList;
+    public MouseTarget mouseTarget;
+    public GotoTarget gotoTarget;
+
 
     public PlayState (Camera camera) {
         // init
@@ -46,7 +49,14 @@ public class PlayState extends GameState {
         cChecker    = new CollisionChecker(GameStateManager.gp, this);
         assetSetter = new AssetSetter(GameStateManager.gp, this);
 
-        player      = new Player(GameStateManager.gp, this, camera);
+        player      = new PlayerEntity(this);
+        animalEntityList = new ArrayList<>();
+
+        animalEntityList.add(new AnimalEntity(this));
+        gotoTarget = new GotoTarget();
+        mouseTarget = new MouseTarget();
+        this.foodTrayList = new ArrayList<>();
+        this.foodTrayList.add(new FoodTray(this));
 
         camera.target(player);
     }
@@ -80,12 +90,21 @@ public class PlayState extends GameState {
         if(isUpdatable(gsm)) {
             player.update();
             ui.update();
+            mouseTarget.update();
+            gotoTarget.update();
 
-            for (GameObject gameObject : obj) {
-                if (gameObject instanceof Entity) {
-                    ((Entity) gameObject).update();
-                }
+            for (AnimalEntity animal: animalEntityList) {
+                animal.update();
             }
+            for (FoodTray foodTray: foodTrayList) {
+                foodTray.update();
+            }
+
+//            for (GameObject gameObject : obj) {
+//                if (gameObject instanceof Entity) {
+//                    ((Entity) gameObject).update();
+//                }
+//            }
 
         }
     }
@@ -95,8 +114,18 @@ public class PlayState extends GameState {
      */
     @Override
     public void input(MouseHandler mouse, KeyHandler key, GameStateManager gsm) {
-    if (isUpdatable(gsm)) {
-            player.input(mouse, key);
+        if (isUpdatable(gsm)) {
+
+            for (AnimalEntity animal: animalEntityList) {
+                animal.input(key, mouse);
+            }
+            for (FoodTray foodTray: foodTrayList) {
+                foodTray.input(key, mouse);
+            }
+
+            player.input(key, mouse);
+            mouseTarget.input(key, mouse);
+            gotoTarget.input(key, mouse);
 
             if (key.pPressed) {
                 gsm.addAndPop(GameStateManager.PAUSE);
@@ -115,15 +144,22 @@ public class PlayState extends GameState {
 
         tileM.draw(g2);
 
-        for (GameObject superObject : obj) {
-            if (superObject != null) {
-                superObject.draw(g2);
-            }
+        for (AnimalEntity animal: animalEntityList) {
+            animal.draw(g2);
         }
-
+        for (FoodTray foodTray: foodTrayList) {
+            foodTray.draw(g2);
+        }
+//        for (GameObject superObject : obj) {
+//            if (superObject != null) {
+//                superObject.draw(g2);
+//            }
+//        }
+//
+        mouseTarget.draw(g2);
+        gotoTarget.draw(g2);
         player.draw(g2);
-        ui.draw(g2);
-
+//        ui.draw(g2);
     }
 
     /**

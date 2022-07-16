@@ -1,9 +1,7 @@
 package view.math;
 
-import view.entity.GameObject;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * AABB: Vị trí giữa 2 hình chữ nhật, hình tròn.
@@ -92,11 +90,11 @@ public class AABB {
     public float getYOffset() { return yOffset; }
 
     public float getCenterX () {
-        return pos.x + xOffset + w / 2;
+        return pos.getX() + xOffset + w / 2;
     }
 
     public float getCenterY () {
-        return pos.y + yOffset + h / 2;
+        return pos.getY() + yOffset + h / 2;
     }
 
     /**
@@ -107,27 +105,27 @@ public class AABB {
         return collides(0, 0, bBox);
     }
 
-    public boolean collides(float dx, float dy, ArrayList<GameObject> go) {
-        boolean collides = false;
-
-        for(int i = 0; i < go.size(); i++) {
-            collides = collides(dx, dy, go.get(i).getBounds());
-            if(collides) {
-//                go.get(i).getImage().restoreDefault();
-                // do sth
-                go.remove(i);
-                return collides;
-            }
-        }
-
-        return collides;
-    }
+//    public boolean collides(float dx, float dy, ArrayList<GameObject> go) {
+//        boolean collides = false;
+//
+//        for(int i = 0; i < go.size(); i++) {
+//            collides = collides(dx, dy, go.get(i).getBounds());
+//            if(collides) {
+////                go.get(i).getImage().restoreDefault();
+//                // do sth
+//                go.remove(i);
+//                return collides;
+//            }
+//        }
+//
+//        return collides;
+//    }
 
     public boolean collides(float dx, float dy, AABB bBox) {
-        float ax = ((pos.x + (xOffset)) + (this.w / 2)) + dx;
-        float ay = ((pos.y + (yOffset)) + (this.h / 2)) + dy;
-        float bx = ((bBox.getPos().x + (bBox.getXOffset())) + (bBox.getWidth() / 2));
-        float by = ((bBox.getPos().y + (bBox.getYOffset())) + (bBox.getHeight() / 2));
+        float ax = ((pos.getX() + (xOffset)) + (this.w / 2)) + dx;
+        float ay = ((pos.getY() + (yOffset)) + (this.h / 2)) + dy;
+        float bx = ((bBox.getPos().getX() + (bBox.getXOffset())) + (bBox.getWidth() / 2));
+        float by = ((bBox.getPos().getY() + (bBox.getYOffset())) + (bBox.getHeight() / 2));
 
         if (Math.abs(ax - bx) < (this.w / 2) + (bBox.getWidth() / 2)) {
             if (Math.abs(ay - by) < (this.h / 2) + (bBox.getHeight() / 2)) {
@@ -146,8 +144,8 @@ public class AABB {
 
         int wTemp = (int) this.w;
         int hTemp = (int) this.h;
-        int x = (int) this.pos.x;
-        int y = (int) this.pos.y;
+        int x = (int) this.pos.getX();
+        int y = (int) this.pos.getY();
 
         if(xp < x || yp < y) {
             return false;
@@ -164,14 +162,14 @@ public class AABB {
     public boolean intersect(AABB aBox)
     {
 
-        if((pos.x + xOffset > aBox.getPos().x + aBox.getXOffset() + aBox.getSize())
-        || (aBox.getPos().x + xOffset > pos.x + aBox.getXOffset() + aBox.getSize()))
+        if((pos.getX() + xOffset > aBox.getPos().getX() + aBox.getXOffset() + aBox.getSize())
+        || (aBox.getPos().getX() + xOffset > pos.getX() + aBox.getXOffset() + aBox.getSize()))
         {
             return false;
         }
 
-        if((pos.y + yOffset > aBox.getPos().y + aBox.getYOffset() + aBox.getSize())
-        || (aBox.getPos().y + yOffset > pos.y + aBox.getYOffset() + aBox.getSize()))
+        if((pos.getY() + yOffset > aBox.getPos().getY() + aBox.getYOffset() + aBox.getSize())
+        || (aBox.getPos().getY() + yOffset > pos.getY() + aBox.getYOffset() + aBox.getSize()))
         {
             return false;
         }
@@ -187,8 +185,8 @@ public class AABB {
         float totalRadius = r + circle.getRadius();
         totalRadius *= totalRadius;
 
-        float dx = (pos.x + circle.getPos().x);
-        float dy = (pos.y + circle.getPos().y);
+        float dx = (pos.getX() + circle.getPos().getX());
+        float dy = (pos.getY() + circle.getPos().getY());
 
         return totalRadius < (dx * dx) + (dy * dy);
     }
@@ -200,11 +198,11 @@ public class AABB {
      */
     public boolean colCircleBox(AABB aBox) {
 
-        float dx = Math.max(aBox.getPos().x + aBox.getXOffset(), Math.min(pos.x + (r / 2), aBox.getPos().x + aBox.getXOffset() + aBox.getWidth()));
-        float dy = Math.max(aBox.getPos().y + aBox.getYOffset(), Math.min(pos.y + (r / 2), aBox.getPos().y + aBox.getYOffset() + aBox.getHeight()));
+        float dx = Math.max(aBox.getPos().getX() + aBox.getXOffset(), Math.min(pos.getX() + (r / 2), aBox.getPos().getX() + aBox.getXOffset() + aBox.getWidth()));
+        float dy = Math.max(aBox.getPos().getY() + aBox.getYOffset(), Math.min(pos.getY() + (r / 2), aBox.getPos().getY() + aBox.getYOffset() + aBox.getHeight()));
 
-        dx = pos.x + this.xOffset + (r / 2) - dx;
-        dy = pos.y + this.yOffset +  (r / 2) - dy;
+        dx = pos.getX() + this.xOffset + (r / 2) - dx;
+        dy = pos.getY() + this.yOffset +  (r / 2) - dy;
 
         if(Math.sqrt(dx * dx + dy * dy) < r / 2) {
             return true;
@@ -217,14 +215,14 @@ public class AABB {
      * Khoàng cách 2 hcn.
      */
     public float distance(Vector2f other) {
-        float dx = pos.x - other.x;
-        float dy = pos.y - other.y;
+        float dx = pos.getX() - other.getY();
+        float dy = pos.getY() - other.getY();
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
     public AABB merge(AABB other) {
-        float minX = Math.min(pos.x, other.getPos().x);
-        float minY = Math.min(pos.y, other.getPos().y);
+        float minX = Math.min(pos.getX(), other.getPos().getX());
+        float minY = Math.min(pos.getY(), other.getPos().getY());
 
         int maxW = (int) Math.max(w, other.getWidth());
         int maxH = (int) Math.max(h, other.getHeight());
@@ -235,8 +233,8 @@ public class AABB {
 	
 	public String toString() {
 
-		String x = Float.toString(pos.x);
-		String y = Float.toString(pos.y);
+		String x = Float.toString(pos.getX());
+		String y = Float.toString(pos.getY());
 		String w = Float.toString(this.w);
 		String h = Float.toString(this.h);
 
@@ -245,8 +243,8 @@ public class AABB {
 
     public void render(Graphics2D g2) {
         g2.drawRect(
-                (int) (pos.x - xOffset),
-                (int) (pos.y - yOffset),
+                (int) (pos.getX() - xOffset),
+                (int) (pos.getY() - yOffset),
                 (int) w,
                 (int) h
         );

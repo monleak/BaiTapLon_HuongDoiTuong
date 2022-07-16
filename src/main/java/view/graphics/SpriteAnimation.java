@@ -1,5 +1,10 @@
 package view.graphics;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Tạo các animation di chuyển cho nhân vật.
  *
@@ -15,10 +20,10 @@ package view.graphics;
  * </li>
  * </ul>
  */
-public class SpriteAnimation {
+public class SpriteAnimation<T> {
 
-    private Sprite[] frames;
-    private int[] states;
+    private List<Sprite> frames;
+//    private final List<Integer> states;
     private int currentFrame;
     private int numFrames;
 
@@ -27,33 +32,38 @@ public class SpriteAnimation {
 
     private int timesPlayed;
 
-    public SpriteAnimation(Sprite[] frames) {
-        setFrames(0, frames);
+    public SpriteAnimation(List<Sprite> frames) {
+        setFrames(frames);
         timesPlayed = 0;
-        states = new int[10];
+//        states = new ArrayList<>();
     }
 
     public SpriteAnimation() {
         timesPlayed = 0;
-        states = new int[10];
+//        states = new ArrayList<>();
+        this.frames = new ArrayList<>();
     }
 
-    public void setFrames(int state, Sprite[] frames) {
+    public void setAnimation(List<Sprite> frames, int delay) {
+        this.setFrames(frames);
+        this.setDelay(delay);
+    }
+
+    public void setFrames(List<Sprite> frames) {
+        if (frames == null) {
+            throw new NullPointerException("SpriteAnimation#setFrames: List<Sprites> frames is null!");
+        }
         this.frames = frames;
         currentFrame = 0;
         count = 0;
         timesPlayed = 0;
         delay = 2;
-        if(states[state] == 0) {
-            numFrames = frames.length;
-        } else {
-            numFrames = states[state];
-        }
+        this.numFrames = frames.size();
     }
 
     public void setDelay(int i) { delay = i; }
     public void setFrame(int i) { currentFrame = i; }
-    public void setNumFrames(int i, int state) { states[state] = i; }
+//    public void setNumFrames(int i, int state) { states[state] = i; }
 
     /**
      * gọi trong update của lớp chứa nó.
@@ -67,7 +77,7 @@ public class SpriteAnimation {
             currentFrame++;
             count = 0;
         }
-        if(currentFrame == numFrames || frames[currentFrame] == null) {
+        if(currentFrame == numFrames || frames.contains(currentFrame)) {
             currentFrame = 0;
             timesPlayed++;
         }
@@ -75,14 +85,32 @@ public class SpriteAnimation {
 
     public int getDelay() { return delay; }
     public int getFrame() { return currentFrame; }
+    public int getNumFrames () {return numFrames;}
     public int getCount() { return count; }
 
     /**
      * Trả về ảnh hiện tại.
      * Ảnh sẽ thay đổi sau vài frame để tạo thành animation.
      */
-    public Sprite getImage() { return frames[currentFrame]; }
+    public Sprite getImage() {
+//        System.out.println(this);
+        if (frames.size() == 0)
+            throw new ArrayStoreException("Sprite#frame is length = 0");
+        return frames.get(currentFrame);
+    }
     public boolean hasPlayedOnce() { return timesPlayed > 0; }
     public boolean hasPlayed(int i) { return timesPlayed == i; }
 
+    @Override
+    public String toString() {
+        return "SpriteAnimation{" +
+                "frames=" + frames +
+//                ", states=" + states +
+                ", currentFrame=" + currentFrame +
+                ", numFrames=" + numFrames +
+                ", count=" + count +
+                ", delay=" + delay +
+                ", timesPlayed=" + timesPlayed +
+                '}';
+    }
 }

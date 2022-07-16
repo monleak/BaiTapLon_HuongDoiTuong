@@ -48,7 +48,7 @@ public class GameStateManager {
         GameStateManager.map = new Vector2f(100, 0);
         Vector2f.setWorldVar(100, 100);
         AABB gameAABB = new AABB(
-                new Vector2f(-gp.titleSize, -gp.titleSize),
+                new Vector2f(2*gp.titleSize, 2*gp.titleSize),
                 gp.screenWidth + gp.titleSize * 2,
                 gp.screenHeight + gp.titleSize * 2
         );
@@ -177,6 +177,7 @@ public class GameStateManager {
                 state.draw(g2);
             }
         }
+
     }
 
 }

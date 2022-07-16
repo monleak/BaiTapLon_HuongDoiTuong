@@ -1,7 +1,6 @@
 package view.main;
 
 import states.PlayState;
-import view.entity.Entity;
 
 /**
  * CollisionChecker:
@@ -16,19 +15,19 @@ public class CollisionChecker {
         this.gp = gp; this.ps = ps;
     }
 
-    public int checkObject (Entity entity, boolean player) {
-        int index = 999;
-
-        for (int i = 0; i < ps.obj.length; i++) {
-            if(ps.obj[i] != null) {
-
-                if(entity.getBounds().collides(ps.obj[i].getBounds())) {
-                    index = i;
-                    break;
-                }
-            }
-        }
-        return index;
-    }
+//    public int checkObject (Entity entity, boolean player) {
+//        int index = 999;
+//
+//        for (int i = 0; i < ps.obj.length; i++) {
+//            if(ps.obj[i] != null) {
+//
+//                if(entity.getBounds().collides(ps.obj[i].getBounds())) {
+//                    index = i;
+//                    break;
+//                }
+//            }
+//        }
+//        return index;
+//    }
 
 }
