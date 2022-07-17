@@ -2,12 +2,14 @@ package states;
 
 import view.component.GotoTarget;
 import view.component.MouseTarget;
+import view.effect.IDrawable;
 import view.entity.AnimalEntity;
 import view.entity.ChickenEntity;
 import view.entity.PlayerEntity;
 import view.entity.obj.FoodTray;
 import view.main.*;
 import view.title.TileManager;
+import view.weather.wind.WindEffect;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class PlayState extends GameState {
     public List<FoodTray> foodTrayList;
     public MouseTarget mouseTarget;
     public GotoTarget gotoTarget;
+//    private IDrawable environmentEffect;
+
 
     public PlayState (Camera camera) {
         // init
@@ -53,6 +57,8 @@ public class PlayState extends GameState {
         gotoTarget = new GotoTarget();
         mouseTarget = new MouseTarget();
         this.foodTrayList = new ArrayList<>();
+
+//        this.environmentEffect = new WindEffect(camera);
 
         camera.target(player);
     }
@@ -145,6 +151,7 @@ public class PlayState extends GameState {
         mouseTarget.draw(g2);
         gotoTarget.draw(g2);
         player.draw(g2);
+//        this.environmentEffect.draw(g2);
         ui.draw(g2);
     }
 

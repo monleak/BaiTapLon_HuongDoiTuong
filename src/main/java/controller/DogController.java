@@ -64,7 +64,9 @@ public class DogController extends AnimalController{
                 this.getPathManager().goTo(25 * gp.titleSize, 25 * gp.titleSize);
                 this.getPathManager().setToGoalListener(actionEvent -> {
                     setPrevBeh(AnimalBehavior.SIT);
+                    this.getMovement().setSpeed(0);
                 });
+                break;
             case SIT:
                 this.getPathManager().unfollow();
                 this.getMovement().setSpeed(0);

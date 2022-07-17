@@ -8,10 +8,10 @@ public class DrinkActivity extends Activity implements IPrepareActivity {
     @Override
     public int getDeltaWater(int maxWater) { return 16; }
     @Override
-    public int getDeltaCalo(FoodInventory foodInventory) { return -6; }
+    public int getDeltaCalo(FoodInventory foodInventory) { return -2; }
     @Override
     public int getDeltaSleep(int maxSleep) {
-        return -4;
+        return -2;
     }
     @Override
     public boolean isReady() {

@@ -42,7 +42,7 @@ public class ModelState {
         this.defaultScheduleList = new ArrayList<>(10);
         this.foodList = new ArrayList<>(10);
         this.foodInventoryList = new ArrayList<>(10);
-        timeManager = new TimeManager();
+        timeManager = new TimeManager(0, 6, 0);
 
         // them thuc an
         foodList.add(new Food("egg"));

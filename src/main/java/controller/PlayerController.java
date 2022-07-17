@@ -63,6 +63,9 @@ public class PlayerController extends EntityController{
                 ps.gotoTarget.setShown(true);
                 ps.gotoTarget.getBounds().getPos().setX(ps.mouseTarget.getBounds().getPos().getX());
                 ps.gotoTarget.getBounds().getPos().setY(ps.mouseTarget.getBounds().getPos().getY());
+                getPathManager().setToGoalListener(actionEvent -> {
+                    ps.gotoTarget.setShown(false);
+                });
             }
         }
     }

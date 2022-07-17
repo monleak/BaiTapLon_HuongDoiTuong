@@ -101,10 +101,50 @@ public abstract class AnimalRenderer extends EntityRenderer {
 
         g2.drawString(String.valueOf(this.controller.getBehavior()),
                 (int) this.controller.getPos().getScreenX(),
-                (int) this.controller.getPos().getScreenY() - 10
+                (int) this.controller.getPos().getScreenY() + gp.titleSize + 10
         );
 
         this.controller.getPathFinder().draw(g2);
+
+
+        // bar
+        int x = (int) this.controller.getPos().getScreenX();
+        int y = (int) this.controller.getPos().getScreenY();
+        int BAR_HEIGHT = 12;
+        float HP = 1.0f * this.controller.getModel().getHP() / this.controller.getModel().getMaxHP();
+        float sleep = 1.0f * this.controller.getModel().getSleep() / this.controller.getModel().getMaxSleep();
+        float water = 1.0f * this.controller.getModel().getWater() / this.controller.getModel().getMaxWater();
+        float calo = 1.0f * this.controller.getModel().getCalo() / this.controller.getModel().getMaxCalo();
+        g2.setColor(Color.WHITE);
+        g2.fillRect(
+                x, y - BAR_HEIGHT,
+                gp.titleSize, BAR_HEIGHT
+        );
+        g2.setColor(Color.RED);
+        g2.fillRect(
+                x + 1, y - BAR_HEIGHT + 1,
+                (int) ((gp.titleSize - 2) * HP)
+                , 4
+        );
+        g2.setColor(Color.DARK_GRAY);
+        g2.fillRect(
+                x + 1, y - BAR_HEIGHT + 5,
+                (int) ((gp.titleSize - 2) * calo)
+                , 2
+        );
+        g2.setColor(Color.YELLOW);
+        g2.fillRect(
+                x + 1, y - BAR_HEIGHT + 7,
+                (int) ((gp.titleSize - 2) * calo)
+                , 2
+        );
+        g2.setColor(Color.BLACK);
+        g2.fillRect(
+                x + 1, y - BAR_HEIGHT + 9,
+                (int) ((gp.titleSize - 2) * calo)
+                , 2
+        );
+        g2.setColor(Color.WHITE);
     }
 
     @Override
@@ -119,7 +159,6 @@ public abstract class AnimalRenderer extends EntityRenderer {
                 (int) this.controller.getPos().getScreenY(),
                 null
         );
-
 
     }
 }

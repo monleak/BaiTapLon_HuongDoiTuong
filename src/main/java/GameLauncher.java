@@ -31,6 +31,18 @@ public class GameLauncher {
                    )
            );
            modelState.getAnimalList().add(
+                   new Chicken(
+                           modelState.getDefaultSchedule().get(0),
+                           modelState.getFoodInventoryList().get(1)
+                   )
+           );
+           modelState.getAnimalList().add(
+                   new Dog(
+                           modelState.getDefaultSchedule().get(0),
+                           modelState.getFoodInventoryList().get(2)
+                   )
+           );
+           modelState.getAnimalList().add(
                    new Dog(
                            modelState.getDefaultSchedule().get(0),
                            modelState.getFoodInventoryList().get(2)
@@ -39,7 +51,7 @@ public class GameLauncher {
            modelState.getAnimalList().add(
                    new Cat(
                            modelState.getDefaultSchedule().get(0),
-                           modelState.getFoodInventoryList().get(1)
+                           modelState.getFoodInventoryList().get(0)
                    )
            );
 //           modelState.getAnimalList().add(

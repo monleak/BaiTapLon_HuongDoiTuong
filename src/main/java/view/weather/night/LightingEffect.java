@@ -108,7 +108,7 @@ public class LightingEffect implements IDrawable {
         circle.getBounds().x = x;
         circle.getBounds().y = y;
 //        lightArea = new Area(circle);
-        screenArea.subtract(lightArea);
+//        screenArea.subtract(lightArea);
 
 //        gPaint.getCenterPoint().setLocation(centerX, centerY);
 //        gPaint.getFocusPoint().setLocation(centerX, centerY);

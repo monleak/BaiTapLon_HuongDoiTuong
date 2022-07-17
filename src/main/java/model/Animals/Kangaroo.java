@@ -39,7 +39,7 @@ public class Kangaroo extends Animal{
 
     @Override
     public void growUp() {
-        getNeededFood().setAmount(getNeededFood().getAmount() + 10);
+//        getNeededFood().setAmount(getNeededFood().getAmount() + 10);
 
         this.maxCalo    += 20;
         this.maxHP      += 20;
