@@ -1,5 +1,6 @@
 package view.effect;
 
+import controller.AnimalController;
 import controller.GameObjController;
 import org.jetbrains.annotations.NotNull;
 import states.PlayState;
@@ -38,12 +39,15 @@ public class FocusableHandler implements IFocusable {
     public void setFocused(boolean focused) {
         // show msg
         if (focused) {
-//            if (go instanceof AnimalEntity)
-//                ps.ui.getAnimalStatusUI().showAnimalStatus( ((AnimalEntity) go).getAnimal() );
-//
+            if (go instanceof AnimalController)
+                ps.ui.getAnimalStatusUI()
+                        .showAnimalStatus(
+                                ((AnimalController) go).getModel()
+                        );
+
 //            ps.ui.getMessageUI().showMessage("Focused: " + go);
         } else {
-//            ps.ui.getAnimalStatusUI().hideAnimalStatus();
+            ps.ui.getAnimalStatusUI().hideAnimalStatus();
 //            ps.ui.getMessageUI().showMessage("Unfocused: " + go);
         }
         isFocused = focused;

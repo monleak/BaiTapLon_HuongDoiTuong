@@ -9,12 +9,12 @@ public class MessageUI {
     private GamePanel gp;
     private Stack<String> messages;
     private int counter;
-    private Font msgFont;
+//    private Font msgFont;
 
     public MessageUI(GamePanel gp) {
         this.gp = gp;
         this.messages = new Stack<>();
-        this.msgFont = new Font("Arial", Font.PLAIN, 16);
+//        this.msgFont = new Font("Arial", Font.PLAIN, 16);
     }
 
     public Stack<String> getMessages() {
@@ -49,7 +49,7 @@ public class MessageUI {
     public void draw (Graphics2D g2) {
         if (!messages.empty()) {
             g2.setColor(Color.WHITE);
-            g2.setFont(msgFont);
+//            g2.setFont(msgFont);
             AtomicInteger i = new AtomicInteger();
             messages.forEach(msg -> {
                 g2.drawString(msg, 24, gp.screenHeight - 48 - i.get() * 24);

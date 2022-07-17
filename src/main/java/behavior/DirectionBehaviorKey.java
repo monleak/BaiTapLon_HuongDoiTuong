@@ -4,6 +4,11 @@ import view.utils.Direction;
 
 import java.util.Objects;
 
+/**
+ * Direction and Animal Behavior key
+ * <br/>
+ * Use in: Map<\\DBKey, List<\\Sprite>>
+ */
 public class DirectionBehaviorKey {
     private Direction direction;
     private AnimalBehavior behavior;

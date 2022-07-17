@@ -47,7 +47,7 @@ public class ModelState {
         // them thuc an
         foodList.add(new Food("egg"));
         foodList.add(new Food("meat"));
-        foodList.add(new Food("cookie"));
+        foodList.add(new Food("rice"));
 
         // them luong thuc an
         foodList.forEach(food -> {

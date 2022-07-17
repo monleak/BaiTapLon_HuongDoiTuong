@@ -15,20 +15,24 @@ public abstract class Renderer {
         this.controller = controller;
     }
 
-    public void draw (Graphics2D g2) {
-//        this.controller.getBounds().render(g2);
-        g2.drawRect(
-                (int) this.controller.getPos().getScreenX(),
-                (int) this.controller.getPos().getScreenY(),
-                gp.titleSize,
-                gp.titleSize
-        );
+    public void drawWithoutImage (Graphics2D g2) {
+//        g2.drawRect(
+//                (int) this.controller.getPos().getScreenX(),
+//                (int) this.controller.getPos().getScreenY(),
+//                gp.titleSize,
+//                gp.titleSize
+//        );
 
         this.controller.getFch().draw(
                 g2,
                 this.controller.getBounds(),
                 this.controller.name
         );
+    }
+
+    public void draw (Graphics2D g2) {
+//        this.controller.getBounds().render(g2);
+        this.drawWithoutImage(g2);
     }
 
     public abstract void update ();

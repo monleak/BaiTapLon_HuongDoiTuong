@@ -1,62 +1,82 @@
 package controller;
 
 import behavior.AnimalBehavior;
-import model.Activities.Activity;
 import model.Activities.DrinkActivity;
 import model.Activities.EatActivity;
+import model.Activities.PlayActivity;
+import model.Activities.SleepActivity;
 import model.Animals.Animal;
 import states.PlayState;
-import view.effect.ILocator;
 import view.main.KeyHandler;
 import view.main.MouseHandler;
 import view.math.Vector2f;
-import view.title.TileCollision;
 
-import javax.swing.plaf.IconUIResource;
-import java.util.Random;
 
-public class AnimalController extends EntityController implements ILocator {
+import static states.GameStateManager.gp;
 
-    private Animal model;
+public abstract class AnimalController extends EntityController {
 
-    private Activity prevAct;
-    int rand;
+    private final Animal model;
+    private AnimalBehavior prevBeh;
     int counter;
+    int rand;
+    public PlayState ps;
 
     public AnimalController(Vector2f pos, PlayState ps, Animal model) {
         super(pos, ps);
 
+        this.ps = ps;
         this.model = model;
         this.name = "Animal";
+        this.getMovement().setSpeed(1);
+    }
+
+    public Animal getModel() {
+        return model;
+    }
+
+    public AnimalBehavior getPrevBeh() {
+        return prevBeh;
+    }
+
+    public void setPrevBeh(AnimalBehavior prevBeh) {
+        this.prevBeh = prevBeh;
     }
 
     public AnimalBehavior getBehavior () {
-//        if (this.model.getActivity() instanceof EatActivity)
-//            return AnimalBehavior.EAT;
-//        if (this.model.getActivity() instanceof DrinkActivity)
-//            return AnimalBehavior.SIT;
-//        else
-//            return AnimalBehavior.PLAY;
-        Random random = new Random();
-        counter++;
-        if (counter == 300) {
-            counter = 0;
-            rand = random.nextInt();
-        }
-        switch (rand % 3) {
-            case 0:
+//        return getRandomBehavior();
+        if (this.getModel().getActivity() instanceof EatActivity) {
+            if (this.getPrevBeh() != AnimalBehavior.EAT) {
+                return AnimalBehavior.GO_TO_EAT;
+            } else {
                 return AnimalBehavior.EAT;
-            case 1:
-                return AnimalBehavior.PLAY;
-            case 2:
-                return AnimalBehavior.SIT;
-        }
-        return AnimalBehavior.EAT;
+            }
+        } else if (this.getModel().getActivity() instanceof DrinkActivity) {
+            if (this.getPrevBeh() != AnimalBehavior.DRINK) {
+                return AnimalBehavior.GO_TO_DRINK;
+            } else {
+                return AnimalBehavior.DRINK;
+            }
+        } else if (this.getModel().getActivity() instanceof PlayActivity) {
+            return AnimalBehavior.PLAY;
+        } else if (this.getModel().getActivity() instanceof SleepActivity) {
+            return AnimalBehavior.SIT;
+        } else return AnimalBehavior.SIT;
     }
+
+    public abstract void onBehaviorChange (AnimalBehavior behavior);
 
     @Override
     public void input(KeyHandler keyHandler, MouseHandler mouseHandler) {
+        super.input(keyHandler, mouseHandler);
 
+        AnimalBehavior behavior = getBehavior();
+//        System.out.println(behavior);
+//        System.out.println(this.model.getActivity());
+        if (prevBeh != behavior) {
+            System.out.println(behavior);
+            this.prevBeh = behavior;
+            onBehaviorChange(behavior);
+        }
     }
-
 }

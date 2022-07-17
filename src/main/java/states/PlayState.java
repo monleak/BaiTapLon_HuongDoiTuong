@@ -3,6 +3,7 @@ package states;
 import view.component.GotoTarget;
 import view.component.MouseTarget;
 import view.entity.AnimalEntity;
+import view.entity.ChickenEntity;
 import view.entity.PlayerEntity;
 import view.entity.obj.FoodTray;
 import view.main.*;
@@ -25,15 +26,12 @@ public class PlayState extends GameState {
     public AssetSetter assetSetter;         // them cac con vat...
     Sound music = new Sound();              // nhac nen
     Sound se = new Sound();                 // am thanh khi cham vao con vat
-//    public GameObject[] obj = new GameObject[100];    // Danh sach
-//    public List<OBJ_FoodTray> foodTrays = new ArrayList<>();
 
     public PlayerEntity player;
     public List<AnimalEntity> animalEntityList;
     public List<FoodTray> foodTrayList;
     public MouseTarget mouseTarget;
     public GotoTarget gotoTarget;
-
 
     public PlayState (Camera camera) {
         // init
@@ -52,11 +50,9 @@ public class PlayState extends GameState {
         player      = new PlayerEntity(this);
         animalEntityList = new ArrayList<>();
 
-        animalEntityList.add(new AnimalEntity(this));
         gotoTarget = new GotoTarget();
         mouseTarget = new MouseTarget();
         this.foodTrayList = new ArrayList<>();
-        this.foodTrayList.add(new FoodTray(this));
 
         camera.target(player);
     }
@@ -99,14 +95,8 @@ public class PlayState extends GameState {
             for (FoodTray foodTray: foodTrayList) {
                 foodTray.update();
             }
-
-//            for (GameObject gameObject : obj) {
-//                if (gameObject instanceof Entity) {
-//                    ((Entity) gameObject).update();
-//                }
-//            }
-
         }
+
     }
 
     /**
@@ -144,22 +134,18 @@ public class PlayState extends GameState {
 
         tileM.draw(g2);
 
-        for (AnimalEntity animal: animalEntityList) {
-            animal.draw(g2);
-        }
         for (FoodTray foodTray: foodTrayList) {
             foodTray.draw(g2);
         }
-//        for (GameObject superObject : obj) {
-//            if (superObject != null) {
-//                superObject.draw(g2);
-//            }
-//        }
-//
+
+        for (AnimalEntity animal: animalEntityList) {
+            animal.draw(g2);
+        }
+
         mouseTarget.draw(g2);
         gotoTarget.draw(g2);
         player.draw(g2);
-//        ui.draw(g2);
+        ui.draw(g2);
     }
 
     /**

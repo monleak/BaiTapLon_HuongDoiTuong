@@ -11,13 +11,13 @@ public class AnimalStatusUI {
     private GamePanel gp;
     private String[] messages;
     private boolean isShown;
-    private final Font msgFont;
+//    private final Font msgFont;
     private Animal animal;
     private final Animation animation;
 
     public AnimalStatusUI(GamePanel gp) {
         this.gp = gp;
-        this.msgFont = new Font("Arial", Font.BOLD, 20);
+//        this.msgFont = new Font("Arial", Font.BOLD, 20);
         animation = new Animation()
                 .setDelay(10)
                 .setFrom(0)
@@ -70,7 +70,7 @@ public class AnimalStatusUI {
         if (isShown && messages != null) {
 
             g2.setColor(Color.WHITE);
-            g2.setFont(msgFont);
+//            g2.setFont(msgFont);
             for (int i = 0; i < messages.length; i++) {
                 if (messages[i] != null)
                     g2.drawString(messages[i], 24 - 100 + animation.getValue(), 48 + i * 24);

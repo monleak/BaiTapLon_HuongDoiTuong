@@ -18,7 +18,11 @@ public class FoodTrayController extends GameObjController {
 
         this.foodInventory = foodInventory;
         this.capacity = foodInventory.getAmount();
-        this.name = "FoodTray ???";
+        this.name = this.getFoodInventory().getFood().getName();
+    }
+
+    public FoodInventory getFoodInventory() {
+        return foodInventory;
     }
 
     public FoodTrayController(PlayState ps, AABB bounds, FoodInventory foodInventory) {

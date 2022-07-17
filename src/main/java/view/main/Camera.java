@@ -82,6 +82,10 @@ public class Camera {
         }
     }
 
+    public EntityController getFocusedEntity() {
+        return e;
+    }
+
     public void target(Entity e) {
         this.e = e.getController();
         int centerScreenX = (GameStateManager.gp.screenWidth - GameStateManager.gp.titleSize) / 2;

@@ -6,6 +6,8 @@ import view.utils.Animation;
 
 import java.awt.*;
 
+import static states.GameStateManager.gp;
+
 public class FlyUpNumber {
     private String value;
     private Color color;
@@ -31,11 +33,24 @@ public class FlyUpNumber {
                     this.animation.resetDefault();
                     this.isShown = false;
                 }));
+        this.animation.addActionListener(actionEvent -> {
+            FlyUpNumberPool.getInstance().checkIn(this);
+            this.animation.resetDefault();
+            this.isShown = false;
+        });
     }
 
     public FlyUpNumber setValue (int value) {
         this.value = String.valueOf(value);
         return this;
+    }
+
+    public void setPos (Vector2f pos) {
+        this.bound = new AABB(
+                pos,
+                gp.titleSize,
+                gp.titleSize
+        );
     }
 
     public FlyUpNumber setValue (String value) {

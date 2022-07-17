@@ -31,7 +31,7 @@ public class Model2UIAdapter extends UI {
         if (timeManager != null) {
             int screenHeight = GameStateManager.gp.screenHeight;
             int screenWidth = GameStateManager.gp.screenWidth;
-            int speed = modelState.getSimulationSpeed() ;
+            int speed = modelState.getSimulationSpeed();
             // calc time
             String time = null;
             int opacity = 0;

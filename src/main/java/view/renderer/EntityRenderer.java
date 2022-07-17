@@ -17,18 +17,21 @@ public abstract class EntityRenderer extends Renderer{
 
     }
 
+    public void drawWithoutImage (Graphics2D g2) {
+        super.drawWithoutImage(g2);
+
+//        g2.drawString(
+//                String.valueOf(this.controller.getDirection()),
+//                this.controller.getPos().getScreenX(),
+//                this.controller.getPos().getScreenY() + gp.titleSize
+//        );
+    }
 
     @Override
     public void draw(Graphics2D g2) {
         super.draw(g2);
 
-
-
-        g2.drawString(
-                String.valueOf(this.controller.getDirection()),
-                this.controller.getPos().getScreenX(),
-                this.controller.getPos().getScreenY() + gp.titleSize
-        );
+        this.drawWithoutImage(g2);
 
     }
 }

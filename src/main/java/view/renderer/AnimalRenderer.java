@@ -3,6 +3,7 @@ package view.renderer;
 import behavior.AnimalBehavior;
 import behavior.DirectionBehaviorKey;
 import controller.AnimalController;
+import view.component.FlyUpNumberPool;
 import view.graphics.Sprite;
 import view.graphics.SpriteAnimation;
 import view.graphics.SpriteSheet;
@@ -15,13 +16,14 @@ import java.util.List;
 
 import static states.GameStateManager.gp;
 
-public class AnimalRenderer extends EntityRenderer {
+public abstract class AnimalRenderer extends EntityRenderer {
 
     AnimalController controller;
     private final SpriteSheet<DirectionBehaviorKey> spriteSheet;
     private final SpriteAnimation<Integer> ani;
     private BufferedImage image;
     private AnimalBehavior behavior;
+    private Direction direction;
 
     public AnimalRenderer(AnimalController controller) {
         super(controller);
@@ -29,46 +31,11 @@ public class AnimalRenderer extends EntityRenderer {
         this.spriteSheet = new SpriteSheet<>();
         this.ani = new SpriteAnimation<>();
 
-        this.setImage();
+        // TODO: IN SUB CLASS
+//        this.setImage();
     }
 
-    private void setImage () {
-        String image = "/chicken/chicken-sprite-sheet.png";
-        System.out.println("Load image: " + image);
-        ImageSplitter ci = new ImageSplitter(gp, image, 32, 32, 0);
-        System.out.println( "\t>> col: " + ci.getColumns() + ", rows: " + ci.getRows());
-
-        DirectionBehaviorKey
-                EAT_UP = new DirectionBehaviorKey(Direction.UP, AnimalBehavior.EAT),
-                EAT_DOWN = new DirectionBehaviorKey(Direction.DOWN, AnimalBehavior.EAT),
-                EAT_RIGHT = new DirectionBehaviorKey(Direction.RIGHT,AnimalBehavior.EAT),
-                EAT_LEFT = new DirectionBehaviorKey(Direction.LEFT, AnimalBehavior.EAT),
-                SIT_UP = new DirectionBehaviorKey(Direction.UP, AnimalBehavior.SIT),
-                SIT_DOWN = new DirectionBehaviorKey(Direction.DOWN, AnimalBehavior.SIT),
-                SIT_RIGHT = new DirectionBehaviorKey(Direction.RIGHT,AnimalBehavior.SIT),
-                SIT_LEFT = new DirectionBehaviorKey(Direction.LEFT, AnimalBehavior.SIT),
-                PLAY_UP = new DirectionBehaviorKey(Direction.UP, AnimalBehavior.PLAY),
-                PLAY_DOWN = new DirectionBehaviorKey(Direction.DOWN, AnimalBehavior.PLAY),
-                PLAY_RIGHT = new DirectionBehaviorKey(Direction.RIGHT,AnimalBehavior.PLAY),
-                PLAY_LEFT = new DirectionBehaviorKey(Direction.LEFT, AnimalBehavior.PLAY);
-
-        int[] eatLeftCols   = {0, 0, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 0, 0, 0};
-        int[] row1          = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-        genSpriteSheet(eatLeftCols, row1, ci, AnimalBehavior.EAT);
-
-        int[] playLeftCols  = {0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0};
-        int[] row0          = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        genSpriteSheet(playLeftCols, row0, ci, AnimalBehavior.PLAY);
-
-
-        int[] sitLeftCols   = {0, 1, 0, 1, 0, 1, 2, 2, 2, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 2, 1, 0, 0};
-        int[] row2          = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
-        genSpriteSheet(sitLeftCols, row2, ci, AnimalBehavior.SIT);
-
-
-        this.ani.setAnimation(spriteSheet.getSpriteArray(SIT_UP), 10);   // DEFAULT ANIMATION
-
-    }
+    protected abstract void setImage ();
 
     public void genSpriteSheet (int[] cols, int[] rows, ImageSplitter ci, AnimalBehavior behavior) {
         DirectionBehaviorKey
@@ -88,8 +55,24 @@ public class AnimalRenderer extends EntityRenderer {
         return behavior;
     }
 
-    public void updateBehavior(AnimalBehavior behavior) {
-        if (behavior != this.behavior) {
+    public AnimalController getController() {
+        return controller;
+    }
+
+    public SpriteSheet<DirectionBehaviorKey> getSpriteSheet() {
+        return spriteSheet;
+    }
+
+    public SpriteAnimation<Integer> getAni() {
+        return ani;
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void updateBehaviorOrDirection(AnimalBehavior behavior, Direction direction) {
+        if (behavior != this.behavior || this.direction != direction) {
             List<Sprite> spriteList = spriteSheet.getSpriteArray(new DirectionBehaviorKey(
                     this.controller.getDirection(), behavior
             ));
@@ -100,7 +83,9 @@ public class AnimalRenderer extends EntityRenderer {
                         , 10
                 );
             this.behavior = behavior;
+            this.direction = direction;
         }
+
     }
 
     @Override
@@ -108,12 +93,25 @@ public class AnimalRenderer extends EntityRenderer {
         ani.update();
         image = ani.getImage().image;
 
-        this.updateBehavior(this.controller.getBehavior());
+        this.updateBehaviorOrDirection(this.controller.getBehavior(), this.controller.getDirection());
+    }
+
+    public void drawWithoutImage (Graphics2D g2) {
+        super.drawWithoutImage(g2);
+
+        g2.drawString(String.valueOf(this.controller.getBehavior()),
+                (int) this.controller.getPos().getScreenX(),
+                (int) this.controller.getPos().getScreenY() - 10
+        );
+
+        this.controller.getPathFinder().draw(g2);
     }
 
     @Override
     public void draw(Graphics2D g2) {
         super.draw(g2);
+
+        drawWithoutImage(g2);
 
         g2.drawImage(
                 image,
@@ -121,5 +119,7 @@ public class AnimalRenderer extends EntityRenderer {
                 (int) this.controller.getPos().getScreenY(),
                 null
         );
+
+
     }
 }

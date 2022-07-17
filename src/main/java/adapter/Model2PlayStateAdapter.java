@@ -2,20 +2,26 @@ package adapter;
 
 import controller.GameObjController;
 import controller.PlayerController;
-import model.Animals.*;
+import model.Animals.Cat;
+import model.Animals.Chicken;
+import model.Animals.Dog;
 import model.ModelState;
 import states.GameStateManager;
 import states.PlayState;
 //import view.entity.*;
 import view.effect.FocusManager;
 import view.effect.IDrawable;
+import view.entity.CatEntity;
+import view.entity.ChickenEntity;
+import view.entity.DogEntity;
+import view.entity.obj.FoodTray;
 import view.main.Camera;
 import view.main.GamePanel;
 import view.main.KeyHandler;
 import view.main.MouseHandler;
 import view.math.AABB;
-import view.weather.clould.CloudEffect;
-import view.weather.rain.RainEffect;
+import view.math.Vector2f;
+import view.weather.night.LightingEffect;
 import view.weather.wind.WindEffect;
 //import view.object.OBJ_FoodTray;
 //import view.object.OBJ_Key;
@@ -23,6 +29,7 @@ import view.weather.wind.WindEffect;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Model2PlayStateAdapter extends PlayState {
 
@@ -40,7 +47,7 @@ public class Model2PlayStateAdapter extends PlayState {
         this.fcm = new FocusManager(GameStateManager.gp, this);
         this.focusCheckList = new ArrayList<>();
 
-        this.rainEffect = new CloudEffect(camera);
+        this.rainEffect = new LightingEffect(camera);
     }
 
 //    @Override
@@ -104,6 +111,50 @@ public class Model2PlayStateAdapter extends PlayState {
     public void setup () {
         super.setup();
 
+        // create animal entity
+        GamePanel gp = GameStateManager.gp;
+        PlayState ps = this;
+        modelState.getAnimalList().forEach(
+                animal -> {
+                    if (animal instanceof Chicken) {
+                    this.animalEntityList.add(
+                            new ChickenEntity(
+                                    ps, animal
+                            )
+                        );
+                    } else if (animal instanceof Cat) {
+                        this.animalEntityList.add (
+                                new CatEntity(
+                                        ps, animal
+                                )
+                        );
+                    } else if (animal instanceof Dog) {
+                        this.animalEntityList.add (
+                                new DogEntity(
+                                        ps, animal
+                                )
+                        );
+                    }
+                }
+        );
+        AtomicInteger count = new AtomicInteger();
+        int[] x = {8, 12, 14};
+        modelState.getFoodInventoryList().forEach(
+                foodInventory -> {
+                    this.foodTrayList.add(
+                            new FoodTray(
+                                    ps,
+                                    foodInventory,
+                                    new Vector2f(
+                                            (x[count.get()]) * gp.titleSize,
+                                            15 * gp.titleSize
+                                    )
+                            )
+                    );
+                    count.getAndIncrement();
+                }
+        );
+
         // setup fch list
         this.animalEntityList.forEach(animalEntity -> {
             GameObjController controller = animalEntity.getController();
@@ -114,7 +165,6 @@ public class Model2PlayStateAdapter extends PlayState {
             this.focusCheckList.add(controller);
         });
         this.fcm.setCheckList(this.focusCheckList);
-
     }
 
     @Override
@@ -135,7 +185,7 @@ public class Model2PlayStateAdapter extends PlayState {
         if (isUpdatable(gsm))
             if (this.modelState != null && modelStateCounter == 60 * 2 / this.modelState.getSimulationSpeed()) {
                 // TODO: ENABLE MODEL RUN
-//                this.modelState.run();
+                this.modelState.run();
                 modelStateCounter = 0;
             } else {
                 modelStateCounter++;

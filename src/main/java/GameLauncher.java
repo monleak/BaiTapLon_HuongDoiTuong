@@ -18,23 +18,22 @@ public class GameLauncher {
            // setup game model
            ModelState modelState = new ModelState(10);
            List<Food> foodList = modelState.getFoodList();
-//        modelState.getAnimalList().add(
-//                new Cat(
-//                        modelState.getDefaultSchedule().get(0),
-//                        modelState.getFoodList().get(0),
-//                        10
-//                )
-//        );
+        modelState.getAnimalList().add(
+                new Cat(
+                        modelState.getDefaultSchedule().get(0),
+                        modelState.getFoodInventoryList().get(0)
+                )
+        );
            modelState.getAnimalList().add(
                    new Chicken(
                            modelState.getDefaultSchedule().get(0),
-                           modelState.getFoodInventoryList().get(0)
+                           modelState.getFoodInventoryList().get(1)
                    )
            );
            modelState.getAnimalList().add(
                    new Dog(
                            modelState.getDefaultSchedule().get(0),
-                           modelState.getFoodInventoryList().get(0)
+                           modelState.getFoodInventoryList().get(2)
                    )
            );
            modelState.getAnimalList().add(
@@ -43,25 +42,25 @@ public class GameLauncher {
                            modelState.getFoodInventoryList().get(1)
                    )
            );
-           modelState.getAnimalList().add(
-                   new Manatee(
-                           modelState.getDefaultSchedule().get(0),
-                           modelState.getFoodInventoryList().get(2)
-                   )
-           );
-           modelState.getAnimalList().add(
-                   new Kangaroo(
-                           modelState.getDefaultSchedule().get(0),
-                           modelState.getFoodInventoryList().get(2)
-                   )
-           );
-           modelState.getAnimalList().add(
-                   new Duck(
-                           modelState.getDefaultSchedule().get(0),
-                           modelState.getFoodList().get(0),
-                           10
-                   )
-           );
+//           modelState.getAnimalList().add(
+//                   new Manatee(
+//                           modelState.getDefaultSchedule().get(0),
+//                           modelState.getFoodInventoryList().get(2)
+//                   )
+//           );
+//           modelState.getAnimalList().add(
+//                   new Kangaroo(
+//                           modelState.getDefaultSchedule().get(0),
+//                           modelState.getFoodInventoryList().get(2)
+//                   )
+//           );
+//           modelState.getAnimalList().add(
+//                   new Duck(
+//                           modelState.getDefaultSchedule().get(0),
+//                           modelState.getFoodList().get(0),
+//                           10
+//                   )
+//           );
 
            // todo: connect model state and game panel
 

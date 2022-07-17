@@ -34,30 +34,63 @@ public class PathManager {
         if(pathFinder.getPathList().size() > 0) {
             isGoingToGoal = true;
             Node next = pathFinder.getPathList().get(0);
-            if (bounds.getPos().getX() > next.column * gp.titleSize) {
-                bounds.getPos().addX(-this.movement.getSpeed());
-                this.owner.setDirection(Direction.LEFT);
+//            System.out.println("x: " + bounds.getPos().getX() + "square x: " + next.column * gp.titleSize);
+//            System.out.println("y: " + bounds.getPos().getY() + "square y: " + next.row * gp.titleSize);
+            if ((int) bounds.getPos().getX() > next.column * gp.titleSize) {
+                if (
+                        Math.abs((int) bounds.getPos().getX() - next.column * gp.titleSize ) <= movement.getSpeed()
+                ) {
+                    bounds.getPos().setX(next.column * gp.titleSize);
+                } else {
+                    bounds.getPos().addX(-this.movement.getSpeed());
+                    this.owner.setDirection(Direction.LEFT);
+                }
             } else
-            if (bounds.getPos().getX() < next.column * gp.titleSize) {
-                bounds.getPos().addX(+this.movement.getSpeed());
-                this.owner.setDirection(Direction.RIGHT);
+            if ( (int) bounds.getPos().getX() < next.column * gp.titleSize) {
+                if (
+                        Math.abs((int) bounds.getPos().getX() - next.column * gp.titleSize ) <= movement.getSpeed()
+                ) {
+                    bounds.getPos().setX(next.column * gp.titleSize);
+                } else {
+                    bounds.getPos().addX(+this.movement.getSpeed());
+                    this.owner.setDirection(Direction.RIGHT);
+                }
             } else
-            if (bounds.getPos().getY() > next.row * gp.titleSize) {
-                bounds.getPos().addY(-this.movement.getSpeed());
-                this.owner.setDirection(Direction.UP);
+            if ( (int) bounds.getPos().getY() > next.row * gp.titleSize) {
+                if (
+                        Math.abs((int) bounds.getPos().getY() - next.row * gp.titleSize ) <= movement.getSpeed()
+                ) {
+                    bounds.getPos().setY(next.row * gp.titleSize);
+                } else {
+                    bounds.getPos().addY(-this.movement.getSpeed());
+                    this.owner.setDirection(Direction.UP);
+                }
+
             } else
-            if (bounds.getPos().getY() < next.row * gp.titleSize) {
-                bounds.getPos().addY(+this.movement.getSpeed());
-                this.owner.setDirection(Direction.DOWN);
+            if ( (int) bounds.getPos().getY() < next.row * gp.titleSize) {
+                if (
+                        Math.abs((int) bounds.getPos().getY() - next.row * gp.titleSize ) <= movement.getSpeed()
+                ) {
+                    bounds.getPos().setY(next.row * gp.titleSize);
+                } else {
+                    bounds.getPos().addY(+this.movement.getSpeed());
+                    this.owner.setDirection(Direction.DOWN);
+                }
+
             } else {
                 // remove node
                 pathFinder.getPathList().remove(0);
             }
+//            pathFinder.getPathList().remove(0);
+
         } else {
             if (isGoingToGoal) {
                 isGoingToGoal = false;
-                if(this.toGoalListener != null)
+                searchedMark = false;
+                if(this.toGoalListener != null) {
                     this.toGoalListener.actionPerformed(null);
+                    this.removeToGoalListener();
+                }
             }
         }
     }
@@ -78,7 +111,7 @@ public class PathManager {
         this.followedEntity = entity;
         this.searchedMark = false;
         pathFinder.setNodes(
-                this.owner.getPos(), entity.getPos()
+                this.owner.getBounds(), entity.getBounds()
         );
     }
 
@@ -86,6 +119,7 @@ public class PathManager {
         this.followedEntity = null;
         this.searchedMark = true;
         this.pathFinder.getPathList().removeAll(this.pathFinder.getPathList());
+        this.removeToGoalListener();
     }
 
     public boolean goTo (@NotNull GameObjController gameObject) {
@@ -110,7 +144,9 @@ public class PathManager {
         return pathFinder.search();
     }
 
-    public void update() {
+    public boolean update() {
+        boolean ret = false;
+
         if (!searchedMark) {
             if (followedEntity != null) {   // follow
                 follow(followedEntity);
@@ -118,10 +154,12 @@ public class PathManager {
             } else {                        // goto
                 // search 1 time in goTo method
             }
+            ret = true;
         }
 
         this.moveByPath();
 
-    };
+        return isGoingToGoal;
+    }
 
 }

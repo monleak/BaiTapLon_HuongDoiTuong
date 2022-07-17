@@ -3,6 +3,7 @@ package view.ai;
 import org.jetbrains.annotations.NotNull;
 import states.PlayState;
 import view.main.GamePanel;
+import view.math.AABB;
 import view.math.Vector2f;
 import view.title.TileMapObj;
 
@@ -171,14 +172,14 @@ public class PathFinder {
         }
     }
 
-//    public void setNodes (Entity entity, GameObject gameObject) {
-//        this.setNodes(
-//                (int) entity.getBounds().getCenterX(),
-//                (int) entity.getBounds().getCenterY(),
-//                (int) gameObject.getBounds().getCenterX(),
-//                (int) gameObject.getBounds().getCenterY()
-//        );
-//    }
+    public void setNodes (AABB entity, AABB gameObject) {
+        this.setNodes(
+                (int) entity.getCenterX(),
+                (int) entity.getCenterY(),
+                (int) gameObject.getCenterX(),
+                (int) gameObject.getCenterY()
+        );
+    }
 
     public void setNodes (Vector2f start, Vector2f goal) {
         this.setNodes(
@@ -202,7 +203,7 @@ public class PathFinder {
      */
     public boolean search () {
         if (isInit && (prevGoalCol != goalCol || prevGoalRow == goalRow))
-            while (!goalReached && step < 1000) {
+            while (!goalReached && step < 10000) {
                 int col = currentNode.column;
                 int row = currentNode.row;
 
