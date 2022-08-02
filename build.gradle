@@ -1,5 +1,12 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group 'org.example'
@@ -29,5 +36,26 @@ test {
 jar {
     manifest {
         attributes 'Main-Class': 'GameLauncher'
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "Github"
+            url = uri("https://maven.pkg.github.com/hahunavth/oolt-project")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        register("jar", MavenPublication) {
+            from(components["java"])
+            pom {
+                url.set("https://github.com/hahunavth/oolt-project.git")
+            }
+        }
     }
 }
