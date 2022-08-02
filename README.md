@@ -1,6 +1,8 @@
 # OOLT Project
 ****
 
+[![Java CI with Gradle](https://github.com/hahunavth/oolt-project/actions/workflows/test.yml/badge.svg)](https://github.com/hahunavth/oolt-project/actions/workflows/test.yml)
+
 > Nhóm 6  \
 > Chủ đề 4
 
