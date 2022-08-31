@@ -1,9 +1,11 @@
 package view.effect;
 
+import controller.AnimalController;
+import controller.GameObjController;
 import org.jetbrains.annotations.NotNull;
 import states.PlayState;
-import view.entity.AnimalEntity;
-import view.entity.GameObject;
+//import view.entity.AnimalEntity;
+//import view.entity.GameObject;
 import view.math.AABB;
 import view.math.Vector2f;
 
@@ -14,9 +16,9 @@ public class FocusableHandler implements IFocusable {
     private boolean isFocused;
     private Font font;
     private PlayState ps;
-    private GameObject go;
+    private GameObjController go;
 
-    public FocusableHandler (PlayState ps, GameObject go) {
+    public FocusableHandler (PlayState ps, GameObjController go) {
         this.ps = ps;
         this.go = go;
         this.font = new Font("serif", Font.BOLD, 16);
@@ -37,13 +39,16 @@ public class FocusableHandler implements IFocusable {
     public void setFocused(boolean focused) {
         // show msg
         if (focused) {
-            if (go instanceof AnimalEntity)
-                ps.ui.getAnimalStatusUI().showAnimalStatus( ((AnimalEntity) go).getAnimal() );
+            if (go instanceof AnimalController)
+                ps.ui.getAnimalStatusUI()
+                        .showAnimalStatus(
+                                ((AnimalController) go).getModel()
+                        );
 
-            ps.ui.getMessageUI().showMessage("Focused: " + go);
+//            ps.ui.getMessageUI().showMessage("Focused: " + go);
         } else {
             ps.ui.getAnimalStatusUI().hideAnimalStatus();
-            ps.ui.getMessageUI().showMessage("Unfocused: " + go);
+//            ps.ui.getMessageUI().showMessage("Unfocused: " + go);
         }
         isFocused = focused;
     }
@@ -79,6 +84,7 @@ public class FocusableHandler implements IFocusable {
         int screenY = (int) bounds.getPos().getScreenY() - 9;
 
         if(this.isHovered) {
+            g2.setColor(Color.BLUE);
             g2.drawRect( screenX, screenY + 9, (int) bounds.getWidth(), (int) bounds.getWidth());
         }
 
@@ -89,62 +95,63 @@ public class FocusableHandler implements IFocusable {
             g2.fillPolygon(new int[] {screenX + 16, screenX+ (int) bounds.getWidth()/2, screenX + (int) bounds.getWidth() - 16}, new int[] {screenY - 28, screenY - 24, screenY - 28}, 3);
 
             drawCenteredString(g2, bounds, name, font);
+            g2.setColor(Color.WHITE);
         }
     }
 
-    public void draw(Graphics2D g2, @NotNull AnimalEntity animalEntity) {
-
-        this.draw(g2, animalEntity.getBounds(), animalEntity.name);
-
-        // draw thanh HP, food, water tren dau con vat!
-        Vector2f pos = animalEntity.getBounds().getPos();
-        AABB bounds = animalEntity.getBounds();
-        int barScreenX = (int) pos.getScreenX();
-        int barWidth = (int) bounds.getWidth();
-        int barHeight = 14;
-        int barScreenY = (int) pos.getScreenY() - barHeight;
-        g2.setColor(Color.WHITE);
-        g2.fillRect(
-                barScreenX - 1,
-                barScreenY - 1,
-                barWidth + 2,
-                barHeight + 2
-        );
-        g2.setColor(Color.BLACK);
-        g2.drawRect(
-                barScreenX - 1,
-                barScreenY - 1,
-                barWidth + 2,
-                barHeight + 2
-        );
-
-        if (animalEntity.getAnimal() != null) {
-            g2.setColor(Color.RED);
-            // remove calculate
-            g2.fillRect(barScreenX, barScreenY + 1,
-                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getHP() / animalEntity.getAnimal().getMaxHP())),
-                    4
-            );
-            g2.setColor(Color.GREEN);
-            g2.fillRect(barScreenX,
-                    barScreenY + 5,
-                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo())),
-                    2
-            );
-            g2.setColor(Color.BLUE);
-            g2.fillRect(barScreenX,
-                    barScreenY + 5 + 3,
-                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo())),
-                    2
-            );
-            g2.setColor(Color.YELLOW);
-            g2.fillRect(barScreenX,
-                    barScreenY + 5+3+3,
-                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getSleep() / animalEntity.getAnimal().getMaxSleep())),
-                    2
-            );
-        }
-        g2.setColor(Color.WHITE);
-    }
+//    public void draw(Graphics2D g2, @NotNull AnimalEntity animalEntity) {
+//
+//        this.draw(g2, animalEntity.getBounds(), animalEntity.name);
+//
+//        // draw thanh HP, food, water tren dau con vat!
+//        Vector2f pos = animalEntity.getBounds().getPos();
+//        AABB bounds = animalEntity.getBounds();
+//        int barScreenX = (int) pos.getScreenX();
+//        int barWidth = (int) bounds.getWidth();
+//        int barHeight = 14;
+//        int barScreenY = (int) pos.getScreenY() - barHeight;
+//        g2.setColor(Color.WHITE);
+//        g2.fillRect(
+//                barScreenX - 1,
+//                barScreenY - 1,
+//                barWidth + 2,
+//                barHeight + 2
+//        );
+//        g2.setColor(Color.BLACK);
+//        g2.drawRect(
+//                barScreenX - 1,
+//                barScreenY - 1,
+//                barWidth + 2,
+//                barHeight + 2
+//        );
+//
+//        if (animalEntity.getAnimal() != null) {
+//            g2.setColor(Color.RED);
+//            // remove calculate
+//            g2.fillRect(barScreenX, barScreenY + 1,
+//                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getHP() / animalEntity.getAnimal().getMaxHP())),
+//                    4
+//            );
+//            g2.setColor(Color.GREEN);
+//            g2.fillRect(barScreenX,
+//                    barScreenY + 5,
+//                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo())),
+//                    2
+//            );
+//            g2.setColor(Color.BLUE);
+//            g2.fillRect(barScreenX,
+//                    barScreenY + 5 + 3,
+//                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getCalo() / animalEntity.getAnimal().getMaxCalo())),
+//                    2
+//            );
+//            g2.setColor(Color.YELLOW);
+//            g2.fillRect(barScreenX,
+//                    barScreenY + 5+3+3,
+//                    (int) (barWidth * (1.0 * animalEntity.getAnimal().getSleep() / animalEntity.getAnimal().getMaxSleep())),
+//                    2
+//            );
+//        }
+//        g2.setColor(Color.WHITE);
+//    }
 
 }

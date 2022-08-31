@@ -7,7 +7,7 @@ public class EatActivity extends Activity implements IPrepareActivity {
     private boolean isReady = false;
     @Override
     public int getDeltaWater(int maxWater) {
-        return 5;
+        return 4;
     }
     @Override
     public int getDeltaCalo(FoodInventory foodInventory) {
@@ -16,7 +16,7 @@ public class EatActivity extends Activity implements IPrepareActivity {
     }
     @Override
     public int getDeltaSleep(int maxSleep) {
-        return -5;
+        return -2;
     }
 
     @Override

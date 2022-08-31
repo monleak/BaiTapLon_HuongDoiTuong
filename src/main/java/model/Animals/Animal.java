@@ -246,7 +246,8 @@ public abstract class Animal {
                 updateState();          // thực hiện hành động gây thay đổi trạng thái mỗi 15' 1 lần.
             if(day == 30 && hours == 0 && minutes == 0)
                 growUp();               // Lớn lên mỗi 30 ngày.
-            System.out.println("life: [" + day + "|" + hours + ":" + minutes + "] " + this);
+//            System.out.println("life: [" + day + "|" + hours + ":" + minutes + "] " + this);
+//            System.out.println(this.getActivity());
         } else {
             System.out.println("dead");
         }

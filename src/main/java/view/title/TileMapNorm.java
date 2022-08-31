@@ -62,8 +62,8 @@ public class TileMapNorm extends TileMap {
     public Block[] getBlocks() { return blocks; }
 
     public void render(Graphics2D g, AABB cam) {
-        int x = (int) ((cam.getPos().x) / tileWidth);
-        int y = (int) ((cam.getPos().y) / tileHeight);
+        int x = (int) ((cam.getPos().getX()) / tileWidth);
+        int y = (int) ((cam.getPos().getY()) / tileHeight);
 
         for(int i = x; i < x + (cam.getWidth() / tileWidth)- 1; i++) {
             for(int j = y; j < y + (cam.getHeight() / tileHeight) - 1; j++) {

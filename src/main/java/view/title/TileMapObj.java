@@ -57,8 +57,8 @@ public class TileMapObj extends TileMap {
     public Block[] getBlocks() { return event_blocks; }
 
     public void render(Graphics2D g, AABB cam) {
-        int x = (int) ((cam.getPos().x) / tileWidth);
-        int y = (int) ((cam.getPos().y) / tileHeight);
+        int x = (int) ((cam.getPos().getX()) / tileWidth);
+        int y = (int) ((cam.getPos().getY()) / tileHeight);
 
         for(int i = x; i < x + (cam.getWidth() / tileWidth); i++) {
             for(int j = y; j < y + (cam.getHeight() / tileHeight); j++) {

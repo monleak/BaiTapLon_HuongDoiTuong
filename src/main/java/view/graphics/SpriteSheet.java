@@ -1,11 +1,16 @@
 package view.graphics;
 
+import org.jetbrains.annotations.NotNull;
 import states.GameStateManager;
 import view.utils.ImageSplitter;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 1 sheet các sprite
@@ -22,64 +27,58 @@ import java.awt.image.WritableRaster;
  * Do chỉ hiển thị 1 phần của bức ảnh (load 1 lần lên bộ nhớ) sẽ tốt hơn nhiều với việc lấy nhiều bức ảnh và hiển thị chúng.
  * </p>
  */
-public class SpriteSheet {
+public class SpriteSheet<T> {
 
-    private Sprite spritesArray[][];
-    private Sprite spritesGrayArray[][];
-    private int spritesIndexCounter[];
-    private int arrLen;
-    private String file;
+    private final Map<T, List<Sprite>> spritesArray;
+    private final Map<T, Integer> spritesIndexCounter;
 
-    public SpriteSheet (int sttNum, int len) {
-        spritesArray = new Sprite[sttNum][len];
-        spritesGrayArray = new Sprite[sttNum][len];
-
-        spritesIndexCounter = new int[sttNum];
-        arrLen = len;
-
+    public SpriteSheet () {
+        spritesArray = new HashMap<>();
+        spritesIndexCounter = new HashMap<>();
     }
 
-    public SpriteSheet (String fileName, int w, int h) {
-        ImageSplitter ci = new ImageSplitter(GameStateManager.gp, fileName, w, h, 0);
-
-        spritesArray = new Sprite[ci.getRows()][ci.getColumns()];
-
-        for (int i = 0; i < ci.getRows(); i++) {
-            for (int j = 0; j < ci.getColumns(); j++) {
-                spritesArray[i][j] = new Sprite(ci.getSubImage(i, j));
-            }
-        }
-    }
-
-    static BufferedImage deepCopy(BufferedImage bi) {
+    static @NotNull BufferedImage deepCopy(@NotNull BufferedImage bi ) {
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = bi.copyData(null);
         return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
 
-    public SpriteSheet addSprite(int sttNum, BufferedImage image) {
+    public SpriteSheet addSprite( T key, BufferedImage image ) {
         try {
-            int currentIdx = spritesIndexCounter[sttNum];
-            spritesArray[sttNum][currentIdx] = new Sprite(image);
-            BufferedImage image1 = deepCopy(image);
-            spritesGrayArray[sttNum][currentIdx] = new Sprite(image1, true); // gray
-            spritesIndexCounter[sttNum] += 1;
+            List<Sprite> sprites;
+            if (spritesArray.containsKey(key)) {
+                sprites = spritesArray.get(key);
+            } else {
+                sprites = new ArrayList<>();
+                spritesArray.put(key, sprites);
+            }
+            sprites.add(new Sprite(image));
+            spritesIndexCounter.put(key, sprites.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return this;
     }
 
-    public Sprite[] getSpriteArray (int sttIdx) {
-        return spritesArray[sttIdx];
-    }
-    public Sprite[] getGraySpriteArray (int sttIdx) {
-        return spritesGrayArray[sttIdx];
-    }
-    public Sprite getSprite (int sttIdx, int idx) {
-        return spritesArray[sttIdx][idx];
+    public void spriteArrayLike (T from, T to) {
+        this.setSpriteArray(to, this.getSpriteArray(from));
+
     }
 
+    public void setSpriteArray (T key, List<Sprite> sprites) {
+        this.spritesArray.put(key, sprites);
+    }
 
+    public List<Sprite> getSpriteArray (T key) {
+        return spritesArray.getOrDefault(key, null);
+    }
+
+    @Override
+    public String toString() {
+        return "SpriteSheet{" +
+                "spritesArray=" + spritesArray +
+                ", spritesIndexCounter=" + spritesIndexCounter +
+                '}';
+    }
 }

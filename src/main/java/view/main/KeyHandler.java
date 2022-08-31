@@ -1,6 +1,7 @@
 package view.main;
 
 import view.component.KeyPressedButton;
+import view.utils.Direction;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -72,6 +73,7 @@ public class KeyHandler implements KeyListener {
             button.handlePressed(code);
         }
     }
+
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
@@ -83,4 +85,16 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    public static Direction directionKeyMapper(KeyHandler keyHandler) {
+        if (keyHandler.upPressed)
+            return Direction.UP;
+        else if (keyHandler.downPressed)
+            return Direction.DOWN;
+        else if (keyHandler.rightPressed)
+            return Direction.RIGHT;
+        else if (keyHandler.leftPressed)
+            return Direction.LEFT;
+        else
+            return null;
+    }
 }

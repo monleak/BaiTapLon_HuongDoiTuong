@@ -1,12 +1,13 @@
 package view.main;
 
+import controller.EntityController;
 import states.GameStateManager;
+import view.effect.move.CameraMovement;
+import view.effect.move.Movement;
 import view.entity.Entity;
-import view.entity.GameObject;
 import view.math.AABB;
 import view.math.Vector2f;
-
-import java.awt.*;
+import view.utils.Direction;
 
 /**
  * <h1>Camera: 1 phần bản đồ được hiển thị lên màn hình.</h1>
@@ -20,27 +21,20 @@ import java.awt.*;
  */
 public class Camera {
     private final AABB collisionCam;
-    private GameObject e;
+    private EntityController e;
 
-    private int widthLimit;
-    private int heightLimit;
-    private int tileSize;
-    private boolean up;
-    private boolean down;
-    private boolean left;
-    private boolean right;
-    private float speed = 8f;
+    private Direction direction;
+    private int speed = 8;
+    private Movement movement;
+
 
     public Camera(AABB collisionCam, int tileSize) {
         this.collisionCam = collisionCam;
-        this.tileSize = tileSize;
+
+        this.movement = new CameraMovement(collisionCam, null);
     }
 
-    public void setLimit(int widthLimit, int heightLimit) {
-        this.widthLimit = widthLimit;
-        this.heightLimit = heightLimit;
-    }
-    public GameObject getTarget() { return e; }
+//    public GameObject getTarget() { return e; }
     public Vector2f getPos() {
         return collisionCam.getPos();
     }
@@ -48,54 +42,76 @@ public class Camera {
         return collisionCam;
     }
 
-    public void update() {
-        if (e != null)
-            move();
+    public void input(MouseHandler mouse, KeyHandler key) {
+        if (key.upPressed)
+            direction = Direction.UP;
+        else if (key.downPressed)
+            direction = Direction.DOWN;
+        else if (key.rightPressed)
+            direction = Direction.RIGHT;
+        else if (key.leftPressed)
+            direction = Direction.LEFT;
+        else
+            direction = null;
     }
+
+    public void update() {
+        if (e != null) {
+//            setSpeed(e.get.getSpeed());
+            e.getMovement().move(direction, e.getMovement().getSpeed());
+            this.move();
+        }
+        else
+            movement.move(direction, 4);
+    }
+
 
     private void move() {
         if (e != null) {
             int centerScreenX = (GameStateManager.gp.screenWidth - GameStateManager.gp.titleSize) / 2;
             int centerScreenY = (GameStateManager.gp.screenHeight - GameStateManager.gp.titleSize) / 2;
 
-            if (e.getPos().x > centerScreenX && e.getPos().x < GameStateManager.gp.worldWidth - centerScreenX - GameStateManager.gp.titleSize ) {
-                collisionCam.getPos().x = e.getPos().x - centerScreenX;
-                Vector2f.setWorldVar(collisionCam.getPos().x, collisionCam.getPos().y);
+            if (e.getPos().getX() > centerScreenX && e.getPos().getX() < GameStateManager.gp.worldWidth - centerScreenX - GameStateManager.gp.titleSize ) {
+                collisionCam.getPos().setX(e.getPos().getX() - centerScreenX);
+                Vector2f.setWorldVar(collisionCam.getPos().getX(), collisionCam.getPos().getY());
             }
-            if (e.getPos().y > centerScreenY && e.getPos().y < GameStateManager.gp.worldHeight - centerScreenY - GameStateManager.gp.titleSize ) {
-                collisionCam.getPos().y = e.getPos().y - centerScreenY;
-                Vector2f.setWorldVar(collisionCam.getPos().x, collisionCam.getPos().y);
+            if (e.getPos().getY() > centerScreenY && e.getPos().getY() < GameStateManager.gp.worldHeight - centerScreenY - GameStateManager.gp.titleSize ) {
+                collisionCam.getPos().setY(e.getPos().getY() - centerScreenY);
+                Vector2f.setWorldVar(collisionCam.getPos().getX(), collisionCam.getPos().getY());
             }
         }
-
     }
 
-    public void target(GameObject e) {
-        this.e = e;
+    public EntityController getFocusedEntity() {
+        return e;
+    }
+
+    public void target(Entity e) {
+        this.e = e.getController();
         int centerScreenX = (GameStateManager.gp.screenWidth - GameStateManager.gp.titleSize) / 2;
         int centerScreenY = (GameStateManager.gp.screenHeight - GameStateManager.gp.titleSize) / 2;
-        float camX = e.getPos().x - centerScreenX;
-        float camY = e.getPos().y - centerScreenY;
+        float camX = this.e.getPos().getX() - centerScreenX;
+        float camY = this.e.getPos().getY() - centerScreenY;
         int maxCamX = GameStateManager.gp.worldWidth - GameStateManager.gp.screenWidth;
         int maxCamY = GameStateManager.gp.worldHeight - GameStateManager.gp.screenHeight;
         if(camX >= 0 && camX <= maxCamX)
-            collisionCam.getPos().x = camX;
+            collisionCam.getPos().setX(camX);
         else if (camX < 0)
-            collisionCam.getPos().x = 0;
+            collisionCam.getPos().setX(0);
         else if (camX > maxCamX)
-            collisionCam.getPos().x = maxCamX;
+            collisionCam.getPos().setX(maxCamX);
 
         if(camY >= 0 && camY <= maxCamY)
-            collisionCam.getPos().y = camY;
+            collisionCam.getPos().setY(camY);
         else if (camY < 0)
-            collisionCam.getPos().y = 0;
+            collisionCam.getPos().setY(0);
         else if (camY > maxCamX)
-            collisionCam.getPos().y = maxCamY;
+            collisionCam.getPos().setY(maxCamY);
 
-        Vector2f.setWorldVar(collisionCam.getPos().x, collisionCam.getPos().y);
+        Vector2f.setWorldVar(collisionCam.getPos().getX(), collisionCam.getPos().getY());
         if(e != null) {
-            if (e instanceof Entity)
-                speed = ((Entity) e ).getSpeed();
+            if (e.getController() instanceof EntityController)
+                speed = ((EntityController) (e.getController()) ).getMovement().getSpeed();
         } else {
             speed = 8;
         }
@@ -103,14 +119,6 @@ public class Camera {
 
     public void setSpeed(int speed) {this.speed = speed; }
 
-    public void input(MouseHandler mouse, KeyHandler key) {
 
-        if (e != null) {
-            up = key.upPressed;
-            down = key.downPressed;
-            left = key.leftPressed;
-            right = key.rightPressed;
-        }
-    }
 
 }

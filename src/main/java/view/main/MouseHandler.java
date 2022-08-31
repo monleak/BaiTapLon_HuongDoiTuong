@@ -23,6 +23,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
     private static int mouseX = -1;
     private static int mouseY = -1;
     private static int mouseB = -1;
+    private static boolean onScreen;
 
     //observer
     private List<MouseButton> buttons = new ArrayList<>();
@@ -52,6 +53,10 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
         return mouseB;
     }
 
+    public boolean isOnScreen() {
+        return onScreen;
+    }
+
     /**
      * Override các method của class cha trong thư viện java swing.
      */
@@ -74,9 +79,13 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
         }
     }
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+        onScreen = true;
+    }
     @Override
-    public void mouseExited(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {
+        onScreen = false;
+    }
     @Override
     public void mouseDragged(MouseEvent e) {
         mouseX = e.getX();

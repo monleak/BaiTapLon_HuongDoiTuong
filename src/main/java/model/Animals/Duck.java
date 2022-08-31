@@ -9,14 +9,14 @@ public class Duck extends Animal {
     public Duck () {
         this.maxCalo    = 100;
         this.maxHP      = 100;
-        this.maxSleep   = 150;
-        this.maxWater   = 150;
+        this.maxSleep   = 100;
+        this.maxWater   = 100;
 
-        this.setWater(70);
-        this.setCalo(80);
-        this.setHP(95);
-        this.setSleep(10);
-        this.setAge(0);
+        this.setWater(100);
+        this.setCalo(100);
+        this.setHP(100);
+        this.setSleep(100);
+        this.setAge(100);
 
         this.neededFood = new FoodInventory(new Food("fish", 20), 25);
         this.activity = null;
@@ -42,12 +42,12 @@ public class Duck extends Animal {
 
     @Override
     public void growUp() {
-        getNeededFood().setAmount(getNeededFood().getAmount() + 15);
+//        getNeededFood().setAmount(getNeededFood().getAmount() + 15);
 
-        this.maxCalo    += 25;
-        this.maxHP      += 25;
-        this.maxSleep   += 10;
-        this.maxWater   += 15;
+        this.maxCalo    += 20;
+        this.maxHP      += 20;
+        this.maxSleep   += 20;
+        this.maxWater   += 20;
 
         this.setAge(this.getAge() + 1);
     }
